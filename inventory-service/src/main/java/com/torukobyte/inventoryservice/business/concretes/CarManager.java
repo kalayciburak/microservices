@@ -72,6 +72,11 @@ public class CarManager implements CarService {
         repository.deleteById(id);
     }
 
+    @Override
+    public void changeState(int state, String id) {
+        repository.changeStateByCarId(state, id);
+    }
+
     private void checkIfCarExistsById(String id) {
         if (!repository.existsById(id)) {
             throw new BusinessException("CAR.NOT_EXISTS");

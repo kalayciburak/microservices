@@ -10,6 +10,7 @@ import com.torukobyte.rentalservice.business.dto.responses.update.UpdateRentalRe
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,12 +30,12 @@ public class RentalsController {
     }
 
     @PostMapping
-    public CreateRentalResponse add(@RequestBody CreateRentalRequest request) {
+    public CreateRentalResponse add(@Valid @RequestBody CreateRentalRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdateRentalResponse update(@RequestBody UpdateRentalRequest request, @PathVariable String id) {
+    public UpdateRentalResponse update(@Valid @RequestBody UpdateRentalRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 

@@ -24,7 +24,7 @@ public class Rental {
     @Column(name = "car_id")
     private String carId;
     @Column(name = "date_started")
-    private LocalDateTime dateStarted = LocalDateTime.now();
+    private LocalDateTime dateStarted;
     @Column(name = "rented_for_days")
     private int rentedForDays;
     @Column(name = "daily_price")

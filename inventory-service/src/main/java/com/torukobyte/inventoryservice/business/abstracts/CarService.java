@@ -15,5 +15,6 @@ public interface CarService {
     CreateCarResponse add(CreateCarRequest request);
     UpdateCarResponse update(UpdateCarRequest request, String id);
     void delete(String id);
+    void changeState(int state, String id);
 }
 
