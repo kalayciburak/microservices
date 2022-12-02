@@ -7,20 +7,26 @@ import com.torukobyte.rentalservice.business.dto.responses.create.CreateRentalRe
 import com.torukobyte.rentalservice.business.dto.responses.get.GetAllRentalsResponse;
 import com.torukobyte.rentalservice.business.dto.responses.get.GetRentalResponse;
 import com.torukobyte.rentalservice.business.dto.responses.update.UpdateRentalResponse;
-import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("/api/v1/rentals")
 public class RentalsController {
     private final RentalService service;
+    Logger logger = LoggerFactory.getLogger(RentalsController.class);
+
+    public RentalsController(RentalService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public List<GetAllRentalsResponse> getAll() {
+        logger.info("Getting all rentals");
         return service.getAll();
     }
 
@@ -31,6 +37,7 @@ public class RentalsController {
 
     @PostMapping
     public CreateRentalResponse add(@Valid @RequestBody CreateRentalRequest request) {
+        logger.info("Adding new rental");
         return service.add(request);
     }
 

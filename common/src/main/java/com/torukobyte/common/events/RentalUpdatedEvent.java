@@ -14,4 +14,3 @@ public class RentalUpdatedEvent {
     private String newCarId;
     private String oldCarId;
 }
-

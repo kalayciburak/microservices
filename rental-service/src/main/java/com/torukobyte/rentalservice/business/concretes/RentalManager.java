@@ -11,7 +11,7 @@ import com.torukobyte.rentalservice.business.dto.responses.create.CreateRentalRe
 import com.torukobyte.rentalservice.business.dto.responses.get.GetAllRentalsResponse;
 import com.torukobyte.rentalservice.business.dto.responses.get.GetRentalResponse;
 import com.torukobyte.rentalservice.business.dto.responses.update.UpdateRentalResponse;
-import com.torukobyte.rentalservice.client.CarClient;
+import com.torukobyte.rentalservice.configuration.client.CarClient;
 import com.torukobyte.rentalservice.entities.Rental;
 import com.torukobyte.rentalservice.kafka.RentalCreateProducer;
 import com.torukobyte.rentalservice.kafka.RentalUpdateProducer;
