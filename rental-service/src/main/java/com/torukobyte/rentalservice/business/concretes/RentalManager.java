@@ -1,6 +1,7 @@
 package com.torukobyte.rentalservice.business.concretes;
 
 import com.torukobyte.common.events.RentalCreatedEvent;
+import com.torukobyte.common.events.RentalUpdatedEvent;
 import com.torukobyte.common.util.exceptions.BusinessException;
 import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.rentalservice.business.abstracts.RentalService;
@@ -11,7 +12,8 @@ import com.torukobyte.rentalservice.business.dto.responses.get.GetAllRentalsResp
 import com.torukobyte.rentalservice.business.dto.responses.get.GetRentalResponse;
 import com.torukobyte.rentalservice.business.dto.responses.update.UpdateRentalResponse;
 import com.torukobyte.rentalservice.entities.Rental;
-import com.torukobyte.rentalservice.kafka.RentalProducer;
+import com.torukobyte.rentalservice.kafka.RentalCreateProducer;
+import com.torukobyte.rentalservice.kafka.RentalUpdateProducer;
 import com.torukobyte.rentalservice.repository.RentalRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,8 @@ import java.util.UUID;
 public class RentalManager implements RentalService {
     private RentalRepository repository;
     private ModelMapperService mapper;
-    private RentalProducer rentalProducer;
+    private RentalCreateProducer rentalCreateProducer;
+    private RentalUpdateProducer rentalUpdateProducer;
 
     @Override
     public List<GetAllRentalsResponse> getAll() {
@@ -56,10 +59,9 @@ public class RentalManager implements RentalService {
 
         RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
         rentalCreatedEvent.setCarId(rental.getCarId());
-        System.err.println(rental.getCarId());
         rentalCreatedEvent.setMessage("Rental Created");
 
-        this.rentalProducer.sendMessage(rentalCreatedEvent);
+        this.rentalCreateProducer.sendMessage(rentalCreatedEvent);
 
         CreateRentalResponse data = mapper.forResponse().map(rental, CreateRentalResponse.class);
 
@@ -69,9 +71,17 @@ public class RentalManager implements RentalService {
     @Override
     public UpdateRentalResponse update(UpdateRentalRequest request, String id) {
         checkIfRentalExists(id);
+        RentalUpdatedEvent rentalUpdatedEvent = new RentalUpdatedEvent();
         Rental rental = mapper.forRequest().map(request, Rental.class);
         rental.setId(id);
+        rentalUpdatedEvent.setOldCarId(repository.findById(id).orElseThrow().getCarId());
         repository.save(rental);
+
+        rentalUpdatedEvent.setNewCarId(rental.getCarId());
+        rentalUpdatedEvent.setMessage("Rental Updated");
+
+        this.rentalUpdateProducer.sendMessage(rentalUpdatedEvent);
+
         UpdateRentalResponse data = mapper.forResponse().map(rental, UpdateRentalResponse.class);
 
         return data;

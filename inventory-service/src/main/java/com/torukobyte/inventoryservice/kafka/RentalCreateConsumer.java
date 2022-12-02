@@ -8,17 +8,17 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RentalConsumer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RentalConsumer.class);
+public class RentalCreateConsumer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RentalCreateConsumer.class);
     private final CarService carService;
 
-    public RentalConsumer(CarService carService) {
+    public RentalCreateConsumer(CarService carService) {
         this.carService = carService;
     }
 
     @KafkaListener(
             topics = "${spring.kafka.topic.name}"
-            , groupId = "${spring.kafka.consumer.group-id}"
+            , groupId = "rental-create"
     )
     public void consume(RentalCreatedEvent event) {
         carService.changeState(2, event.getCarId());

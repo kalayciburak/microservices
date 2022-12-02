@@ -11,14 +11,14 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RentalProducer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RentalProducer.class);
+public class RentalCreateProducer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RentalCreateProducer.class);
 
     private final NewTopic topic;
 
     private final KafkaTemplate<String, RentalCreatedEvent> kafkaTemplate;
 
-    public RentalProducer(NewTopic topic, KafkaTemplate<String, RentalCreatedEvent> kafkaTemplate) {
+    public RentalCreateProducer(NewTopic topic, KafkaTemplate<String, RentalCreatedEvent> kafkaTemplate) {
         this.topic = topic;
         this.kafkaTemplate = kafkaTemplate;
     }
