@@ -11,6 +11,7 @@ import com.torukobyte.rentalservice.business.dto.responses.create.CreateRentalRe
 import com.torukobyte.rentalservice.business.dto.responses.get.GetAllRentalsResponse;
 import com.torukobyte.rentalservice.business.dto.responses.get.GetRentalResponse;
 import com.torukobyte.rentalservice.business.dto.responses.update.UpdateRentalResponse;
+import com.torukobyte.rentalservice.client.CarClient;
 import com.torukobyte.rentalservice.entities.Rental;
 import com.torukobyte.rentalservice.kafka.RentalCreateProducer;
 import com.torukobyte.rentalservice.kafka.RentalUpdateProducer;
@@ -29,6 +30,7 @@ public class RentalManager implements RentalService {
     private ModelMapperService mapper;
     private RentalCreateProducer rentalCreateProducer;
     private RentalUpdateProducer rentalUpdateProducer;
+    private CarClient client;
 
     @Override
     public List<GetAllRentalsResponse> getAll() {
@@ -52,6 +54,7 @@ public class RentalManager implements RentalService {
 
     @Override
     public CreateRentalResponse add(CreateRentalRequest request) {
+        client.checkIfCarAvailable(request.getCarId());
         Rental rental = mapper.forRequest().map(request, Rental.class);
         rental.setId(UUID.randomUUID().toString());
         rental.setDateStarted(LocalDateTime.now());
