@@ -1,5 +1,6 @@
 package com.torukobyte.rentalservice.kafka;
 
+import com.torukobyte.common.events.payments.PaymentReceivedEvent;
 import com.torukobyte.common.events.rentals.RentalCreatedEvent;
 import com.torukobyte.common.events.rentals.RentalDeletedEvent;
 import com.torukobyte.common.events.rentals.RentalUpdatedEvent;
@@ -50,6 +51,16 @@ public class RentalProducer {
 
         Message<RentalDeletedEvent> message = MessageBuilder
                 .withPayload(rentalDeleteEvent)
+                .setHeader(KafkaHeaders.TOPIC, topic.name()).build();
+
+        kafkaTemplate.send(message);
+    }
+
+    public void sendMessage(PaymentReceivedEvent event) {
+        LOGGER.info(String.format("Payment received event => %s", event.toString()));
+
+        Message<PaymentReceivedEvent> message = MessageBuilder
+                .withPayload(event)
                 .setHeader(KafkaHeaders.TOPIC, topic.name()).build();
 
         kafkaTemplate.send(message);

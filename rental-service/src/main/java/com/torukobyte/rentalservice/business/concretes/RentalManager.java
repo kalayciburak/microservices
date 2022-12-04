@@ -1,5 +1,6 @@
 package com.torukobyte.rentalservice.business.concretes;
 
+import com.torukobyte.common.events.payments.PaymentReceivedEvent;
 import com.torukobyte.common.events.rentals.RentalCreatedEvent;
 import com.torukobyte.common.events.rentals.RentalDeletedEvent;
 import com.torukobyte.common.events.rentals.RentalUpdatedEvent;
@@ -73,6 +74,14 @@ public class RentalManager implements RentalService {
         rentalCreatedEvent.setCarId(rental.getCarId());
         rentalCreatedEvent.setMessage("Rental Created");
         rentalProducer.sendMessage(rentalCreatedEvent);
+        PaymentReceivedEvent paymentReceivedEvent = new PaymentReceivedEvent();
+        paymentReceivedEvent.setCarId(rental.getCarId());
+        paymentReceivedEvent.setFullName(paymentRequest.getFullName());
+        paymentReceivedEvent.setDailyPrice(request.getDailyPrice());
+        paymentReceivedEvent.setTotalPrice(totalPrice);
+        paymentReceivedEvent.setRentedForDays(request.getRentedForDays());
+        paymentReceivedEvent.setRentedAt(rental.getDateStarted());
+        rentalProducer.sendMessage(paymentReceivedEvent);
         CreateRentalResponse data = mapper.forResponse().map(rental, CreateRentalResponse.class);
 
         return data;

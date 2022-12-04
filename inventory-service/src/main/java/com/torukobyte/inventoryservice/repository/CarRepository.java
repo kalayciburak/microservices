@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 public interface CarRepository extends JpaRepository<Car, String> {
     boolean existsByPlateIgnoreCase(String plate);
+
     @Modifying
     @Query(value = "update Cars set state = :state where id = :id", nativeQuery = true)
     @Transactional

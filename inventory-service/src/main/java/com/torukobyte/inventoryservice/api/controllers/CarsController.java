@@ -51,4 +51,9 @@ public class CarsController {
     public void checkIfCarAvailable(@PathVariable String id) {
         service.checkIfCarAvailable(id);
     }
+
+    @GetMapping("/get-car-response/{id}")
+    public GetCarResponse getCarResponse(@PathVariable String id) {
+        return service.getById(id);
+    }
 }
