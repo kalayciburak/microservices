@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,12 +27,12 @@ public class CarsController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public CreateCarResponse add(@RequestBody CreateCarRequest request) {
+    public CreateCarResponse add(@Valid @RequestBody CreateCarRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdateCarResponse update(@RequestBody UpdateCarRequest request, @PathVariable String id) {
+    public UpdateCarResponse update(@Valid @RequestBody UpdateCarRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
