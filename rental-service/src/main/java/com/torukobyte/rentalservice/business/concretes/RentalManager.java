@@ -1,7 +1,8 @@
 package com.torukobyte.rentalservice.business.concretes;
 
-import com.torukobyte.common.events.RentalCreatedEvent;
-import com.torukobyte.common.events.RentalUpdatedEvent;
+import com.torukobyte.common.events.rentals.RentalCreatedEvent;
+import com.torukobyte.common.events.rentals.RentalDeletedEvent;
+import com.torukobyte.common.events.rentals.RentalUpdatedEvent;
 import com.torukobyte.common.util.exceptions.BusinessException;
 import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.rentalservice.business.abstracts.RentalService;
@@ -13,8 +14,7 @@ import com.torukobyte.rentalservice.business.dto.responses.get.GetRentalResponse
 import com.torukobyte.rentalservice.business.dto.responses.update.UpdateRentalResponse;
 import com.torukobyte.rentalservice.configuration.client.CarClient;
 import com.torukobyte.rentalservice.entities.Rental;
-import com.torukobyte.rentalservice.kafka.RentalCreateProducer;
-import com.torukobyte.rentalservice.kafka.RentalUpdateProducer;
+import com.torukobyte.rentalservice.kafka.RentalProducer;
 import com.torukobyte.rentalservice.repository.RentalRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,8 +28,7 @@ import java.util.UUID;
 public class RentalManager implements RentalService {
     private RentalRepository repository;
     private ModelMapperService mapper;
-    private RentalCreateProducer rentalCreateProducer;
-    private RentalUpdateProducer rentalUpdateProducer;
+    private RentalProducer rentalProducer;
     private CarClient client;
 
     @Override
@@ -59,13 +58,10 @@ public class RentalManager implements RentalService {
         rental.setId(UUID.randomUUID().toString());
         rental.setDateStarted(LocalDateTime.now());
         repository.save(rental);
-
         RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
         rentalCreatedEvent.setCarId(rental.getCarId());
         rentalCreatedEvent.setMessage("Rental Created");
-
-        this.rentalCreateProducer.sendMessage(rentalCreatedEvent);
-
+        rentalProducer.sendMessage(rentalCreatedEvent);
         CreateRentalResponse data = mapper.forResponse().map(rental, CreateRentalResponse.class);
 
         return data;
@@ -74,17 +70,15 @@ public class RentalManager implements RentalService {
     @Override
     public UpdateRentalResponse update(UpdateRentalRequest request, String id) {
         checkIfRentalExists(id);
+        client.checkIfCarAvailable(request.getCarId());
         RentalUpdatedEvent rentalUpdatedEvent = new RentalUpdatedEvent();
         Rental rental = mapper.forRequest().map(request, Rental.class);
         rental.setId(id);
         rentalUpdatedEvent.setOldCarId(repository.findById(id).orElseThrow().getCarId());
         repository.save(rental);
-
         rentalUpdatedEvent.setNewCarId(rental.getCarId());
         rentalUpdatedEvent.setMessage("Rental Updated");
-
-        this.rentalUpdateProducer.sendMessage(rentalUpdatedEvent);
-
+        rentalProducer.sendMessage(rentalUpdatedEvent);
         UpdateRentalResponse data = mapper.forResponse().map(rental, UpdateRentalResponse.class);
 
         return data;
@@ -93,12 +87,16 @@ public class RentalManager implements RentalService {
     @Override
     public void delete(String id) {
         checkIfRentalExists(id);
+        RentalDeletedEvent event = new RentalDeletedEvent();
+        event.setCarId(repository.findById(id).orElseThrow().getCarId());
+        event.setMessage("Rental Deleted");
+        rentalProducer.sendMessage(event);
         repository.deleteById(id);
     }
 
     private void checkIfRentalExists(String id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("Rental not found");
+            throw new BusinessException("RENTAL.NOT_FOUND");
         }
     }
 }

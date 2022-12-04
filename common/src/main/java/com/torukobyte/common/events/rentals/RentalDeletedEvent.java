@@ -1,4 +1,4 @@
-package com.torukobyte.common.events;
+package com.torukobyte.common.events.rentals;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RentalUpdatedEvent {
+public class RentalDeletedEvent {
     private String message;
-    private String newCarId;
-    private String oldCarId;
+    private String carId;
 }

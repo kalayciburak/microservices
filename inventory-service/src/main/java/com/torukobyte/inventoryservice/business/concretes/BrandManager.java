@@ -1,5 +1,7 @@
 package com.torukobyte.inventoryservice.business.concretes;
 
+import com.torukobyte.common.events.inventories.brands.BrandDeletedEvent;
+import com.torukobyte.common.events.inventories.brands.BrandUpdatedEvent;
 import com.torukobyte.common.util.exceptions.BusinessException;
 import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.inventoryservice.business.abstracts.BrandService;
@@ -10,6 +12,7 @@ import com.torukobyte.inventoryservice.business.dto.responses.get.GetAllBrandsRe
 import com.torukobyte.inventoryservice.business.dto.responses.get.GetBrandResponse;
 import com.torukobyte.inventoryservice.business.dto.responses.update.UpdateBrandResponse;
 import com.torukobyte.inventoryservice.entities.Brand;
+import com.torukobyte.inventoryservice.kafka.producer.InventoryProducer;
 import com.torukobyte.inventoryservice.repository.BrandRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ import java.util.UUID;
 public class BrandManager implements BrandService {
     private final BrandRepository repository;
     private final ModelMapperService mapper;
+    private final InventoryProducer producer;
 
     @Override
     public List<GetAllBrandsResponse> getAll() {
@@ -61,25 +65,40 @@ public class BrandManager implements BrandService {
         brand.setId(id);
         repository.save(brand);
         UpdateBrandResponse response = mapper.forResponse().map(brand, UpdateBrandResponse.class);
+        updateMongo(id, brand.getName());
 
         return response;
+    }
+
+    private void updateMongo(String id, String name) {
+        BrandUpdatedEvent event = new BrandUpdatedEvent();
+        event.setId(id);
+        event.setName(name);
+        producer.sendMessage(event);
     }
 
     @Override
     public void delete(String id) {
         checkIfBrandExistsById(id);
         repository.deleteById(id);
-    }
-
-    private void checkIfBrandExistsByName(String name) {
-        if (repository.existsByNameIgnoreCase(name)) {
-            throw new BusinessException("BRAND.EXISTS");
-        }
+        deleteMongo(id);
     }
 
     private void checkIfBrandExistsById(String id) {
         if (!repository.existsById(id)) {
             throw new BusinessException("BRAND.NOT.EXISTS");
+        }
+    }
+
+    private void deleteMongo(String id) {
+        BrandDeletedEvent event = new BrandDeletedEvent();
+        event.setBrandId(id);
+        producer.sendMessage(event);
+    }
+
+    private void checkIfBrandExistsByName(String name) {
+        if (repository.existsByNameIgnoreCase(name)) {
+            throw new BusinessException("BRAND.EXISTS");
         }
     }
 }

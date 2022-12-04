@@ -1,5 +1,7 @@
 package com.torukobyte.inventoryservice.business.concretes;
 
+import com.torukobyte.common.events.inventories.models.ModelDeletedEvent;
+import com.torukobyte.common.events.inventories.models.ModelUpdatedEvent;
 import com.torukobyte.common.util.exceptions.BusinessException;
 import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.inventoryservice.business.abstracts.ModelService;
@@ -10,6 +12,7 @@ import com.torukobyte.inventoryservice.business.dto.responses.get.GetAllModelsRe
 import com.torukobyte.inventoryservice.business.dto.responses.get.GetModelResponse;
 import com.torukobyte.inventoryservice.business.dto.responses.update.UpdateModelResponse;
 import com.torukobyte.inventoryservice.entities.Model;
+import com.torukobyte.inventoryservice.kafka.producer.InventoryProducer;
 import com.torukobyte.inventoryservice.repository.ModelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ import java.util.UUID;
 public class ModelManager implements ModelService {
     private final ModelRepository repository;
     private final ModelMapperService mapper;
+    private final InventoryProducer producer;
 
     @Override
     public List<GetAllModelsResponse> getAll() {
@@ -62,6 +66,7 @@ public class ModelManager implements ModelService {
         model.setId(id);
         repository.save(model);
         UpdateModelResponse response = mapper.forResponse().map(model, UpdateModelResponse.class);
+        updateMongo(id, request.getName(), request.getBrandId());
 
         return response;
     }
@@ -70,11 +75,12 @@ public class ModelManager implements ModelService {
     public void delete(String id) {
         checkIfExistsById(id);
         repository.deleteById(id);
+        deleteMongo(id);
     }
 
     private void checkIfExistsById(String id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("MODE.NOT.EXISTS");
+            throw new BusinessException("MODEL.NOT.EXISTS");
         }
     }
 
@@ -82,5 +88,19 @@ public class ModelManager implements ModelService {
         if (repository.existsByNameIgnoreCase(name)) {
             throw new BusinessException("MODEL.EXISTS");
         }
+    }
+
+    private void updateMongo(String id, String name, String brandId) {
+        ModelUpdatedEvent event = new ModelUpdatedEvent();
+        event.setId(id);
+        event.setName(name);
+        event.setBrandId(brandId);
+        producer.sendMessage(event);
+    }
+
+    private void deleteMongo(String id) {
+        ModelDeletedEvent event = new ModelDeletedEvent();
+        event.setModelId(id);
+        producer.sendMessage(event);
     }
 }

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,9 +21,6 @@ public class CreateCarRequest {
     @NotBlank
     @NotNull
     private String plate;
-    @Min(value = 1)
-    @Max(value = 3)
-    private int state;
     @NotBlank
     @NotNull
     private String modelId;

@@ -1,4 +1,4 @@
-package com.torukobyte.common.events;
+package com.torukobyte.common.events.rentals;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
