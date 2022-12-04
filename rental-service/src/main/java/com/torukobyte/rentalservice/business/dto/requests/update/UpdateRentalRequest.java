@@ -23,7 +23,4 @@ public class UpdateRentalRequest {
     @NotNull
     @Min(0)
     private double dailyPrice;
-    @NotNull
-    @Min(0)
-    private double totalPrice;
 }

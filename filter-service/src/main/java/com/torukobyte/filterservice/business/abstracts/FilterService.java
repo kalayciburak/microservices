@@ -14,6 +14,7 @@ public interface FilterService {
     List<GetAllFiltersResponse> searchByBrandName(String brandName);
     List<GetAllFiltersResponse> searchByModelName(String modelName);
     List<GetAllFiltersResponse> getByModelYear(int modelYear);
+    List<GetAllFiltersResponse> getByState(int state);
 
     // Consumer service
     Filter getByCarId(String id);

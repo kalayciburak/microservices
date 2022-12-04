@@ -6,6 +6,7 @@ import com.torukobyte.common.events.rentals.RentalUpdatedEvent;
 import com.torukobyte.common.util.exceptions.BusinessException;
 import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.rentalservice.business.abstracts.RentalService;
+import com.torukobyte.rentalservice.business.dto.requests.create.CreatePaymentRequest;
 import com.torukobyte.rentalservice.business.dto.requests.create.CreateRentalRequest;
 import com.torukobyte.rentalservice.business.dto.requests.update.UpdateRentalRequest;
 import com.torukobyte.rentalservice.business.dto.responses.create.CreateRentalResponse;
@@ -13,6 +14,7 @@ import com.torukobyte.rentalservice.business.dto.responses.get.GetAllRentalsResp
 import com.torukobyte.rentalservice.business.dto.responses.get.GetRentalResponse;
 import com.torukobyte.rentalservice.business.dto.responses.update.UpdateRentalResponse;
 import com.torukobyte.rentalservice.configuration.client.CarClient;
+import com.torukobyte.rentalservice.configuration.client.PaymentClient;
 import com.torukobyte.rentalservice.entities.Rental;
 import com.torukobyte.rentalservice.kafka.RentalProducer;
 import com.torukobyte.rentalservice.repository.RentalRepository;
@@ -29,7 +31,8 @@ public class RentalManager implements RentalService {
     private RentalRepository repository;
     private ModelMapperService mapper;
     private RentalProducer rentalProducer;
-    private CarClient client;
+    private CarClient carClient;
+    private PaymentClient paymentClient;
 
     @Override
     public List<GetAllRentalsResponse> getAll() {
@@ -52,11 +55,19 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public CreateRentalResponse add(CreateRentalRequest request) {
-        client.checkIfCarAvailable(request.getCarId());
+    public CreateRentalResponse add(CreateRentalRequest request, CreatePaymentRequest paymentRequest) {
+        carClient.checkIfCarAvailable(request.getCarId());
         Rental rental = mapper.forRequest().map(request, Rental.class);
         rental.setId(UUID.randomUUID().toString());
         rental.setDateStarted(LocalDateTime.now());
+        double totalPrice = request.getRentedForDays() * request.getDailyPrice();
+        rental.setTotalPrice(totalPrice);
+        paymentClient.checkIfPaymentSuccessful(paymentRequest.getCardNumber(),
+                                               paymentRequest.getFullName(),
+                                               paymentRequest.getCardExpirationYear(),
+                                               paymentRequest.getCardExpirationMonth(),
+                                               paymentRequest.getCardCvv(),
+                                               totalPrice);
         repository.save(rental);
         RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
         rentalCreatedEvent.setCarId(rental.getCarId());
@@ -70,7 +81,7 @@ public class RentalManager implements RentalService {
     @Override
     public UpdateRentalResponse update(UpdateRentalRequest request, String id) {
         checkIfRentalExists(id);
-        client.checkIfCarAvailable(request.getCarId());
+        carClient.checkIfCarAvailable(request.getCarId());
         RentalUpdatedEvent rentalUpdatedEvent = new RentalUpdatedEvent();
         Rental rental = mapper.forRequest().map(request, Rental.class);
         rental.setId(id);

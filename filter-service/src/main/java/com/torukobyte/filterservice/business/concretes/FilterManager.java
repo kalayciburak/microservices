@@ -105,6 +105,17 @@ public class FilterManager implements FilterService {
     }
 
     @Override
+    public List<GetAllFiltersResponse> getByState(int state) {
+        List<Filter> filters = repository.findByState(state);
+        List<GetAllFiltersResponse> response = filters
+                .stream()
+                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
+                .toList();
+
+        return response;
+    }
+
+    @Override
     public Filter getByCarId(String id) {
         return repository.findByCarId(id);
     }
@@ -120,8 +131,8 @@ public class FilterManager implements FilterService {
     }
 
     @Override
-    public void save(Filter mongodb) {
-        repository.save(mongodb);
+    public void save(Filter filter) {
+        repository.save(filter);
     }
 
     @Override

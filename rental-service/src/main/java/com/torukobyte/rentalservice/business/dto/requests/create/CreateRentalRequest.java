@@ -20,7 +20,4 @@ public class CreateRentalRequest {
     @NotNull
     @Min(0)
     private double dailyPrice;
-    @NotNull
-    @Min(0)
-    private double totalPrice;
 }

@@ -55,4 +55,9 @@ public class FiltersController {
     public List<GetAllFiltersResponse> getByModelYear(@RequestParam int modelYear) {
         return service.getByModelYear(modelYear);
     }
+
+    @GetMapping("/state")
+    public List<GetAllFiltersResponse> getByState(@RequestParam int state) {
+        return service.getByState(state);
+    }
 }

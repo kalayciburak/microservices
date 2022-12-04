@@ -1,6 +1,7 @@
 package com.torukobyte.rentalservice.api.controllers;
 
 import com.torukobyte.rentalservice.business.abstracts.RentalService;
+import com.torukobyte.rentalservice.business.dto.requests.create.CreatePaymentRequest;
 import com.torukobyte.rentalservice.business.dto.requests.create.CreateRentalRequest;
 import com.torukobyte.rentalservice.business.dto.requests.update.UpdateRentalRequest;
 import com.torukobyte.rentalservice.business.dto.responses.create.CreateRentalResponse;
@@ -36,9 +37,21 @@ public class RentalsController {
     }
 
     @PostMapping
-    public CreateRentalResponse add(@Valid @RequestBody CreateRentalRequest request) {
+    public CreateRentalResponse add(
+            @Valid @RequestBody CreateRentalRequest request,
+            @RequestParam String cardNumber,
+            @RequestParam String fullName,
+            @RequestParam int cardExpirationYear,
+            @RequestParam int cardExpirationMonth,
+            @RequestParam String cardCvv) {
         logger.info("Adding new rental");
-        return service.add(request);
+        CreatePaymentRequest paymentRequest =
+                new CreatePaymentRequest(cardNumber,
+                                         fullName,
+                                         cardExpirationYear,
+                                         cardExpirationMonth,
+                                         cardCvv);
+        return service.add(request, paymentRequest);
     }
 
     @PutMapping("/{id}")
