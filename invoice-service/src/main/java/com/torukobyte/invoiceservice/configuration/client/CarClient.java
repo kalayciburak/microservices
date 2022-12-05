@@ -1,6 +1,6 @@
 package com.torukobyte.invoiceservice.configuration.client;
 
-import com.torukobyte.invoiceservice.bussines.dto.responses.get.GetCarResponse;
+import com.torukobyte.common.dto.GetCarResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

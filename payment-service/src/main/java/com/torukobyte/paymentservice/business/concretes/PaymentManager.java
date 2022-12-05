@@ -3,6 +3,7 @@ package com.torukobyte.paymentservice.business.concretes;
 import com.torukobyte.common.util.exceptions.BusinessException;
 import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.paymentservice.business.abstracts.PaymentService;
+import com.torukobyte.paymentservice.business.abstracts.PosService;
 import com.torukobyte.paymentservice.business.dto.requests.create.CreatePaymentRequest;
 import com.torukobyte.paymentservice.business.dto.requests.get.PaymentRequest;
 import com.torukobyte.paymentservice.business.dto.requests.update.UpdatePaymentRequest;
@@ -23,6 +24,7 @@ import java.util.UUID;
 public class PaymentManager implements PaymentService {
     private final PaymentRepository repository;
     private final ModelMapperService mapper;
+    private final PosService posService;
 
     @Override
     public List<GetAllPaymentsResponse> getAll() {
@@ -90,6 +92,7 @@ public class PaymentManager implements PaymentService {
             if (balance < request.getPrice()) {
                 throw new BusinessException("NOT_ENOUGH_MONEY!");
             } else {
+                posService.pay(); // Fake payment
                 Payment payment = repository.findByCardNumber(request.getCardNumber());
                 payment.setBalance(balance - request.getPrice());
                 repository.save(payment);

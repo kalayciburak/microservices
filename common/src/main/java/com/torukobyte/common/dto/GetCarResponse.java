@@ -1,4 +1,4 @@
-package com.torukobyte.invoiceservice.bussines.dto.responses.get;
+package com.torukobyte.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
