@@ -1,8 +1,0 @@
-spring:
-    application:
-        name: apigateway
-    cloud:
-        config:
-            profile: ${PROFILE}
-    config:
-        import: configserver:http://localhost:8888,optional:file:.env[.properties]

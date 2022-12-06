@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.torukobyte</groupId>
-    <artifactId>apigateway</artifactId>
+    <artifactId>api-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>apigateway</name>
     <description>apigateway</description>

@@ -1,8 +1,8 @@
 spring:
-    application:
-        name: invoice-service
-    cloud:
-        config:
-            profile: ${PROFILE}
+  application:
+    name: invoice-service
+  cloud:
     config:
-        import: configserver:http://localhost:8888,optional:file:.env[.properties]
+      profile: ${PROFILE}
+  config:
+    import: configserver:http://localhost:8888,optional:file:.env[.properties]
