@@ -14,8 +14,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCarRequest {
-    @Min(value = 0)
-    private double dailyPrice;
     @Min(value = 1886)
     private int modelYear;
     @NotBlank

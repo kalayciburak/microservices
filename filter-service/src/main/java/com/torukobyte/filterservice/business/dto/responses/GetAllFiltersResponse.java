@@ -16,7 +16,6 @@ public class GetAllFiltersResponse {
     private String brandId;
     private String modelName;
     private String brandName;
-    private double dailyPrice;
     private int modelYear;
     private String plate;
     private int state;

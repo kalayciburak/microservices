@@ -26,8 +26,6 @@ public class Filter {
     private String modelName;
     @Field(name = "brandName")
     private String brandName;
-    @Field(name = "dailyPrice")
-    private double dailyPrice;
     @Field(name = "modelYear")
     private int modelYear;
     @Field(name = "plate")
