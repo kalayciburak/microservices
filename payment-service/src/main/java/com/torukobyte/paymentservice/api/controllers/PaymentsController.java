@@ -2,7 +2,7 @@ package com.torukobyte.paymentservice.api.controllers;
 
 import com.torukobyte.paymentservice.business.abstracts.PaymentService;
 import com.torukobyte.paymentservice.business.dto.requests.create.CreatePaymentRequest;
-import com.torukobyte.paymentservice.business.dto.requests.get.PaymentRequest;
+import com.torukobyte.paymentservice.business.dto.requests.create.CreateRentalPaymentRequest;
 import com.torukobyte.paymentservice.business.dto.requests.update.UpdatePaymentRequest;
 import com.torukobyte.paymentservice.business.dto.responses.create.CreatePaymentResponse;
 import com.torukobyte.paymentservice.business.dto.responses.get.GetAllPaymentsResponse;
@@ -53,13 +53,13 @@ public class PaymentsController {
             @RequestParam int cardExpirationMonth,
             @RequestParam String cardCvv,
             @RequestParam double price) {
-        PaymentRequest request =
-                new PaymentRequest(cardNumber,
-                                   fullName,
-                                   cardExpirationYear,
-                                   cardExpirationMonth,
-                                   cardCvv,
-                                   price);
+        CreateRentalPaymentRequest request =
+                new CreateRentalPaymentRequest(cardNumber,
+                                               fullName,
+                                               cardExpirationYear,
+                                               cardExpirationMonth,
+                                               cardCvv,
+                                               price);
         service.checkIfPaymentSuccessful(request);
     }
 }

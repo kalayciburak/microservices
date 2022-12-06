@@ -5,7 +5,7 @@ import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.paymentservice.business.abstracts.PaymentService;
 import com.torukobyte.paymentservice.business.abstracts.PosService;
 import com.torukobyte.paymentservice.business.dto.requests.create.CreatePaymentRequest;
-import com.torukobyte.paymentservice.business.dto.requests.get.PaymentRequest;
+import com.torukobyte.paymentservice.business.dto.requests.create.CreateRentalPaymentRequest;
 import com.torukobyte.paymentservice.business.dto.requests.update.UpdatePaymentRequest;
 import com.torukobyte.paymentservice.business.dto.responses.create.CreatePaymentResponse;
 import com.torukobyte.paymentservice.business.dto.responses.get.GetAllPaymentsResponse;
@@ -75,11 +75,11 @@ public class PaymentManager implements PaymentService {
     }
 
     @Override
-    public void checkIfPaymentSuccessful(PaymentRequest request) {
+    public void checkIfPaymentSuccessful(CreateRentalPaymentRequest request) {
         checkPayment(request);
     }
 
-    private void checkPayment(PaymentRequest request) {
+    private void checkPayment(CreateRentalPaymentRequest request) {
         if (!repository.existsByCardNumberAndFullNameAndCardExpirationYearAndCardExpirationMonthAndCardCvv(
                 request.getCardNumber(),
                 request.getFullName(),
@@ -88,12 +88,12 @@ public class PaymentManager implements PaymentService {
                 request.getCardCvv())) {
             throw new BusinessException("NOT_A_VALID_PAYMENT!");
         } else {
-            double balance = repository.findByCardNumber(request.getCardNumber()).getBalance();
+            Payment payment = repository.findByCardNumber(request.getCardNumber());
+            double balance = payment.getBalance();
             if (balance < request.getPrice()) {
                 throw new BusinessException("NOT_ENOUGH_MONEY!");
             } else {
                 posService.pay(); // Fake payment
-                Payment payment = repository.findByCardNumber(request.getCardNumber());
                 payment.setBalance(balance - request.getPrice());
                 repository.save(payment);
             }

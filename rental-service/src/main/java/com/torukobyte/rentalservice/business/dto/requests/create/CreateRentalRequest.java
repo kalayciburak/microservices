@@ -16,8 +16,9 @@ public class CreateRentalRequest {
     @NotNull
     private String carId;
     @NotNull
+    @Min(value = 1)
     private int rentedForDays;
     @NotNull
-    @Min(0)
+    @Min(value = 0)
     private double dailyPrice;
 }

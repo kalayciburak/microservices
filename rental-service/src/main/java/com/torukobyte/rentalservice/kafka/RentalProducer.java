@@ -19,9 +19,9 @@ public class RentalProducer {
 
     private final NewTopic topic;
 
-    private final KafkaTemplate<String, RentalCreatedEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public RentalProducer(NewTopic topic, KafkaTemplate<String, RentalCreatedEvent> kafkaTemplate) {
+    public RentalProducer(NewTopic topic, KafkaTemplate<String, Object> kafkaTemplate) {
         this.topic = topic;
         this.kafkaTemplate = kafkaTemplate;
     }

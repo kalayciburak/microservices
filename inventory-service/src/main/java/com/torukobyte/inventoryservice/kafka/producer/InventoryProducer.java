@@ -25,9 +25,9 @@ public class InventoryProducer {
 
     private final NewTopic topic;
 
-    private final KafkaTemplate<String, InventoryCreatedEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public InventoryProducer(NewTopic topic, KafkaTemplate<String, InventoryCreatedEvent> kafkaTemplate) {
+    public InventoryProducer(NewTopic topic, KafkaTemplate<String, Object> kafkaTemplate) {
         this.topic = topic;
         this.kafkaTemplate = kafkaTemplate;
     }

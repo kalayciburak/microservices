@@ -8,7 +8,7 @@ import java.util.List;
 public interface FilterRepository extends MongoRepository<Filter, String> {
     List<Filter> findByBrandNameIgnoreCase(String brandName);
     List<Filter> findByModelNameIgnoreCase(String modelName);
-    List<Filter> findByPlateIgnoreCase(String plate);
+    Filter findByPlateIgnoreCase(String plate);
     List<Filter> findByPlateContainingIgnoreCase(String plate);
     List<Filter> findByBrandNameContainingIgnoreCase(String brandName);
     List<Filter> findByModelNameContainingIgnoreCase(String modelName);
@@ -20,4 +20,5 @@ public interface FilterRepository extends MongoRepository<Filter, String> {
     void deleteByCarId(String carId);
     void deleteAllByBrandId(String brandId);
     void deleteAllByModelId(String modelId);
+    boolean existsByPlate(String plate);
 }

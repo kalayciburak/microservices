@@ -19,6 +19,7 @@ public class UpdateRentalRequest {
     @NotNull
     private LocalDateTime dateStarted;
     @NotNull
+    @Min(value = 1)
     private int rentedForDays;
     @NotNull
     @Min(0)

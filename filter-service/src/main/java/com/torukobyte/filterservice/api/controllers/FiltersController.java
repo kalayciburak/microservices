@@ -2,6 +2,7 @@ package com.torukobyte.filterservice.api.controllers;
 
 import com.torukobyte.filterservice.business.abstracts.FilterService;
 import com.torukobyte.filterservice.business.dto.responses.GetAllFiltersResponse;
+import com.torukobyte.filterservice.business.dto.responses.GetFilterResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +33,7 @@ public class FiltersController {
     }
 
     @GetMapping("/plate")
-    public List<GetAllFiltersResponse> getByPlate(@RequestParam String plate) {
+    public GetFilterResponse getByPlate(@RequestParam String plate) {
         return service.getByPlate(plate);
     }
 

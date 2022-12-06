@@ -3,6 +3,7 @@ package com.torukobyte.filterservice.business.concretes;
 import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.filterservice.business.abstracts.FilterService;
 import com.torukobyte.filterservice.business.dto.responses.GetAllFiltersResponse;
+import com.torukobyte.filterservice.business.dto.responses.GetFilterResponse;
 import com.torukobyte.filterservice.entities.Filter;
 import com.torukobyte.filterservice.repository.FilterRepository;
 import lombok.AllArgsConstructor;
@@ -50,12 +51,10 @@ public class FilterManager implements FilterService {
     }
 
     @Override
-    public List<GetAllFiltersResponse> getByPlate(String plate) {
-        List<Filter> filters = repository.findByPlateIgnoreCase(plate);
-        List<GetAllFiltersResponse> response = filters
-                .stream()
-                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .toList();
+    public GetFilterResponse getByPlate(String plate) {
+        checkIfExistByPlate(plate);
+        Filter filter = repository.findByPlateIgnoreCase(plate);
+        GetFilterResponse response = mapper.forResponse().map(filter, GetFilterResponse.class);
 
         return response;
     }
@@ -148,5 +147,11 @@ public class FilterManager implements FilterService {
     @Override
     public void deleteAllByModelId(String modelId) {
         repository.deleteAllByModelId(modelId);
+    }
+
+    private void checkIfExistByPlate(String plate) {
+        if (!repository.existsByPlate(plate)) {
+            throw new RuntimeException("CAR_NOT_EXISTS");
+        }
     }
 }

@@ -25,10 +25,13 @@ public class CreateInvoiceRequest {
     @NotNull
     @Min(1886)
     private int modelYear;
+    @NotNull
     @Min(0)
     private double dailyPrice;
+    @NotNull
     @Min(0)
     private double totalPrice;
+    @NotNull
     @Min(0)
     private int rentedForDays;
 }

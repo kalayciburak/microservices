@@ -1,7 +1,7 @@
 package com.torukobyte.paymentservice.business.abstracts;
 
 import com.torukobyte.paymentservice.business.dto.requests.create.CreatePaymentRequest;
-import com.torukobyte.paymentservice.business.dto.requests.get.PaymentRequest;
+import com.torukobyte.paymentservice.business.dto.requests.create.CreateRentalPaymentRequest;
 import com.torukobyte.paymentservice.business.dto.requests.update.UpdatePaymentRequest;
 import com.torukobyte.paymentservice.business.dto.responses.create.CreatePaymentResponse;
 import com.torukobyte.paymentservice.business.dto.responses.get.GetAllPaymentsResponse;
@@ -16,5 +16,5 @@ public interface PaymentService {
     CreatePaymentResponse add(CreatePaymentRequest request);
     UpdatePaymentResponse update(UpdatePaymentRequest request, String id);
     void delete(String id);
-    void checkIfPaymentSuccessful(PaymentRequest request);
+    void checkIfPaymentSuccessful(CreateRentalPaymentRequest request);
 }

@@ -1,6 +1,7 @@
 package com.torukobyte.filterservice.business.abstracts;
 
 import com.torukobyte.filterservice.business.dto.responses.GetAllFiltersResponse;
+import com.torukobyte.filterservice.business.dto.responses.GetFilterResponse;
 import com.torukobyte.filterservice.entities.Filter;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface FilterService {
     List<GetAllFiltersResponse> getAll();
     List<GetAllFiltersResponse> getByBrandName(String brandName);
     List<GetAllFiltersResponse> getByModelName(String modelName);
-    List<GetAllFiltersResponse> getByPlate(String plate);
+    GetFilterResponse getByPlate(String plate);
     List<GetAllFiltersResponse> searchByPlate(String plate);
     List<GetAllFiltersResponse> searchByBrandName(String brandName);
     List<GetAllFiltersResponse> searchByModelName(String modelName);
