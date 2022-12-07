@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,6 @@ import java.util.Map;
 @SpringBootApplication
 @EnableDiscoveryClient
 @RestControllerAdvice
-@EnableFeignClients
 public class InvoiceServiceApplication {
 
     public static void main(String[] args) {

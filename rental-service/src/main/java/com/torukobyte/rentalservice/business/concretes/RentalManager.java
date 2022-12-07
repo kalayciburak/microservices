@@ -81,6 +81,9 @@ public class RentalManager implements RentalService {
         paymentReceivedEvent.setTotalPrice(totalPrice);
         paymentReceivedEvent.setRentedForDays(request.getRentedForDays());
         paymentReceivedEvent.setRentedAt(rental.getDateStarted());
+        paymentReceivedEvent.setBrandName(carClient.getCarResponse(rental.getCarId()).getBrandName());
+        paymentReceivedEvent.setModelName(carClient.getCarResponse(rental.getCarId()).getModelName());
+        paymentReceivedEvent.setModelYear(carClient.getCarResponse(rental.getCarId()).getModelYear());
         rentalProducer.sendMessage(paymentReceivedEvent);
         CreateRentalResponse data = mapper.forResponse().map(rental, CreateRentalResponse.class);
 
