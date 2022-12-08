@@ -1,8 +1,8 @@
 package com.torukobyte.paymentservice.api.controllers;
 
+import com.torukobyte.common.dto.CreateRentalPaymentRequest;
 import com.torukobyte.paymentservice.business.abstracts.PaymentService;
 import com.torukobyte.paymentservice.business.dto.requests.create.CreatePaymentRequest;
-import com.torukobyte.paymentservice.business.dto.requests.create.CreateRentalPaymentRequest;
 import com.torukobyte.paymentservice.business.dto.requests.update.UpdatePaymentRequest;
 import com.torukobyte.paymentservice.business.dto.responses.create.CreatePaymentResponse;
 import com.torukobyte.paymentservice.business.dto.responses.get.GetAllPaymentsResponse;
@@ -46,20 +46,7 @@ public class PaymentsController {
     }
 
     @PostMapping("/check")
-    public void checkIfPaymentSuccessful(
-            @RequestParam String cardNumber,
-            @RequestParam String fullName,
-            @RequestParam int cardExpirationYear,
-            @RequestParam int cardExpirationMonth,
-            @RequestParam String cardCvv,
-            @RequestParam double price) {
-        CreateRentalPaymentRequest request =
-                new CreateRentalPaymentRequest(cardNumber,
-                                               fullName,
-                                               cardExpirationYear,
-                                               cardExpirationMonth,
-                                               cardCvv,
-                                               price);
+    public void checkIfPaymentSuccessful(@RequestBody CreateRentalPaymentRequest request) {
         service.checkIfPaymentSuccessful(request);
     }
 }

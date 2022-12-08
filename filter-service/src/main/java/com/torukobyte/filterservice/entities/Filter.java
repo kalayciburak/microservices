@@ -32,4 +32,6 @@ public class Filter {
     private String plate;
     @Field(name = "state")
     private int state;
+    @Field(name = "dailyPrice")
+    private int dailyPrice;
 }

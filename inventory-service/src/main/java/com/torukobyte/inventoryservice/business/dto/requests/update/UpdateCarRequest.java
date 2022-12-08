@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCarRequest {
+    @NotBlank
+    @NotNull
+    private String modelId;
     @Min(value = 1886)
     private int modelYear;
     @NotBlank
@@ -23,7 +26,6 @@ public class UpdateCarRequest {
     @Min(value = 1)
     @Max(value = 3)
     private int state;
-    @NotBlank
-    @NotNull
-    private String modelId;
+    @Min(value = 0)
+    private double dailyPrice;
 }

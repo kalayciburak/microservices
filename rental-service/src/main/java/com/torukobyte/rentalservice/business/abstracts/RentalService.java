@@ -1,6 +1,5 @@
 package com.torukobyte.rentalservice.business.abstracts;
 
-import com.torukobyte.rentalservice.business.dto.requests.create.CreatePaymentRequest;
 import com.torukobyte.rentalservice.business.dto.requests.create.CreateRentalRequest;
 import com.torukobyte.rentalservice.business.dto.requests.update.UpdateRentalRequest;
 import com.torukobyte.rentalservice.business.dto.responses.create.CreateRentalResponse;
@@ -13,7 +12,7 @@ import java.util.List;
 public interface RentalService {
     List<GetAllRentalsResponse> getAll();
     GetRentalResponse getById(String id);
-    CreateRentalResponse add(CreateRentalRequest request, CreatePaymentRequest paymentRequest);
+    CreateRentalResponse add(CreateRentalRequest request);
     UpdateRentalResponse update(UpdateRentalRequest request, String id);
     void delete(String id);
 }

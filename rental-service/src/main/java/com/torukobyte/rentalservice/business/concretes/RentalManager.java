@@ -1,5 +1,6 @@
 package com.torukobyte.rentalservice.business.concretes;
 
+import com.torukobyte.common.dto.CreateRentalPaymentRequest;
 import com.torukobyte.common.events.payments.PaymentReceivedEvent;
 import com.torukobyte.common.events.rentals.RentalCreatedEvent;
 import com.torukobyte.common.events.rentals.RentalDeletedEvent;
@@ -7,7 +8,6 @@ import com.torukobyte.common.events.rentals.RentalUpdatedEvent;
 import com.torukobyte.common.util.exceptions.BusinessException;
 import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.rentalservice.business.abstracts.RentalService;
-import com.torukobyte.rentalservice.business.dto.requests.create.CreatePaymentRequest;
 import com.torukobyte.rentalservice.business.dto.requests.create.CreateRentalRequest;
 import com.torukobyte.rentalservice.business.dto.requests.update.UpdateRentalRequest;
 import com.torukobyte.rentalservice.business.dto.responses.create.CreateRentalResponse;
@@ -56,19 +56,18 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public CreateRentalResponse add(CreateRentalRequest request, CreatePaymentRequest paymentRequest) {
+    public CreateRentalResponse add(CreateRentalRequest request) {
         carClient.checkIfCarAvailable(request.getCarId());
         Rental rental = mapper.forRequest().map(request, Rental.class);
         rental.setId(UUID.randomUUID().toString());
         rental.setDateStarted(LocalDateTime.now());
         double totalPrice = request.getRentedForDays() * request.getDailyPrice();
         rental.setTotalPrice(totalPrice);
-        paymentClient.checkIfPaymentSuccessful(paymentRequest.getCardNumber(),
-                                               paymentRequest.getFullName(),
-                                               paymentRequest.getCardExpirationYear(),
-                                               paymentRequest.getCardExpirationMonth(),
-                                               paymentRequest.getCardCvv(),
-                                               totalPrice);
+        CreateRentalPaymentRequest paymentRequest = new CreateRentalPaymentRequest();
+        mapper.forRequest().map(request.getPaymentRequest(), paymentRequest);
+        paymentRequest.setPrice(totalPrice);
+
+        paymentClient.checkIfPaymentSuccessful(paymentRequest);
         repository.save(rental);
         RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
         rentalCreatedEvent.setCarId(rental.getCarId());
@@ -76,7 +75,7 @@ public class RentalManager implements RentalService {
         rentalProducer.sendMessage(rentalCreatedEvent);
         PaymentReceivedEvent paymentReceivedEvent = new PaymentReceivedEvent();
         paymentReceivedEvent.setCarId(rental.getCarId());
-        paymentReceivedEvent.setFullName(paymentRequest.getFullName());
+        paymentReceivedEvent.setFullName(request.getPaymentRequest().getFullName());
         paymentReceivedEvent.setDailyPrice(request.getDailyPrice());
         paymentReceivedEvent.setTotalPrice(totalPrice);
         paymentReceivedEvent.setRentedForDays(request.getRentedForDays());

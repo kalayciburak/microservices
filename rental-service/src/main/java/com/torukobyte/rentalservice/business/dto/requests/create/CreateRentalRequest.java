@@ -1,5 +1,6 @@
 package com.torukobyte.rentalservice.business.dto.requests.create;
 
+import com.torukobyte.common.dto.CreatePaymentRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,5 @@ public class CreateRentalRequest {
     @NotNull
     @Min(value = 0)
     private double dailyPrice;
+    private CreatePaymentRequestDTO paymentRequest;
 }

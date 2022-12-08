@@ -17,4 +17,5 @@ public class GetFilterResponse {
     private int modelYear;
     private String plate;
     private int state;
+    private int dailyPrice;
 }

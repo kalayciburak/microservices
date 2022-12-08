@@ -1,11 +1,11 @@
 package com.torukobyte.paymentservice.business.concretes;
 
+import com.torukobyte.common.dto.CreateRentalPaymentRequest;
 import com.torukobyte.common.util.exceptions.BusinessException;
 import com.torukobyte.common.util.mapping.ModelMapperService;
 import com.torukobyte.paymentservice.business.abstracts.PaymentService;
 import com.torukobyte.paymentservice.business.abstracts.PosService;
 import com.torukobyte.paymentservice.business.dto.requests.create.CreatePaymentRequest;
-import com.torukobyte.paymentservice.business.dto.requests.create.CreateRentalPaymentRequest;
 import com.torukobyte.paymentservice.business.dto.requests.update.UpdatePaymentRequest;
 import com.torukobyte.paymentservice.business.dto.responses.create.CreatePaymentResponse;
 import com.torukobyte.paymentservice.business.dto.responses.get.GetAllPaymentsResponse;

@@ -1,7 +1,7 @@
 package com.torukobyte.paymentservice.business.abstracts;
 
+import com.torukobyte.common.dto.CreateRentalPaymentRequest;
 import com.torukobyte.paymentservice.business.dto.requests.create.CreatePaymentRequest;
-import com.torukobyte.paymentservice.business.dto.requests.create.CreateRentalPaymentRequest;
 import com.torukobyte.paymentservice.business.dto.requests.update.UpdatePaymentRequest;
 import com.torukobyte.paymentservice.business.dto.responses.create.CreatePaymentResponse;
 import com.torukobyte.paymentservice.business.dto.responses.get.GetAllPaymentsResponse;

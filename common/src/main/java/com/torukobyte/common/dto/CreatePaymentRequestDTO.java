@@ -1,4 +1,4 @@
-package com.torukobyte.paymentservice.business.dto.requests.create;
+package com.torukobyte.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateRentalPaymentRequest {
+public class CreatePaymentRequestDTO {
     @NotBlank(message = "Card number is required")
     @Length(min = 16, max = 16, message = "Card number must be 16 characters long")
     private String cardNumber;
@@ -32,7 +32,4 @@ public class CreateRentalPaymentRequest {
     @NotBlank(message = "Card CVV is required")
     @Length(min = 3, max = 3, message = "Card CVV must be 3 characters long")
     private String cardCvv;
-    @NotNull(message = "Price is required")
-    @Min(value = 1, message = "Price must be at least 1")
-    private double price;
 }

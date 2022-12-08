@@ -14,12 +14,14 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCarRequest {
+    @NotBlank
+    @NotNull
+    private String modelId;
     @Min(value = 1886)
     private int modelYear;
     @NotBlank
     @NotNull
     private String plate;
-    @NotBlank
-    @NotNull
-    private String modelId;
+    @Min(value = 0)
+    private double dailyPrice;
 }
