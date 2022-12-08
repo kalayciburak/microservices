@@ -1,5 +1,6 @@
 package com.kodlamaio.rentalservice.business.concretes;
 
+import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.dto.CreateRentalPaymentRequest;
 import com.kodlamaio.common.events.payments.PaymentReceivedEvent;
 import com.kodlamaio.common.events.rentals.RentalCreatedEvent;
@@ -96,14 +97,14 @@ public class RentalManager implements RentalService {
 
     private void checkIfRentalExists(String id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("RENTAL.NOT_FOUND");
+            throw new BusinessException(Messages.Rental.NotFound);
         }
     }
 
     private void rentalCreatedEvent(Rental rental) {
         RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
         rentalCreatedEvent.setCarId(rental.getCarId());
-        rentalCreatedEvent.setMessage("Rental Created");
+        rentalCreatedEvent.setMessage(Messages.Rental.Created);
         rentalProducer.sendMessage(rentalCreatedEvent);
     }
 
@@ -113,14 +114,14 @@ public class RentalManager implements RentalService {
         rentalUpdatedEvent.setOldCarId(repository.findById(id).orElseThrow().getCarId());
         repository.save(rental);
         rentalUpdatedEvent.setNewCarId(rental.getCarId());
-        rentalUpdatedEvent.setMessage("Rental Updated");
+        rentalUpdatedEvent.setMessage(Messages.Rental.Updated);
         rentalProducer.sendMessage(rentalUpdatedEvent);
     }
 
     private void rentalDeletedEvent(String id) {
         RentalDeletedEvent event = new RentalDeletedEvent();
         event.setCarId(repository.findById(id).orElseThrow().getCarId());
-        event.setMessage("Rental Deleted");
+        event.setMessage(Messages.Rental.Deleted);
         rentalProducer.sendMessage(event);
     }
 

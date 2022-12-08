@@ -1,5 +1,6 @@
 package com.kodlamaio.filterservice;
 
+import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.util.exceptions.BusinessException;
 import com.kodlamaio.common.util.mapping.ModelMapperManager;
 import com.kodlamaio.common.util.mapping.ModelMapperService;
@@ -48,19 +49,20 @@ public class FilterServiceApplication {
             validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
-        return new ErrorDataResult<>(validationErrors, "VALIDATION EXCEPTION");
+        return new ErrorDataResult<>(validationErrors, Messages.Exception.Validation);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleValidationException(ValidationException exception) {
-        return new ErrorDataResult<>(exception.getMessage(), "VALIDATION EXCEPTION");
+        return new ErrorDataResult<>(exception.getMessage(), Messages.Exception.Validation);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleBusinessException(BusinessException exception) {
-        ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(), "BUSINESS EXCEPTION");
+        ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(),
+                Messages.Exception.Business);
 
         return errorDataResult;
     }
@@ -69,7 +71,7 @@ public class FilterServiceApplication {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(),
-                                                                        "DATA INTEGRITY VIOLATION EXCEPTION");
+                Messages.Exception.DataIntegrityViolation);
 
         return errorDataResult;
     }
@@ -78,7 +80,7 @@ public class FilterServiceApplication {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleRuntimeEception(RuntimeException exception) {
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(),
-                                                                        "RUNTIME EXCEPTION");
+                Messages.Exception.Runtime);
 
         return errorDataResult;
     }

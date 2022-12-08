@@ -1,5 +1,6 @@
 package com.kodlamaio.paymentservice.business.concretes;
 
+import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.dto.CreateRentalPaymentRequest;
 import com.kodlamaio.common.util.exceptions.BusinessException;
 import com.kodlamaio.common.util.mapping.ModelMapperService;
@@ -86,12 +87,12 @@ public class PaymentManager implements PaymentService {
                 request.getCardExpirationYear(),
                 request.getCardExpirationMonth(),
                 request.getCardCvv())) {
-            throw new BusinessException("NOT_A_VALID_PAYMENT!");
+            throw new BusinessException(Messages.Payment.NotAValidPayment);
         } else {
             Payment payment = repository.findByCardNumber(request.getCardNumber());
             double balance = payment.getBalance();
             if (balance < request.getPrice()) {
-                throw new BusinessException("NOT_ENOUGH_MONEY!");
+                throw new BusinessException(Messages.Payment.NotEnoughMoney);
             } else {
                 posService.pay(); // Fake payment
                 payment.setBalance(balance - request.getPrice());
@@ -102,13 +103,13 @@ public class PaymentManager implements PaymentService {
 
     private void checkIfPaymentExists(String id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("PAYMENT_NOT_FOUND!");
+            throw new BusinessException(Messages.Payment.NotFound);
         }
     }
 
     private void checkIfCardNumberExists(String cardNumber) {
         if (repository.existsByCardNumber(cardNumber)) {
-            throw new BusinessException("CARD_NUMBER_ALREADY_EXISTS!");
+            throw new BusinessException(Messages.Payment.CardNumberAlreadyExists);
         }
     }
 }

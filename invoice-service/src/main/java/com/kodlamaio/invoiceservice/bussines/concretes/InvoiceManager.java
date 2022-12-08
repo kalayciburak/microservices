@@ -1,5 +1,6 @@
 package com.kodlamaio.invoiceservice.bussines.concretes;
 
+import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.util.exceptions.BusinessException;
 import com.kodlamaio.common.util.mapping.ModelMapperService;
 import com.kodlamaio.invoiceservice.bussines.abstracts.InvoiceService;
@@ -78,7 +79,7 @@ public class InvoiceManager implements InvoiceService {
 
     private void checkIfInvoiceExists(String id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("INVOICE_NOT_FOUND");
+            throw new BusinessException(Messages.Invoice.NotFound);
         }
     }
 }

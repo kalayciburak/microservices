@@ -1,5 +1,6 @@
 package com.kodlamaio.filterservice.business.concretes;
 
+import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.util.mapping.ModelMapperService;
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
 import com.kodlamaio.filterservice.business.dto.responses.GetAllFiltersResponse;
@@ -151,7 +152,7 @@ public class FilterManager implements FilterService {
 
     private void checkIfExistByPlate(String plate) {
         if (!repository.existsByPlate(plate)) {
-            throw new RuntimeException("CAR_NOT_EXISTS");
+            throw new RuntimeException(Messages.Filter.NotExists);
         }
     }
 }

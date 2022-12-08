@@ -1,1 +1,1133 @@
-{"info":{"_postman_id":"5765c339-6fc7-4ec9-b9ab-94b3cc03a6d1","name":"requests","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},"item":[{"name":"Microservice / Rent A Car","item":[{"name":"filter-service","item":[{"name":"getAll","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/filter-service/api/v1/filters","protocol":"http","host":["localhost:9010"],"path":["filter-service","api","v1","filters"]},"auth":{}},"response":[]},{"name":"getByBrandName","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/filter-service/api/v1/filters/brand","query":[{"key":"brandName","value":"audi"}],"protocol":"http","host":["localhost:9010"],"path":["filter-service","api","v1","filters","brand"]},"auth":{}},"response":[]},{"name":"getByModelName","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/filter-service/api/v1/filters/model","query":[{"key":"modelName","value":"e-200"}],"protocol":"http","host":["localhost:9010"],"path":["filter-service","api","v1","filters","model"]},"auth":{}},"response":[]},{"name":"getByPlate","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/filter-service/api/v1/filters/plate","query":[{"key":"plate","value":"06 TB 5"}],"protocol":"http","host":["localhost:9010"],"path":["filter-service","api","v1","filters","plate"]},"auth":{}},"response":[]},{"name":"searchByBrandName","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/filter-service/api/v1/filters/brand-search","query":[{"key":"brandName","value":"Au"}],"protocol":"http","host":["localhost:9010"],"path":["filter-service","api","v1","filters","brand-search"]},"auth":{}},"response":[]},{"name":"searchByModelName","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/filter-service/api/v1/filters/model-search","query":[{"key":"modelName","value":"A"}],"protocol":"http","host":["localhost:9010"],"path":["filter-service","api","v1","filters","model-search"]},"auth":{}},"response":[]},{"name":"searchByPlate","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/filter-service/api/v1/filters/plate-search","query":[{"key":"plate","value":"1"}],"protocol":"http","host":["localhost:9010"],"path":["filter-service","api","v1","filters","plate-search"]},"auth":{}},"response":[]},{"name":"getByModelYear","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/filter-service/api/v1/filters/year","query":[{"key":"modelYear","value":"2022"}],"protocol":"http","host":["localhost:9010"],"path":["filter-service","api","v1","filters","year"]},"auth":{}},"response":[]},{"name":"getByState","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/filter-service/api/v1/filters/state","query":[{"key":"state","value":"1"}],"protocol":"http","host":["localhost:9010"],"path":["filter-service","api","v1","filters","state"]},"auth":{}},"response":[]}]},{"name":"rental-service","item":[{"name":"getAll","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/rental-service/api/v1/rentals","protocol":"http","host":["localhost:9010"],"path":["rental-service","api","v1","rentals"]},"auth":{}},"response":[]},{"name":"add","request":{"description":"","method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"carId\":\"4c05a5f3-ecc3-45f9-a49b-90e3dfafdfe6\",\n\t\"rentedForDays\":2,\n\t\"dailyPrice\":50,\n  \"paymentRequest\": {\n    \"cardNumber\": \"4539071432589516\",\n\t\t\"fullName\": \"Test Test\",\n\t\t\"cardExpirationYear\": 2027,\n\t\t\"cardExpirationMonth\": 12,\n\t\t\"cardCvv\": \"123\"\n  }\n}"},"url":{"raw":"http://localhost:9010/rental-service/api/v1/rentals","protocol":"http","host":["localhost:9010"],"path":["rental-service","api","v1","rentals"]},"auth":{}},"response":[]},{"name":"getById","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/rental-service/api/v1/rentals/b9027434-8524-49dc-8a36-aced1c88ca7c","protocol":"http","host":["localhost:9010"],"path":["rental-service","api","v1","rentals","b9027434-8524-49dc-8a36-aced1c88ca7c"]},"auth":{}},"response":[]},{"name":"update","request":{"description":"","method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"carId\":\"42ebfff3-470c-425b-a79c-c4dde05655b2\",\n\t\"dateStarted\":\"2022-12-01T14:38:19\",\n\t\"rentedForDays\":13,\n\t\"dailyPrice\":500\n}"},"url":{"raw":"http://localhost:9010/rental-service/api/v1/rentals/c12623b3-075a-4aa1-9fe3-9f3e3764f9f9","protocol":"http","host":["localhost:9010"],"path":["rental-service","api","v1","rentals","c12623b3-075a-4aa1-9fe3-9f3e3764f9f9"]},"auth":{}},"response":[]},{"name":"delete","request":{"description":"","method":"DELETE","header":[],"url":{"raw":"http://localhost:9010/rental-service/api/v1/rentals/2dd28d82-70d3-4593-9a4e-f0a5850b8cba","protocol":"http","host":["localhost:9010"],"path":["rental-service","api","v1","rentals","2dd28d82-70d3-4593-9a4e-f0a5850b8cba"]},"auth":{}},"response":[]}]},{"name":"payment-service","item":[{"name":"add","request":{"description":"","method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"cardNumber\": \"4539071432589515\",\n  \"fullName\": \"Test Test\",\n  \"cardExpirationYear\": 2022,\n  \"cardExpirationMonth\": 12,\n  \"cardCvv\": \"123\",\n  \"balance\": 1000000\n}"},"url":{"raw":"http://localhost:9010/payment-service/api/v1/payments","protocol":"http","host":["localhost:9010"],"path":["payment-service","api","v1","payments"]},"auth":{}},"response":[]},{"name":"getAll","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/payment-service/api/v1/payments","protocol":"http","host":["localhost:9010"],"path":["payment-service","api","v1","payments"]},"auth":{}},"response":[]},{"name":"getById","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/payment-service/api/v1/payments/8b55f0a1-b2e3-4673-ad5f-19e1868e3c76","protocol":"http","host":["localhost:9010"],"path":["payment-service","api","v1","payments","8b55f0a1-b2e3-4673-ad5f-19e1868e3c76"]},"auth":{}},"response":[]},{"name":"update","request":{"description":"","method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"cardNumber\": \"4539071432589516\",\n  \"fullName\": \"Test Test\",\n  \"cardExpirationYear\": 2027,\n  \"cardExpirationMonth\": 12,\n  \"cardCvv\": \"123\",\n  \"balance\": 1000\n}"},"url":{"raw":"http://localhost:9010/payment-service/api/v1/payments/8b55f0a1-b2e3-4673-ad5f-19e1868e3c76","protocol":"http","host":["localhost:9010"],"path":["payment-service","api","v1","payments","8b55f0a1-b2e3-4673-ad5f-19e1868e3c76"]},"auth":{}},"response":[]},{"name":"delete","request":{"description":"","method":"DELETE","header":[],"url":{"raw":"http://localhost:9010/payment-service/api/v1/payments/a11158d8-2dee-4436-a0b9-19fbe909c217","protocol":"http","host":["localhost:9010"],"path":["payment-service","api","v1","payments","a11158d8-2dee-4436-a0b9-19fbe909c217"]},"auth":{}},"response":[]}]},{"name":"invoice-service","item":[{"name":"add","request":{"description":"","method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"carId\": \"string\",\n  \"fullName\": \"string\",\n  \"modelName\": \"string\",\n  \"brandName\": \"string\",\n  \"modelYear\": 1886,\n  \"dailyPrice\": 0,\n  \"totalPrice\": 0,\n  \"rentedForDays\": 0\n}"},"url":{"raw":"http://localhost:9010/invoice-service/api/v1/invoices","protocol":"http","host":["localhost:9010"],"path":["invoice-service","api","v1","invoices"]},"auth":{}},"response":[]},{"name":"getAll","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/invoice-service/api/v1/invoices","protocol":"http","host":["localhost:9010"],"path":["invoice-service","api","v1","invoices"]},"auth":{}},"response":[]},{"name":"getById","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/invoice-service/api/v1/invoices/c674f233-ceb0-4813-95e1-091e5994fa4c","protocol":"http","host":["localhost:9010"],"path":["invoice-service","api","v1","invoices","c674f233-ceb0-4813-95e1-091e5994fa4c"]},"auth":{}},"response":[]},{"name":"update","request":{"description":"","method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"carId\": \"string\",\n  \"fullName\": \"string\",\n  \"modelName\": \"string\",\n  \"brandName\": \"string\",\n  \"modelYear\": 1886,\n  \"dailyPrice\": 0,\n  \"totalPrice\": 0,\n  \"rentedForDays\": 0\n}"},"url":{"raw":"http://localhost:9010/invoice-service/api/v1/invoices/8b55f0a1-b2e3-4673-ad5f-19e1868e3c76","protocol":"http","host":["localhost:9010"],"path":["invoice-service","api","v1","invoices","8b55f0a1-b2e3-4673-ad5f-19e1868e3c76"]},"auth":{}},"response":[]},{"name":"delete","request":{"description":"","method":"DELETE","header":[],"url":{"raw":"http://localhost:9010/invoice-service/api/v1/invoices/0ded5d14-81a8-42c9-a35f-f9632954c579","protocol":"http","host":["localhost:9010"],"path":["invoice-service","api","v1","invoices","0ded5d14-81a8-42c9-a35f-f9632954c579"]},"auth":{}},"response":[]}]},{"name":"inventory-service","item":[{"name":"Car","item":[{"name":"getAll","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/inventory-service/api/v1/cars","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","cars"]},"auth":{}},"response":[]},{"name":"add","request":{"description":"","method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"modelYear\": 2021,\n  \"plate\": \"61 DC 1444\",\n  \"modelId\": \"579bfb4c-5907-4a0f-b511-9577b5009830\",\n\t\"dailyPrice\": 320\n}"},"url":{"raw":"http://localhost:9010/inventory-service/api/v1/cars","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","cars"]},"auth":{}},"response":[]},{"name":"getById","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/inventory-service/api/v1/cars/18e3a806-91d5-4f03-b6dc-d3720acbdeda","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","cars","18e3a806-91d5-4f03-b6dc-d3720acbdeda"]},"auth":{}},"response":[]},{"name":"update","request":{"description":"","method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"dailyPrice\": 12,\n  \"modelYear\": 2003,\n  \"plate\": \"06 TB 15\",\n  \"state\": 1,\n  \"modelId\": \"5b480448-8612-4ccc-b3c0-5a3d5c46aa36\"\n}"},"url":{"raw":"http://localhost:9010/inventory-service/api/v1/cars/16389f0f-7f6b-4fa8-9b2a-4a93a5e48e3d","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","cars","16389f0f-7f6b-4fa8-9b2a-4a93a5e48e3d"]},"auth":{}},"response":[]},{"name":"delete","request":{"description":"","method":"DELETE","header":[],"url":{"raw":"http://localhost:9010/inventory-service/api/v1/cars/50ae8000-b02e-478f-aced-ea3b0a829bae","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","cars","50ae8000-b02e-478f-aced-ea3b0a829bae"]},"auth":{}},"response":[]}]},{"name":"Brand","item":[{"name":"getAll","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/inventory-service/api/v1/brands","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","brands"]},"auth":{}},"response":[]},{"name":"add","request":{"description":"","method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n\t\"name\":\"Mercedes\"\n}"},"url":{"raw":"http://localhost:9010/inventory-service/api/v1/brands","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","brands"]},"auth":{}},"response":[]},{"name":"getById","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/inventory-service/api/v1/brands/a9eecf61-667d-4ef5-af64-e4b3df2b1987","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","brands","a9eecf61-667d-4ef5-af64-e4b3df2b1987"]},"auth":{}},"response":[]},{"name":"update","request":{"description":"","method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n\t\"name\":\"Ferrari 23\"\n}"},"url":{"raw":"http://localhost:9010/inventory-service/api/v1/brands/4ab686f7-29cd-4063-9649-b7e3848845fb","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","brands","4ab686f7-29cd-4063-9649-b7e3848845fb"]},"auth":{}},"response":[]},{"name":"delete","request":{"description":"","method":"DELETE","header":[],"url":{"raw":"http://localhost:9010/inventory-service/api/v1/brands/ac51dc77-2e8c-4571-9d55-beba978fee95","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","brands","ac51dc77-2e8c-4571-9d55-beba978fee95"]},"auth":{}},"response":[]}]},{"name":"Model","item":[{"name":"getAll","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/inventory-service/api/v1/models","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","models"]},"auth":{}},"response":[]},{"name":"add","request":{"description":"","method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"name\": \"S-400\",\n  \"brandId\": \"c97c1465-961a-49e7-a94a-6fbd2471b79e\"\n}"},"url":{"raw":"http://localhost:9010/inventory-service/api/v1/models","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","models"]},"auth":{}},"response":[]},{"name":"getById","request":{"description":"","method":"GET","header":[],"url":{"raw":"http://localhost:9010/inventory-service/api/v1/models/87770ef6-7a15-4bc3-8807-e8337117783e","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","models","87770ef6-7a15-4bc3-8807-e8337117783e"]},"auth":{}},"response":[]},{"name":"update","request":{"description":"","method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"name\": \"GTX 23\",\n  \"brandId\": \"c97c1465-961a-49e7-a94a-6fbd2471b79e\"\n}"},"url":{"raw":"http://localhost:9010/inventory-service/api/v1/models/579bfb4c-5907-4a0f-b511-9577b5009830","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","models","579bfb4c-5907-4a0f-b511-9577b5009830"]},"auth":{}},"response":[]},{"name":"delete","request":{"description":"","method":"DELETE","header":[],"url":{"raw":"http://localhost:9010/inventory-service/api/v1/models/9017ca29-f927-4768-b1b7-ef93acb0fb0f","protocol":"http","host":["localhost:9010"],"path":["inventory-service","api","v1","models","9017ca29-f927-4768-b1b7-ef93acb0fb0f"]},"auth":{}},"response":[]}]}]}]}]}
+{
+  "info": {
+    "_postman_id": "5765c339-6fc7-4ec9-b9ab-94b3cc03a6d1",
+    "name": "requests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Microservice / Rent A Car",
+      "item": [
+        {
+          "name": "filter-service",
+          "item": [
+            {
+              "name": "getAll",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "filter-service",
+                    "api",
+                    "v1",
+                    "filters"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getByBrandName",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/brand",
+                  "query": [
+                    {
+                      "key": "brandName",
+                      "value": "audi"
+                    }
+                  ],
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "filter-service",
+                    "api",
+                    "v1",
+                    "filters",
+                    "brand"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getByModelName",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/model",
+                  "query": [
+                    {
+                      "key": "modelName",
+                      "value": "e-200"
+                    }
+                  ],
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "filter-service",
+                    "api",
+                    "v1",
+                    "filters",
+                    "model"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getByPlate",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/plate",
+                  "query": [
+                    {
+                      "key": "plate",
+                      "value": "06 TB 5"
+                    }
+                  ],
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "filter-service",
+                    "api",
+                    "v1",
+                    "filters",
+                    "plate"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "searchByBrandName",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/brand-search",
+                  "query": [
+                    {
+                      "key": "brandName",
+                      "value": "Au"
+                    }
+                  ],
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "filter-service",
+                    "api",
+                    "v1",
+                    "filters",
+                    "brand-search"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "searchByModelName",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/model-search",
+                  "query": [
+                    {
+                      "key": "modelName",
+                      "value": "A"
+                    }
+                  ],
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "filter-service",
+                    "api",
+                    "v1",
+                    "filters",
+                    "model-search"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "searchByPlate",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/plate-search",
+                  "query": [
+                    {
+                      "key": "plate",
+                      "value": "1"
+                    }
+                  ],
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "filter-service",
+                    "api",
+                    "v1",
+                    "filters",
+                    "plate-search"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getByModelYear",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/year",
+                  "query": [
+                    {
+                      "key": "modelYear",
+                      "value": "2022"
+                    }
+                  ],
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "filter-service",
+                    "api",
+                    "v1",
+                    "filters",
+                    "year"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getByState",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/state",
+                  "query": [
+                    {
+                      "key": "state",
+                      "value": "1"
+                    }
+                  ],
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "filter-service",
+                    "api",
+                    "v1",
+                    "filters",
+                    "state"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "rental-service",
+          "item": [
+            {
+              "name": "getAll",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/rental-service/api/v1/rentals",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "rental-service",
+                    "api",
+                    "v1",
+                    "rentals"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "add",
+              "request": {
+                "description": "",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carId\":\"4c05a5f3-ecc3-45f9-a49b-90e3dfafdfe6\",\n\t\"rentedForDays\":2,\n\t\"dailyPrice\":50,\n  \"paymentRequest\": {\n    \"cardNumber\": \"4539071432589516\",\n\t\t\"fullName\": \"Test Test\",\n\t\t\"cardExpirationYear\": 2027,\n\t\t\"cardExpirationMonth\": 12,\n\t\t\"cardCvv\": \"123\"\n  }\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:9010/rental-service/api/v1/rentals",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "rental-service",
+                    "api",
+                    "v1",
+                    "rentals"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getById",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/rental-service/api/v1/rentals/b9027434-8524-49dc-8a36-aced1c88ca7c",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "rental-service",
+                    "api",
+                    "v1",
+                    "rentals",
+                    "b9027434-8524-49dc-8a36-aced1c88ca7c"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "description": "",
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carId\":\"42ebfff3-470c-425b-a79c-c4dde05655b2\",\n\t\"dateStarted\":\"2022-12-01T14:38:19\",\n\t\"rentedForDays\":13,\n\t\"dailyPrice\":500\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:9010/rental-service/api/v1/rentals/c12623b3-075a-4aa1-9fe3-9f3e3764f9f9",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "rental-service",
+                    "api",
+                    "v1",
+                    "rentals",
+                    "c12623b3-075a-4aa1-9fe3-9f3e3764f9f9"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "description": "",
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/rental-service/api/v1/rentals/2dd28d82-70d3-4593-9a4e-f0a5850b8cba",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "rental-service",
+                    "api",
+                    "v1",
+                    "rentals",
+                    "2dd28d82-70d3-4593-9a4e-f0a5850b8cba"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "payment-service",
+          "item": [
+            {
+              "name": "add",
+              "request": {
+                "description": "",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cardNumber\": \"4539071432589515\",\n  \"fullName\": \"Test Test\",\n  \"cardExpirationYear\": 2022,\n  \"cardExpirationMonth\": 12,\n  \"cardCvv\": \"123\",\n  \"balance\": 1000000\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:9010/payment-service/api/v1/payments",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "payment-service",
+                    "api",
+                    "v1",
+                    "payments"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getAll",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/payment-service/api/v1/payments",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "payment-service",
+                    "api",
+                    "v1",
+                    "payments"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getById",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/payment-service/api/v1/payments/8b55f0a1-b2e3-4673-ad5f-19e1868e3c76",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "payment-service",
+                    "api",
+                    "v1",
+                    "payments",
+                    "8b55f0a1-b2e3-4673-ad5f-19e1868e3c76"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "description": "",
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cardNumber\": \"4539071432589516\",\n  \"fullName\": \"Test Test\",\n  \"cardExpirationYear\": 2027,\n  \"cardExpirationMonth\": 12,\n  \"cardCvv\": \"123\",\n  \"balance\": 1000\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:9010/payment-service/api/v1/payments/8b55f0a1-b2e3-4673-ad5f-19e1868e3c76",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "payment-service",
+                    "api",
+                    "v1",
+                    "payments",
+                    "8b55f0a1-b2e3-4673-ad5f-19e1868e3c76"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "description": "",
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/payment-service/api/v1/payments/a11158d8-2dee-4436-a0b9-19fbe909c217",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "payment-service",
+                    "api",
+                    "v1",
+                    "payments",
+                    "a11158d8-2dee-4436-a0b9-19fbe909c217"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "invoice-service",
+          "item": [
+            {
+              "name": "add",
+              "request": {
+                "description": "",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carId\": \"string\",\n  \"fullName\": \"string\",\n  \"modelName\": \"string\",\n  \"brandName\": \"string\",\n  \"modelYear\": 1886,\n  \"dailyPrice\": 0,\n  \"totalPrice\": 0,\n  \"rentedForDays\": 0\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:9010/invoice-service/api/v1/invoices",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "invoice-service",
+                    "api",
+                    "v1",
+                    "invoices"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getAll",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/invoice-service/api/v1/invoices",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "invoice-service",
+                    "api",
+                    "v1",
+                    "invoices"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getById",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/invoice-service/api/v1/invoices/c674f233-ceb0-4813-95e1-091e5994fa4c",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "invoice-service",
+                    "api",
+                    "v1",
+                    "invoices",
+                    "c674f233-ceb0-4813-95e1-091e5994fa4c"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "description": "",
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"carId\": \"string\",\n  \"fullName\": \"string\",\n  \"modelName\": \"string\",\n  \"brandName\": \"string\",\n  \"modelYear\": 1886,\n  \"dailyPrice\": 0,\n  \"totalPrice\": 0,\n  \"rentedForDays\": 0\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:9010/invoice-service/api/v1/invoices/8b55f0a1-b2e3-4673-ad5f-19e1868e3c76",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "invoice-service",
+                    "api",
+                    "v1",
+                    "invoices",
+                    "8b55f0a1-b2e3-4673-ad5f-19e1868e3c76"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "description": "",
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9010/invoice-service/api/v1/invoices/0ded5d14-81a8-42c9-a35f-f9632954c579",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:9010"
+                  ],
+                  "path": [
+                    "invoice-service",
+                    "api",
+                    "v1",
+                    "invoices",
+                    "0ded5d14-81a8-42c9-a35f-f9632954c579"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "inventory-service",
+          "item": [
+            {
+              "name": "Car",
+              "item": [
+                {
+                  "name": "getAll",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/cars",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "cars"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "add",
+                  "request": {
+                    "description": "",
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"modelYear\": 2021,\n  \"plate\": \"61 DC 1444\",\n  \"modelId\": \"579bfb4c-5907-4a0f-b511-9577b5009830\",\n\t\"dailyPrice\": 320\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/cars",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "cars"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "getById",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/cars/18e3a806-91d5-4f03-b6dc-d3720acbdeda",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "cars",
+                        "18e3a806-91d5-4f03-b6dc-d3720acbdeda"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "update",
+                  "request": {
+                    "description": "",
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"dailyPrice\": 12,\n  \"modelYear\": 2003,\n  \"plate\": \"06 TB 15\",\n  \"state\": 1,\n  \"modelId\": \"5b480448-8612-4ccc-b3c0-5a3d5c46aa36\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/cars/16389f0f-7f6b-4fa8-9b2a-4a93a5e48e3d",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "cars",
+                        "16389f0f-7f6b-4fa8-9b2a-4a93a5e48e3d"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "delete",
+                  "request": {
+                    "description": "",
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/cars/50ae8000-b02e-478f-aced-ea3b0a829bae",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "cars",
+                        "50ae8000-b02e-478f-aced-ea3b0a829bae"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Brand",
+              "item": [
+                {
+                  "name": "getAll",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/brands",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "brands"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "add",
+                  "request": {
+                    "description": "",
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n\t\"name\":\"Mercedes\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/brands",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "brands"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "getById",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/brands/a9eecf61-667d-4ef5-af64-e4b3df2b1987",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "brands",
+                        "a9eecf61-667d-4ef5-af64-e4b3df2b1987"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "update",
+                  "request": {
+                    "description": "",
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n\t\"name\":\"Ferrari 23\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/brands/4ab686f7-29cd-4063-9649-b7e3848845fb",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "brands",
+                        "4ab686f7-29cd-4063-9649-b7e3848845fb"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "delete",
+                  "request": {
+                    "description": "",
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/brands/ac51dc77-2e8c-4571-9d55-beba978fee95",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "brands",
+                        "ac51dc77-2e8c-4571-9d55-beba978fee95"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Model",
+              "item": [
+                {
+                  "name": "getAll",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/models",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "models"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "add",
+                  "request": {
+                    "description": "",
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"S-400\",\n  \"brandId\": \"c97c1465-961a-49e7-a94a-6fbd2471b79e\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/models",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "models"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "getById",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/models/87770ef6-7a15-4bc3-8807-e8337117783e",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "models",
+                        "87770ef6-7a15-4bc3-8807-e8337117783e"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "update",
+                  "request": {
+                    "description": "",
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"GTX 23\",\n  \"brandId\": \"c97c1465-961a-49e7-a94a-6fbd2471b79e\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/models/579bfb4c-5907-4a0f-b511-9577b5009830",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "models",
+                        "579bfb4c-5907-4a0f-b511-9577b5009830"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "delete",
+                  "request": {
+                    "description": "",
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:9010/inventory-service/api/v1/models/9017ca29-f927-4768-b1b7-ef93acb0fb0f",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:9010"
+                      ],
+                      "path": [
+                        "inventory-service",
+                        "api",
+                        "v1",
+                        "models",
+                        "9017ca29-f927-4768-b1b7-ef93acb0fb0f"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 package com.kodlamaio.inventoryservice.business.concretes;
 
+import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.events.inventories.models.ModelDeletedEvent;
 import com.kodlamaio.common.events.inventories.models.ModelUpdatedEvent;
 import com.kodlamaio.common.util.exceptions.BusinessException;
@@ -80,13 +81,13 @@ public class ModelManager implements ModelService {
 
     private void checkIfExistsById(String id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("MODEL.NOT.EXISTS");
+            throw new BusinessException(Messages.Model.NotExists);
         }
     }
 
     private void checkIfExistsByName(String name) {
         if (repository.existsByNameIgnoreCase(name)) {
-            throw new BusinessException("MODEL.EXISTS");
+            throw new BusinessException(Messages.Model.Exists);
         }
     }
 

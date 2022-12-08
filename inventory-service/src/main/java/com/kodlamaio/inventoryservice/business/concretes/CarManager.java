@@ -1,5 +1,6 @@
 package com.kodlamaio.inventoryservice.business.concretes;
 
+import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.events.inventories.InventoryCreatedEvent;
 import com.kodlamaio.common.events.inventories.cars.CarDeletedEvent;
 import com.kodlamaio.common.events.inventories.cars.CarUpdatedEvent;
@@ -89,19 +90,19 @@ public class CarManager implements CarService {
     public void checkIfCarAvailable(String id) {
         Car car = repository.findById(id).get();
         if (car.getState() != 1) {
-            throw new BusinessException("CAR.NOT_AVAILABLE");
+            throw new BusinessException(Messages.Car.NotAvailable);
         }
     }
 
     private void checkIfCarExistsById(String id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("CAR.NOT_EXISTS");
+            throw new BusinessException(Messages.Car.NotExists);
         }
     }
 
     private void checkIfCarExistsByPlate(String plate) {
         if (repository.existsByPlateIgnoreCase(plate)) {
-            throw new BusinessException("CAR.ALREADY_EXISTS");
+            throw new BusinessException(Messages.Car.Exists);
         }
     }
 

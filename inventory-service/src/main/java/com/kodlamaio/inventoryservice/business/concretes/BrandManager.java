@@ -1,5 +1,6 @@
 package com.kodlamaio.inventoryservice.business.concretes;
 
+import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.events.inventories.brands.BrandDeletedEvent;
 import com.kodlamaio.common.events.inventories.brands.BrandUpdatedEvent;
 import com.kodlamaio.common.util.exceptions.BusinessException;
@@ -86,7 +87,7 @@ public class BrandManager implements BrandService {
 
     private void checkIfBrandExistsById(String id) {
         if (!repository.existsById(id)) {
-            throw new BusinessException("BRAND.NOT.EXISTS");
+            throw new BusinessException(Messages.Brand.NotExists);
         }
     }
 
@@ -98,7 +99,7 @@ public class BrandManager implements BrandService {
 
     private void checkIfBrandExistsByName(String name) {
         if (repository.existsByNameIgnoreCase(name)) {
-            throw new BusinessException("BRAND.EXISTS");
+            throw new BusinessException(Messages.Brand.Exists);
         }
     }
 }
