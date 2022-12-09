@@ -15,5 +15,9 @@ public class FakePosServiceAdapter implements PosService {
         if (randomNumber == 1) {
             throw new BusinessException(Messages.Payment.Failed);
         }
+        
+        boolean randomValue = new Random().nextBoolean();
+		if(randomValue == false)
+			throw new BusinessException(Messages.Payment.Failed);
     }
 }
