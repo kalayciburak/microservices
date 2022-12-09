@@ -3,6 +3,6 @@ spring:
     name: api-gateway
   cloud:
     config:
-      profile: ${PROFILE}
+      profile: dev
   config:
-    import: configserver:http://localhost:8888,optional:file:.env[.properties]
+    import: configserver:http://config-server:8888

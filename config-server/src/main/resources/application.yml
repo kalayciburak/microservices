@@ -10,4 +10,4 @@ spring:
         git:
           uri: https://github.com/kalayciburak/microservice-config-server
   profiles:
-    active: ${PROFILE}
+    active: dev
