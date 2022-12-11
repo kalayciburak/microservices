@@ -8,7 +8,7 @@
         <version>2.7.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.torukobyte</groupId>
+    <groupId>com.kodlamaio</groupId>
     <artifactId>rental-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>rental-service</name>
@@ -80,7 +80,7 @@
             <version>3.1.5</version>
         </dependency>
         <dependency>
-            <groupId>com.torukobyte</groupId>
+            <groupId>com.kodlamaio</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

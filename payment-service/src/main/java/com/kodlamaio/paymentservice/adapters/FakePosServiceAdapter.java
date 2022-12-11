@@ -11,8 +11,8 @@ import java.util.Random;
 public class FakePosServiceAdapter implements PosService {
     @Override
     public void pay() {
-        int randomNumber = new Random().nextInt(2);
-        if (randomNumber == 1) {
+        boolean isPaymentSuccessful = new Random().nextBoolean();
+        if (isPaymentSuccessful) {
             throw new BusinessException(Messages.Payment.Failed);
         }
     }
