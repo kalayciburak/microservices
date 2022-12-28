@@ -1,7 +1,7 @@
 package com.kodlamaio.paymentservice.adapters;
 
 import com.kodlamaio.common.constants.Messages;
-import com.kodlamaio.common.util.exceptions.BusinessException;
+import com.kodlamaio.common.utils.exceptions.BusinessException;
 import com.kodlamaio.paymentservice.business.abstracts.PosService;
 import org.springframework.stereotype.Service;
 

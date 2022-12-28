@@ -1,4 +1,4 @@
-package com.kodlamaio.common.util.results;
+package com.kodlamaio.common.utils.results;
 
 public class Result {
     private final boolean success;

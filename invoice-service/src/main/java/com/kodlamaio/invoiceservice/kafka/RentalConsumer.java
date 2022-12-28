@@ -1,7 +1,7 @@
 package com.kodlamaio.invoiceservice.kafka;
 
 import com.kodlamaio.common.events.payments.PaymentReceivedEvent;
-import com.kodlamaio.common.util.mapping.ModelMapperService;
+import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.invoiceservice.bussines.abstracts.InvoiceService;
 import com.kodlamaio.invoiceservice.entities.Invoice;
 import org.slf4j.Logger;

@@ -1,7 +1,7 @@
 package com.kodlamaio.rentalservice.configuration.mappers;
 
-import com.kodlamaio.common.util.mapping.ModelMapperManager;
-import com.kodlamaio.common.util.mapping.ModelMapperService;
+import com.kodlamaio.common.utils.mapping.ModelMapperManager;
+import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

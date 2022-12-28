@@ -1,8 +1,8 @@
 package com.kodlamaio.invoiceservice.bussines.concretes;
 
 import com.kodlamaio.common.constants.Messages;
-import com.kodlamaio.common.util.exceptions.BusinessException;
-import com.kodlamaio.common.util.mapping.ModelMapperService;
+import com.kodlamaio.common.utils.exceptions.BusinessException;
+import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.invoiceservice.bussines.abstracts.InvoiceService;
 import com.kodlamaio.invoiceservice.bussines.dto.requests.create.CreateInvoiceRequest;
 import com.kodlamaio.invoiceservice.bussines.dto.requests.update.UpdateInvoiceRequest;

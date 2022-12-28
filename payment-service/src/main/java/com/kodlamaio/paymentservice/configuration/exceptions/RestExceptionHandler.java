@@ -1,8 +1,8 @@
 package com.kodlamaio.paymentservice.configuration.exceptions;
 
 import com.kodlamaio.common.constants.Messages;
-import com.kodlamaio.common.util.exceptions.BusinessException;
-import com.kodlamaio.common.util.results.ErrorDataResult;
+import com.kodlamaio.common.utils.exceptions.BusinessException;
+import com.kodlamaio.common.utils.results.ErrorDataResult;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;

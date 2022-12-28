@@ -10,7 +10,7 @@ import com.kodlamaio.common.events.inventories.cars.rentals.CarRentalDeletedEven
 import com.kodlamaio.common.events.inventories.cars.rentals.CarRentalUpdatedEvent;
 import com.kodlamaio.common.events.inventories.models.ModelDeletedEvent;
 import com.kodlamaio.common.events.inventories.models.ModelUpdatedEvent;
-import com.kodlamaio.common.util.mapping.ModelMapperService;
+import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
 import com.kodlamaio.filterservice.entities.Filter;
 import org.slf4j.Logger;

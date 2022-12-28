@@ -1,7 +1,7 @@
 package com.kodlamaio.filterservice.business.concretes;
 
 import com.kodlamaio.common.constants.Messages;
-import com.kodlamaio.common.util.mapping.ModelMapperService;
+import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
 import com.kodlamaio.filterservice.business.dto.responses.GetAllFiltersResponse;
 import com.kodlamaio.filterservice.business.dto.responses.GetFilterResponse;

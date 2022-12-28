@@ -2,8 +2,8 @@ package com.kodlamaio.paymentservice.business.concretes;
 
 import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.dto.CreateRentalPaymentRequest;
-import com.kodlamaio.common.util.exceptions.BusinessException;
-import com.kodlamaio.common.util.mapping.ModelMapperService;
+import com.kodlamaio.common.utils.exceptions.BusinessException;
+import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.paymentservice.business.abstracts.PaymentService;
 import com.kodlamaio.paymentservice.business.abstracts.PosService;
 import com.kodlamaio.paymentservice.business.dto.requests.create.CreatePaymentRequest;
