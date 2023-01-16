@@ -38,7 +38,7 @@ public class RestExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleBusinessException(BusinessException exception) {
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(),
-                                                                        Messages.Exception.Business);
+                Messages.Exception.Business);
 
         return errorDataResult;
     }
@@ -47,7 +47,7 @@ public class RestExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(),
-                                                                        Messages.Exception.DataIntegrityViolation);
+                Messages.Exception.DataIntegrityViolation);
 
         return errorDataResult;
     }
@@ -56,7 +56,7 @@ public class RestExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleRuntimeEception(RuntimeException exception) {
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(),
-                                                                        Messages.Exception.Runtime);
+                Messages.Exception.Runtime);
 
         return errorDataResult;
     }

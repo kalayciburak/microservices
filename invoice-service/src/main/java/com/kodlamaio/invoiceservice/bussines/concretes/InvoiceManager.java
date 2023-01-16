@@ -29,8 +29,8 @@ public class InvoiceManager implements InvoiceService {
         List<Invoice> invoices = repository.findAll();
         List<GetAllInvoicesResponse> response = invoices
                 .stream()
-                .map(invoice -> mapper.forResponse().map(invoice, GetAllInvoicesResponse.class)
-                    ).toList();
+                .map(invoice -> mapper.forResponse().map(invoice, GetAllInvoicesResponse.class))
+                .toList();
 
         return response;
     }
