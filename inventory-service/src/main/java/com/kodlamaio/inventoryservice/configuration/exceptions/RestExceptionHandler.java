@@ -18,7 +18,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
     public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exception) {
         Map<String, String> validationErrors = new HashMap<>();
         for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
@@ -29,13 +29,13 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // 422
     public ErrorDataResult<Object> handleValidationException(ValidationException exception) {
         return new ErrorDataResult<>(exception.getMessage(), Messages.Exception.Validation);
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // 422
     public ErrorDataResult<Object> handleBusinessException(BusinessException exception) {
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(),
                 Messages.Exception.Business);
@@ -44,7 +44,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT) // 409
     public ErrorDataResult<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(),
                 Messages.Exception.DataIntegrityViolation);
@@ -53,7 +53,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
     public ErrorDataResult<Object> handleRuntimeEception(RuntimeException exception) {
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<>(exception.getMessage(),
                 Messages.Exception.Runtime);

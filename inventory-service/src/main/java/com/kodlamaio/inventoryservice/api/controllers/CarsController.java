@@ -9,6 +9,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.get.GetCarResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateCarResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,28 +23,33 @@ public class CarsController {
     private final CarService service;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('developer', 'moderator', 'admin')")
     public List<GetAllCarsResponse> getAll() {
         return service.getAll();
     }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('admin','developer')")
     public CreateCarResponse add(@Valid @RequestBody CreateCarRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('admin','developer')")
     public UpdateCarResponse update(@Valid @RequestBody UpdateCarRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyRole('admin','developer')")
     public void delete(@PathVariable String id) {
         service.delete(id);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('developer', 'moderator', 'admin')")
     public GetCarResponse getById(@PathVariable String id) {
         return service.getById(id);
     }
