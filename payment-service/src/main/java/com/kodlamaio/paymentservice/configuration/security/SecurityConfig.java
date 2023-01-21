@@ -1,4 +1,4 @@
-package com.kodlamaio.inventoryservice.configuration.security;
+package com.kodlamaio.paymentservice.configuration.security;
 
 import com.kodlamaio.common.security.converter.KeycloakJwtRoleConverter;
 import org.springframework.context.annotation.Bean;
@@ -17,15 +17,14 @@ public class SecurityConfig {
         converter.setJwtGrantedAuthoritiesConverter(new KeycloakJwtRoleConverter());
 
         http.authorizeHttpRequests()
-            //! can't use as /api/v1/** cuz my other services are using /api/v1/ as well
-            .antMatchers("/api/v1/cars", "/api/v1/brands", "/api/v1/models")
-            .hasAnyRole("developer", "moderator", "admin")
-            .antMatchers("/api/v1/cars/check-car-available/**", "/api/v1/cars/get-car-response/**", "/swagger-ui.html",
-                    "/swagger-ui/**", "/v3/api-docs/**")
-            .permitAll() // swagger-ui to work without authentication
+            .antMatchers("/api/v1/payments")
+            .hasAnyRole("user", "developer", "moderator", "admin")
+            .antMatchers("/api/v1/payments/check", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+            .permitAll()
             .anyRequest()
             .authenticated()
             .and()
+            .csrf().disable() // to be able to use postman
             .oauth2ResourceServer()
             .jwt()
             .jwtAuthenticationConverter(converter);
