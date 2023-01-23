@@ -10,6 +10,8 @@ import com.kodlamaio.paymentservice.business.dto.responses.get.GetAllPaymentsRes
 import com.kodlamaio.paymentservice.business.dto.responses.get.GetPaymentResponse;
 import com.kodlamaio.paymentservice.business.dto.responses.update.UpdatePaymentResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +27,14 @@ public class PaymentsController {
     private final PaymentService service;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('developer', 'admin')")
     public List<GetAllPaymentsResponse> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public GetPaymentResponse getById(@PathVariable String id) {
+    @PostAuthorize("hasAnyRole('developer', 'admin') or returnObject.customerId == #jwt.subject")
+    public GetPaymentResponse getById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
         return service.getById(id);
     }
 
@@ -47,11 +51,13 @@ public class PaymentsController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('developer', 'admin')")
     public UpdatePaymentResponse update(@Valid @RequestBody UpdatePaymentRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('developer', 'admin')")
     public void delete(@PathVariable String id) {
         service.delete(id);
     }

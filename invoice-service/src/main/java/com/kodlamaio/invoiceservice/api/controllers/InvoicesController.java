@@ -9,6 +9,8 @@ import com.kodlamaio.invoiceservice.bussines.dto.responses.get.GetAllInvoicesRes
 import com.kodlamaio.invoiceservice.bussines.dto.responses.get.GetInvoiceResponse;
 import com.kodlamaio.invoiceservice.bussines.dto.responses.update.UpdateInvoiceResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +26,14 @@ public class InvoicesController {
     private final InvoiceService invoiceService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('developer', 'moderator', 'admin')")
     public List<GetAllInvoicesResponse> getAll() {
         return invoiceService.getAll();
     }
 
     @GetMapping("/{id}")
-    public GetInvoiceResponse getById(@PathVariable String id) {
+    @PostAuthorize("hasAnyRole('developer', 'moderator', 'admin') or returnObject.customerId == #jwt.subject")
+    public GetInvoiceResponse getById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
         return invoiceService.getById(id);
     }
 
@@ -46,11 +50,13 @@ public class InvoicesController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('developer', 'admin')")
     public UpdateInvoiceResponse update(@Valid @RequestBody UpdateInvoiceRequest request, @PathVariable String id) {
         return invoiceService.update(request, id);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('developer', 'admin')")
     public void delete(@PathVariable String id) {
         invoiceService.delete(id);
     }

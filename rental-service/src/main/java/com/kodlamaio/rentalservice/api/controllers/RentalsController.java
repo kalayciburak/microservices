@@ -8,6 +8,8 @@ import com.kodlamaio.rentalservice.business.dto.responses.create.CreateRentalRes
 import com.kodlamaio.rentalservice.business.dto.responses.get.GetAllRentalsResponse;
 import com.kodlamaio.rentalservice.business.dto.responses.get.GetRentalResponse;
 import com.kodlamaio.rentalservice.business.dto.responses.update.UpdateRentalResponse;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +28,14 @@ public class RentalsController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('developer', 'moderator', 'admin')")
     public List<GetAllRentalsResponse> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public GetRentalResponse getById(@PathVariable String id) {
+    @PostAuthorize("hasAnyRole('developer', 'moderator', 'admin') or returnObject.customerId == #jwt.subject")
+    public GetRentalResponse getById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
         return service.getById(id);
     }
 
@@ -48,11 +52,13 @@ public class RentalsController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('developer', 'admin')")
     public UpdateRentalResponse update(@Valid @RequestBody UpdateRentalRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('developer', 'admin')")
     public void delete(@PathVariable String id) {
         service.delete(id);
     }
