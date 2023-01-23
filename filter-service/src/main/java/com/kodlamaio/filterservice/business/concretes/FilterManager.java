@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
@@ -20,11 +22,11 @@ public class FilterManager implements FilterService {
 
     @Override
     public List<GetAllFiltersResponse> getAll() {
-        List<Filter> filters = repository.findAll();
-        List<GetAllFiltersResponse> response = filters
-                .stream()
+        Iterable<Filter> filters = repository.findAll();
+        List<GetAllFiltersResponse> response = StreamSupport
+                .stream(filters.spliterator(), false)
                 .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .toList();
+                .collect(Collectors.toList());
 
         return response;
     }

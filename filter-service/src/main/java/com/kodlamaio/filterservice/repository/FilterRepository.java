@@ -1,11 +1,11 @@
 package com.kodlamaio.filterservice.repository;
 
 import com.kodlamaio.filterservice.entities.Filter;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import java.util.List;
 
-public interface FilterRepository extends MongoRepository<Filter, String> {
+public interface FilterRepository extends ElasticsearchRepository<Filter, String> {
     List<Filter> findByBrandNameIgnoreCase(String brandName);
     List<Filter> findByModelNameIgnoreCase(String modelName);
     Filter findByPlateIgnoreCase(String plate);
