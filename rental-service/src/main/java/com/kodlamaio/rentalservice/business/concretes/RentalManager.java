@@ -2,6 +2,7 @@ package com.kodlamaio.rentalservice.business.concretes;
 
 import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.dto.CreateRentalPaymentRequest;
+import com.kodlamaio.common.dto.CustomerRequest;
 import com.kodlamaio.common.events.payments.PaymentReceivedEvent;
 import com.kodlamaio.common.events.rentals.RentalCreatedEvent;
 import com.kodlamaio.common.events.rentals.RentalDeletedEvent;
@@ -57,7 +58,7 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public CreateRentalResponse add(CreateRentalRequest request) {
+    public CreateRentalResponse add(CreateRentalRequest request, CustomerRequest customerRequest) {
         carClient.checkIfCarAvailable(request.getCarId());
         Rental rental = mapper.forRequest().map(request, Rental.class);
         rental.setId(UUID.randomUUID().toString());
@@ -69,6 +70,7 @@ public class RentalManager implements RentalService {
         paymentRequest.setPrice(totalPrice);
 
         paymentClient.checkIfPaymentSuccessful(paymentRequest);
+        setCustomer(customerRequest, rental);
         repository.save(rental);
         rentalCreatedEvent(rental);
         paymentReceivedEvent(request, rental, totalPrice);
@@ -128,7 +130,7 @@ public class RentalManager implements RentalService {
     private void paymentReceivedEvent(CreateRentalRequest request, Rental rental, double totalPrice) {
         PaymentReceivedEvent paymentReceivedEvent = new PaymentReceivedEvent();
         paymentReceivedEvent.setCarId(rental.getCarId());
-        paymentReceivedEvent.setFullName(request.getPaymentRequest().getFullName());
+        paymentReceivedEvent.setCardholder(request.getPaymentRequest().getCardholder());
         paymentReceivedEvent.setDailyPrice(request.getDailyPrice());
         paymentReceivedEvent.setTotalPrice(totalPrice);
         paymentReceivedEvent.setRentedForDays(request.getRentedForDays());
@@ -136,6 +138,19 @@ public class RentalManager implements RentalService {
         paymentReceivedEvent.setBrandName(carClient.getCarResponse(rental.getCarId()).getBrandName());
         paymentReceivedEvent.setModelName(carClient.getCarResponse(rental.getCarId()).getModelName());
         paymentReceivedEvent.setModelYear(carClient.getCarResponse(rental.getCarId()).getModelYear());
+        paymentReceivedEvent.setCustomerId(rental.getCustomerId());
+        paymentReceivedEvent.setCustomerUserName(rental.getCustomerUserName());
+        paymentReceivedEvent.setCustomerFirstName(rental.getCustomerFirstName());
+        paymentReceivedEvent.setCustomerLastName(rental.getCustomerLastName());
+        paymentReceivedEvent.setCustomerEmail(rental.getCustomerEmail());
         rentalProducer.sendMessage(paymentReceivedEvent);
+    }
+
+    private static void setCustomer(CustomerRequest customerRequest, Rental rental) {
+        rental.setCustomerId(customerRequest.getCustomerId());
+        rental.setCustomerUserName(customerRequest.getCustomerUserName());
+        rental.setCustomerFirstName(customerRequest.getCustomerFirstName());
+        rental.setCustomerLastName(customerRequest.getCustomerLastName());
+        rental.setCustomerEmail(customerRequest.getCustomerEmail());
     }
 }

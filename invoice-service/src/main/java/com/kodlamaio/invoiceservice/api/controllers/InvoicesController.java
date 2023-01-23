@@ -1,5 +1,6 @@
 package com.kodlamaio.invoiceservice.api.controllers;
 
+import com.kodlamaio.common.dto.CustomerRequest;
 import com.kodlamaio.invoiceservice.bussines.abstracts.InvoiceService;
 import com.kodlamaio.invoiceservice.bussines.dto.requests.create.CreateInvoiceRequest;
 import com.kodlamaio.invoiceservice.bussines.dto.requests.update.UpdateInvoiceRequest;
@@ -8,6 +9,8 @@ import com.kodlamaio.invoiceservice.bussines.dto.responses.get.GetAllInvoicesRes
 import com.kodlamaio.invoiceservice.bussines.dto.responses.get.GetInvoiceResponse;
 import com.kodlamaio.invoiceservice.bussines.dto.responses.update.UpdateInvoiceResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,8 +34,15 @@ public class InvoicesController {
     }
 
     @PostMapping
-    public CreateInvoiceResponse add(@Valid @RequestBody CreateInvoiceRequest request) {
-        return invoiceService.add(request);
+    public CreateInvoiceResponse add(@Valid @RequestBody CreateInvoiceRequest request, @AuthenticationPrincipal Jwt jwt) {
+        CustomerRequest customerRequest = new CustomerRequest();
+        customerRequest.setCustomerId(jwt.getClaimAsString("sub"));
+        customerRequest.setCustomerUserName(jwt.getClaimAsString("preferred_username"));
+        customerRequest.setCustomerFirstName(jwt.getClaimAsString("given_name"));
+        customerRequest.setCustomerLastName(jwt.getClaimAsString("family_name"));
+        customerRequest.setCustomerEmail(jwt.getClaimAsString("email"));
+
+        return invoiceService.add(request, customerRequest);
     }
 
     @PutMapping("/{id}")

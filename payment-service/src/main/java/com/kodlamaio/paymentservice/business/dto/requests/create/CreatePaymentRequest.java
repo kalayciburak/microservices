@@ -19,9 +19,9 @@ public class CreatePaymentRequest {
     @NotBlank(message = "Card number is required")
     @Length(min = 16, max = 16, message = "Card number must be 16 characters long")
     private String cardNumber;
-    @NotBlank(message = "Full name is required")
-    @Length(min = 3, message = "Full name must be at least 3 characters long")
-    private String fullName;
+    @NotBlank(message = "Cardholder is required")
+    @Length(min = 3, message = "Cardholder must be at least 3 characters long")
+    private String cardholder;
     @NotNull(message = "Card expiration year is required")
     @Min(value = 2022, message = "Card expiration year must be at least current year")
     private int cardExpirationYear;

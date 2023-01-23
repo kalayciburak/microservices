@@ -23,8 +23,10 @@ public class Invoice {
     private String id;
     @Column(name = "car_id")
     private String carId;
-    @Column(name = "full_name")
-    private String fullName;
+    @Column(name = "customer_id")
+    private String customerId;
+    @Column(name = "cardholder")
+    private String cardholder;
     @Column(name = "model_name")
     private String modelName;
     @Column(name = "brand_name")
@@ -39,4 +41,12 @@ public class Invoice {
     private int rentedForDays;
     @Column(name = "rented_at")
     private LocalDateTime rentedAt;
+    @Column(name = "customer_user_name")
+    private String customerUserName;
+    @Column(name = "customer_first_name")
+    private String customerFirstName;
+    @Column(name = "customer_last_name")
+    private String customerLastName;
+    @Column(name = "customer_email")
+    private String customerEmail;
 }

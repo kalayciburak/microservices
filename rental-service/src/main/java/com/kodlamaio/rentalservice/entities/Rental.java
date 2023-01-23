@@ -23,6 +23,8 @@ public class Rental {
     private String id;
     @Column(name = "car_id")
     private String carId;
+    @Column(name = "customer_id")
+    private String customerId;
     @Column(name = "date_started")
     private LocalDateTime dateStarted;
     @Column(name = "rented_for_days")
@@ -31,4 +33,12 @@ public class Rental {
     private double dailyPrice;
     @Column(name = "total_price")
     private double totalPrice;
+    @Column(name = "customer_user_name")
+    private String customerUserName;
+    @Column(name = "customer_first_name")
+    private String customerFirstName;
+    @Column(name = "customer_last_name")
+    private String customerLastName;
+    @Column(name = "customer_email")
+    private String customerEmail;
 }

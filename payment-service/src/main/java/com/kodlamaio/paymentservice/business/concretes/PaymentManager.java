@@ -2,6 +2,7 @@ package com.kodlamaio.paymentservice.business.concretes;
 
 import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.dto.CreateRentalPaymentRequest;
+import com.kodlamaio.common.dto.CustomerRequest;
 import com.kodlamaio.common.utils.exceptions.BusinessException;
 import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.paymentservice.business.abstracts.PaymentService;
@@ -48,10 +49,15 @@ public class PaymentManager implements PaymentService {
     }
 
     @Override
-    public CreatePaymentResponse add(CreatePaymentRequest request) {
+    public CreatePaymentResponse add(CreatePaymentRequest request, CustomerRequest customerRequest) {
         checkIfCardNumberExists(request.getCardNumber());
         Payment payment = mapper.forRequest().map(request, Payment.class);
         payment.setId(UUID.randomUUID().toString());
+        payment.setCustomerId(customerRequest.getCustomerId());
+        payment.setCustomerUserName(customerRequest.getCustomerUserName());
+        payment.setCustomerFirstName(customerRequest.getCustomerFirstName());
+        payment.setCustomerLastName(customerRequest.getCustomerLastName());
+        payment.setCustomerEmail(customerRequest.getCustomerEmail());
         repository.save(payment);
         CreatePaymentResponse response = mapper.forResponse().map(payment, CreatePaymentResponse.class);
 
@@ -81,9 +87,9 @@ public class PaymentManager implements PaymentService {
     }
 
     private void checkPayment(CreateRentalPaymentRequest request) {
-        if (!repository.existsByCardNumberAndFullNameAndCardExpirationYearAndCardExpirationMonthAndCardCvv(
+        if (!repository.existsByCardNumberAndCardholderAndCardExpirationYearAndCardExpirationMonthAndCardCvv(
                 request.getCardNumber(),
-                request.getFullName(),
+                request.getCardholder(),
                 request.getCardExpirationYear(),
                 request.getCardExpirationMonth(),
                 request.getCardCvv())) {

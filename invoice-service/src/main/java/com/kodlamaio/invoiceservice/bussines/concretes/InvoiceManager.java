@@ -1,6 +1,7 @@
 package com.kodlamaio.invoiceservice.bussines.concretes;
 
 import com.kodlamaio.common.constants.Messages;
+import com.kodlamaio.common.dto.CustomerRequest;
 import com.kodlamaio.common.utils.exceptions.BusinessException;
 import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.invoiceservice.bussines.abstracts.InvoiceService;
@@ -45,9 +46,11 @@ public class InvoiceManager implements InvoiceService {
     }
 
     @Override
-    public CreateInvoiceResponse add(CreateInvoiceRequest request) {
+    public CreateInvoiceResponse add(CreateInvoiceRequest request, CustomerRequest customerRequest) {
         Invoice invoice = mapper.forRequest().map(request, Invoice.class);
         invoice.setId(UUID.randomUUID().toString());
+        invoice.setId(UUID.randomUUID().toString());
+        setCustomer(customerRequest, invoice);
         repository.save(invoice);
         CreateInvoiceResponse response = mapper.forResponse().map(invoice, CreateInvoiceResponse.class);
 
@@ -81,5 +84,13 @@ public class InvoiceManager implements InvoiceService {
         if (!repository.existsById(id)) {
             throw new BusinessException(Messages.Invoice.NotFound);
         }
+    }
+
+    private static void setCustomer(CustomerRequest customerRequest, Invoice invoice) {
+        invoice.setCustomerId(customerRequest.getCustomerId());
+        invoice.setCustomerUserName(customerRequest.getCustomerUserName());
+        invoice.setCustomerFirstName(customerRequest.getCustomerFirstName());
+        invoice.setCustomerLastName(customerRequest.getCustomerLastName());
+        invoice.setCustomerEmail(customerRequest.getCustomerEmail());
     }
 }

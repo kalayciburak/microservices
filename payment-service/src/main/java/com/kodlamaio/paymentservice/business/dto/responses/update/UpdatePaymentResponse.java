@@ -12,7 +12,7 @@ import lombok.Setter;
 public class UpdatePaymentResponse {
     private String id;
     private String cardNumber;
-    private String fullName;
+    private String cardholder;
     private int cardExpirationYear;
     private int cardExpirationMonth;
     private String cardCvv;

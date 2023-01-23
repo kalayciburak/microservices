@@ -14,8 +14,13 @@ import java.time.LocalDateTime;
 public class GetRentalResponse {
     private String id;
     private String carId;
+    private String customerId;
     private LocalDateTime dateStarted;
     private int rentedForDays;
     private double dailyPrice;
     private double totalPrice;
+    private String customerUserName;
+    private String customerFirstName;
+    private String customerLastName;
+    private String customerEmail;
 }

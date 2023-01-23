@@ -20,10 +20,12 @@ public class Payment {
     @Id
     @Column(name = "id")
     private String id;
+    @Column(name = "customer_id")
+    private String customerId;
     @Column(name = "card_number")
     private String cardNumber;
-    @Column(name = "full_name")
-    private String fullName;
+    @Column(name = "cardholder")
+    private String cardholder;
     @Column(name = "card_expiration_year")
     private int cardExpirationYear;
     @Column(name = "card_expiration_month")
@@ -32,4 +34,12 @@ public class Payment {
     private String cardCvv;
     @Column(name = "balance")
     private double balance;
+    @Column(name = "customer_user_name")
+    private String customerUserName;
+    @Column(name = "customer_first_name")
+    private String customerFirstName;
+    @Column(name = "customer_last_name")
+    private String customerLastName;
+    @Column(name = "customer_email")
+    private String customerEmail;
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 public class UpdateInvoiceResponse {
     private String id;
     private String carId;
-    private String fullName;
+    private String cardholder;
     private String modelName;
     private String brandName;
     private int modelYear;

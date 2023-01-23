@@ -17,7 +17,7 @@ public class CreateInvoiceRequest {
     @NotBlank
     private String carId;
     @NotBlank
-    private String fullName;
+    private String cardholder;
     @NotBlank
     private String modelName;
     @NotBlank
