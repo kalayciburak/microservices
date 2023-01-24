@@ -1,6 +1,9 @@
 package com.kodlamaio.rentalservice.api.controllers;
 
+import com.kodlamaio.common.constants.Paths;
+import com.kodlamaio.common.constants.Roles;
 import com.kodlamaio.common.dto.CustomerRequest;
+import com.kodlamaio.common.utils.jwt.customer.ParseJwtToCustomerRequest;
 import com.kodlamaio.rentalservice.business.abstracts.RentalService;
 import com.kodlamaio.rentalservice.business.dto.requests.create.CreateRentalRequest;
 import com.kodlamaio.rentalservice.business.dto.requests.update.UpdateRentalRequest;
@@ -19,7 +22,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/v1/rentals")
+@RequestMapping(Paths.Rental.Prefix)
 public class RentalsController {
     private final RentalService service;
 
@@ -28,37 +31,33 @@ public class RentalsController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('developer', 'moderator', 'admin')")
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
     public List<GetAllRentalsResponse> getAll() {
         return service.getAll();
     }
 
-    @GetMapping("/{id}")
-    @PostAuthorize("hasAnyRole('developer', 'moderator', 'admin') or returnObject.customerId == #jwt.subject")
+    @GetMapping(Paths.IdSuffix)
+    @PostAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "') " +
+            "or returnObject.customerId == #jwt.subject")
     public GetRentalResponse getById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
         return service.getById(id);
     }
 
     @PostMapping
     public CreateRentalResponse add(@Valid @RequestBody CreateRentalRequest request, @AuthenticationPrincipal Jwt jwt) {
-        CustomerRequest customerRequest = new CustomerRequest();
-        customerRequest.setCustomerId(jwt.getClaimAsString("sub"));
-        customerRequest.setCustomerUserName(jwt.getClaimAsString("preferred_username"));
-        customerRequest.setCustomerFirstName(jwt.getClaimAsString("given_name"));
-        customerRequest.setCustomerLastName(jwt.getClaimAsString("family_name"));
-        customerRequest.setCustomerEmail(jwt.getClaimAsString("email"));
+        CustomerRequest customerRequest = ParseJwtToCustomerRequest.getCustomerInformation(jwt);
 
         return service.add(request, customerRequest);
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('developer', 'admin')")
+    @PutMapping(Paths.IdSuffix)
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public UpdateRentalResponse update(@Valid @RequestBody UpdateRentalRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('developer', 'admin')")
+    @DeleteMapping(Paths.IdSuffix)
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public void delete(@PathVariable String id) {
         service.delete(id);
     }

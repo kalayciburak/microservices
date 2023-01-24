@@ -1,5 +1,6 @@
 package com.kodlamaio.filterservice.api.controllers;
 
+import com.kodlamaio.common.constants.Paths;
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
 import com.kodlamaio.filterservice.business.dto.responses.GetAllFiltersResponse;
 import com.kodlamaio.filterservice.business.dto.responses.GetFilterResponse;
@@ -11,7 +12,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/filters")
+@RequestMapping(Paths.Filter.Prefix)
 public class FiltersController {
     private final FilterService service;
 
@@ -20,43 +21,43 @@ public class FiltersController {
         return service.getAll();
     }
 
-    @GetMapping("/brand")
-    public List<GetAllFiltersResponse> getByBrandName(@RequestParam String brandName) {
-        return service.getByBrandName(brandName);
+    @GetMapping(Paths.Filter.GetByBrandNameSuffix)
+    public List<GetAllFiltersResponse> getByBrandName(@RequestParam String brand) {
+        return service.getByBrandName(brand);
     }
 
-    @GetMapping("/model")
-    public List<GetAllFiltersResponse> getByModelName(@RequestParam String modelName) {
-        return service.getByModelName(modelName);
+    @GetMapping(Paths.Filter.GetByModelNameSuffix)
+    public List<GetAllFiltersResponse> getByModelName(@RequestParam String model) {
+        return service.getByModelName(model);
     }
 
-    @GetMapping("/plate")
+    @GetMapping(Paths.Filter.GetByPlateSuffix)
     public GetFilterResponse getByPlate(@RequestParam String plate) {
         return service.getByPlate(plate);
     }
 
-    @GetMapping("/plate-search")
-    public List<GetAllFiltersResponse> searchByPlate(@RequestParam String plate) {
-        return service.searchByPlate(plate);
-    }
-
-    @GetMapping("/brand-search")
-    public List<GetAllFiltersResponse> searchByBrandName(@RequestParam String brandName) {
-        return service.searchByBrandName(brandName);
-    }
-
-    @GetMapping("/model-search")
-    public List<GetAllFiltersResponse> searchByModelName(@RequestParam String modelName) {
-        return service.searchByModelName(modelName);
-    }
-
-    @GetMapping("/year")
+    @GetMapping(Paths.Filter.GetByModelYearSuffix)
     public List<GetAllFiltersResponse> getByModelYear(@RequestParam int modelYear) {
         return service.getByModelYear(modelYear);
     }
 
-    @GetMapping("/state")
+    @GetMapping(Paths.Filter.GetByStateSuffix)
     public List<GetAllFiltersResponse> getByState(@RequestParam int state) {
         return service.getByState(state);
+    }
+
+    @GetMapping(Paths.Filter.PlateSearchSuffix)
+    public List<GetAllFiltersResponse> searchByPlate(@RequestParam String plate) {
+        return service.searchByPlate(plate);
+    }
+
+    @GetMapping(Paths.Filter.BrandSearchSuffix)
+    public List<GetAllFiltersResponse> searchByBrandName(@RequestParam String brand) {
+        return service.searchByBrandName(brand);
+    }
+
+    @GetMapping(Paths.Filter.ModelSearchSuffix)
+    public List<GetAllFiltersResponse> searchByModelName(@RequestParam String model) {
+        return service.searchByModelName(model);
     }
 }

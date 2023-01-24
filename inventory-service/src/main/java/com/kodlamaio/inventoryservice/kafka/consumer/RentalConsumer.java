@@ -1,5 +1,7 @@
 package com.kodlamaio.inventoryservice.kafka.consumer;
 
+import com.kodlamaio.common.constants.Events;
+import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.events.inventories.cars.rentals.CarRentalCreatedEvent;
 import com.kodlamaio.common.events.inventories.cars.rentals.CarRentalDeletedEvent;
 import com.kodlamaio.common.events.inventories.cars.rentals.CarRentalUpdatedEvent;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RentalConsumer {
     private static final Logger LOGGER = LoggerFactory.getLogger(RentalConsumer.class);
+
     private final CarService carService;
     private final InventoryProducer producer;
 
@@ -25,41 +28,40 @@ public class RentalConsumer {
     }
 
     @KafkaListener(
-            topics = "rental-created"
-            , groupId = "rental-create"
-    )
+            topics = Events.Producer.Rental.Created
+            , groupId = Events.Consumer.Rental.CreateGroupId)
     public void consume(RentalCreatedEvent event) {
         carService.changeState(3, event.getCarId());
         CarRentalCreatedEvent carRentalCreatedEvent = new CarRentalCreatedEvent();
         carRentalCreatedEvent.setCarId(event.getCarId());
-        carRentalCreatedEvent.setMessage("Car rented!");
+        carRentalCreatedEvent.setMessage(Messages.Rental.CarRented);
         producer.sendMessage(carRentalCreatedEvent);
-        LOGGER.info("Car rented!");
+        LOGGER.info(Events.Logs.Consumer.Rental.Created, event);
     }
 
     @KafkaListener(
-            topics = "rental-updated"
-            , groupId = "rental-update")
+            topics = Events.Producer.Rental.Updated
+            , groupId = Events.Consumer.Rental.UpdateGroupId)
     public void consume(RentalUpdatedEvent event) {
         carService.changeState(1, event.getOldCarId());
         carService.changeState(3, event.getNewCarId());
         CarRentalUpdatedEvent carRentalUpdatedEvent = new CarRentalUpdatedEvent();
         carRentalUpdatedEvent.setNewCarId(event.getNewCarId());
         carRentalUpdatedEvent.setOldCarId(event.getOldCarId());
-        carRentalUpdatedEvent.setMessage("Car rented state updated!");
+        carRentalUpdatedEvent.setMessage(Messages.Rental.CarRentedStateUpdated);
         producer.sendMessage(carRentalUpdatedEvent);
-        LOGGER.info("Car rented state updated!");
+        LOGGER.info(Events.Logs.Consumer.Rental.Updated, event);
     }
 
     @KafkaListener(
-            topics = "rental-deleted"
-            , groupId = "rental-delete")
+            topics = Events.Producer.Rental.Deleted
+            , groupId = Events.Consumer.Rental.DeleteGroupId)
     public void consume(RentalDeletedEvent event) {
         carService.changeState(1, event.getCarId());
         CarRentalDeletedEvent carRentalDeletedEvent = new CarRentalDeletedEvent();
         carRentalDeletedEvent.setCarId(event.getCarId());
-        carRentalDeletedEvent.setMessage("Car deleted from rental!");
+        carRentalDeletedEvent.setMessage(Messages.Rental.CarReturned);
         producer.sendMessage(carRentalDeletedEvent);
-        LOGGER.info("Car deleted from rental!");
+        LOGGER.info(Events.Logs.Consumer.Rental.Deleted, event);
     }
 }

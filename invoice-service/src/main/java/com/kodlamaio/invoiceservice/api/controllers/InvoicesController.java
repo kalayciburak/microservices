@@ -1,6 +1,9 @@
 package com.kodlamaio.invoiceservice.api.controllers;
 
+import com.kodlamaio.common.constants.Paths;
+import com.kodlamaio.common.constants.Roles;
 import com.kodlamaio.common.dto.CustomerRequest;
+import com.kodlamaio.common.utils.jwt.customer.ParseJwtToCustomerRequest;
 import com.kodlamaio.invoiceservice.bussines.abstracts.InvoiceService;
 import com.kodlamaio.invoiceservice.bussines.dto.requests.create.CreateInvoiceRequest;
 import com.kodlamaio.invoiceservice.bussines.dto.requests.update.UpdateInvoiceRequest;
@@ -21,42 +24,38 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/invoices")
+@RequestMapping(Paths.Invoice.Prefix)
 public class InvoicesController {
     private final InvoiceService invoiceService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('developer', 'moderator', 'admin')")
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
     public List<GetAllInvoicesResponse> getAll() {
         return invoiceService.getAll();
     }
 
-    @GetMapping("/{id}")
-    @PostAuthorize("hasAnyRole('developer', 'moderator', 'admin') or returnObject.customerId == #jwt.subject")
+    @GetMapping(Paths.IdSuffix)
+    @PostAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "') " +
+            "or returnObject.customerId == #jwt.subject")
     public GetInvoiceResponse getById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
         return invoiceService.getById(id);
     }
 
     @PostMapping
     public CreateInvoiceResponse add(@Valid @RequestBody CreateInvoiceRequest request, @AuthenticationPrincipal Jwt jwt) {
-        CustomerRequest customerRequest = new CustomerRequest();
-        customerRequest.setCustomerId(jwt.getClaimAsString("sub"));
-        customerRequest.setCustomerUserName(jwt.getClaimAsString("preferred_username"));
-        customerRequest.setCustomerFirstName(jwt.getClaimAsString("given_name"));
-        customerRequest.setCustomerLastName(jwt.getClaimAsString("family_name"));
-        customerRequest.setCustomerEmail(jwt.getClaimAsString("email"));
+        CustomerRequest customerRequest = ParseJwtToCustomerRequest.getCustomerInformation(jwt);
 
         return invoiceService.add(request, customerRequest);
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('developer', 'admin')")
+    @PutMapping(Paths.IdSuffix)
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public UpdateInvoiceResponse update(@Valid @RequestBody UpdateInvoiceRequest request, @PathVariable String id) {
         return invoiceService.update(request, id);
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('developer', 'admin')")
+    @DeleteMapping(Paths.IdSuffix)
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public void delete(@PathVariable String id) {
         invoiceService.delete(id);
     }

@@ -1,5 +1,7 @@
 package com.kodlamaio.inventoryservice.api.controllers;
 
+import com.kodlamaio.common.constants.Paths;
+import com.kodlamaio.common.constants.Roles;
 import com.kodlamaio.inventoryservice.business.abstracts.BrandService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateBrandRequest;
 import com.kodlamaio.inventoryservice.business.dto.requests.update.UpdateBrandRequest;
@@ -18,38 +20,38 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/brands")
+@RequestMapping(Paths.Inventory.Brand.Prefix)
 public class BrandsController {
     private final BrandService service;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('developer', 'moderator', 'admin')")
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
     public List<GetAllBrandsResponse> getAll() {
         return service.getAll();
     }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('admin','developer')")
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public CreateBrandResponse add(@Valid @RequestBody CreateBrandRequest request) {
         return service.add(request);
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('admin','developer')")
+    @PutMapping(Paths.IdSuffix)
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public UpdateBrandResponse update(@Valid @RequestBody UpdateBrandRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(Paths.IdSuffix)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('admin','developer')")
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public void delete(@PathVariable String id) {
         service.delete(id);
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('developer', 'moderator', 'admin')")
+    @GetMapping(Paths.IdSuffix)
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
     public GetBrandResponse getById(@PathVariable String id) {
         return service.getById(id);
     }

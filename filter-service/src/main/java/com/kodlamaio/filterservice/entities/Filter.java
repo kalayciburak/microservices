@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(indexName = "filter")
+@Document(indexName = "filter-db")
 public class Filter {
     @Id
     private String id;

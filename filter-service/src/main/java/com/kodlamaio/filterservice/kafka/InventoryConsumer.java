@@ -1,5 +1,6 @@
 package com.kodlamaio.filterservice.kafka;
 
+import com.kodlamaio.common.constants.Events;
 import com.kodlamaio.common.events.inventories.InventoryCreatedEvent;
 import com.kodlamaio.common.events.inventories.brands.BrandDeletedEvent;
 import com.kodlamaio.common.events.inventories.brands.BrandUpdatedEvent;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InventoryConsumer {
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryConsumer.class);
+
     private final FilterService service;
     private final ModelMapperService mapper;
 
@@ -30,49 +32,49 @@ public class InventoryConsumer {
     }
 
     @KafkaListener(
-            topics = "inventory-car-created"
-            , groupId = "inventory-create"
+            topics = Events.Producer.Car.Created
+            , groupId = Events.Consumer.Car.CreateGroupId
     )
     public void consume(InventoryCreatedEvent event) {
         Filter filter = mapper.forRequest().map(event, Filter.class);
         service.save(filter);
-        LOGGER.info("Inventory created event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Car.Created, event);
     }
 
     @KafkaListener(
-            topics = "inventory-car-deleted"
-            , groupId = "car-delete"
+            topics = Events.Producer.Car.Deleted
+            , groupId = Events.Consumer.Car.DeleteGroupId
     )
     public void consume(CarDeletedEvent event) {
         service.delete(event.getCarId());
-        LOGGER.info("Car deleted event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Car.Deleted, event);
     }
 
     @KafkaListener(
-            topics = "inventory-car-updated"
-            , groupId = "car-update"
+            topics = Events.Producer.Car.Updated
+            , groupId = Events.Consumer.Car.UpdateGroupId
     )
     public void consume(CarUpdatedEvent event) {
         Filter filter = mapper.forRequest().map(event, Filter.class);
         String id = service.getByCarId(event.getCarId()).getId();
         filter.setId(id);
         service.save(filter);
-        LOGGER.info("Car updated event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Car.Updated, event);
     }
 
     @KafkaListener(
-            topics = "inventory-brand-deleted"
-            , groupId = "brand-delete"
+            topics = Events.Producer.Brand.Deleted
+            , groupId = Events.Consumer.Brand.UpdateGroupId
     )
     public void consume(BrandDeletedEvent event) {
         service.deleteAllByBrandId(event.getBrandId());
 
-        LOGGER.info("Brand deleted event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Brand.Deleted, event);
     }
 
     @KafkaListener(
-            topics = "inventory-brand-updated"
-            , groupId = "brand-update"
+            topics = Events.Producer.Brand.Updated
+            , groupId = Events.Consumer.Brand.UpdateGroupId
     )
     public void consume(BrandUpdatedEvent event) {
         service.getByBrandId(event.getId()).forEach(filter -> {
@@ -80,22 +82,22 @@ public class InventoryConsumer {
             service.save(filter);
         });
 
-        LOGGER.info("Brand updated event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Brand.Updated, event);
     }
 
     @KafkaListener(
-            topics = "inventory-model-deleted"
-            , groupId = "model-delete"
+            topics = Events.Producer.Model.Deleted
+            , groupId = Events.Consumer.Model.DeleteGroupId
     )
     public void consume(ModelDeletedEvent event) {
         service.deleteAllByModelId(event.getModelId());
 
-        LOGGER.info("Model deleted event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Model.Deleted, event);
     }
 
     @KafkaListener(
-            topics = "inventory-model-updated"
-            , groupId = "model-update"
+            topics = Events.Producer.Model.Updated
+            , groupId = Events.Consumer.Model.UpdateGroupId
     )
     public void consume(ModelUpdatedEvent event) {
         service.getByModelId(event.getId()).forEach(filter -> {
@@ -105,24 +107,24 @@ public class InventoryConsumer {
             service.save(filter);
         });
 
-        LOGGER.info("Model updated event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Model.Updated, event);
     }
 
     @KafkaListener(
-            topics = "inventory-rental-created"
-            , groupId = "car-rental-create"
+            topics = Events.Producer.Car.RentalCreated
+            , groupId = Events.Consumer.Car.RentalCreateGroupId
     )
     public void consume(CarRentalCreatedEvent event) {
         Filter filter = service.getByCarId(event.getCarId());
         filter.setState(3); // 3 = Rented
         service.save(filter);
 
-        LOGGER.info("Car rental created event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Rental.Created, event);
     }
 
     @KafkaListener(
-            topics = "inventory-rental-updated"
-            , groupId = "car-rental-update"
+            topics = Events.Producer.Car.RentalUpdated
+            , groupId = Events.Consumer.Car.RentalUpdateGroupId
     )
     public void consume(CarRentalUpdatedEvent event) {
         Filter oldCar = service.getByCarId(event.getOldCarId());
@@ -132,17 +134,17 @@ public class InventoryConsumer {
         service.save(oldCar);
         service.save(newCar);
 
-        LOGGER.info("Car rental updated event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Rental.Updated, event);
     }
 
     @KafkaListener(
-            topics = "inventory-rental-deleted"
-            , groupId = "car-rental-delete"
+            topics = Events.Producer.Car.RentalDeleted
+            , groupId = Events.Consumer.Car.RentalDeleteGroupId
     )
     public void consume(CarRentalDeletedEvent event) {
         Filter car = service.getByCarId(event.getCarId());
         car.setState(1); // 1 = Available
         service.save(car);
-        LOGGER.info("Car rental deleted event consumed: {}", event);
+        LOGGER.info(Events.Logs.Consumer.Rental.Deleted, event);
     }
 }

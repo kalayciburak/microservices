@@ -1,7 +1,10 @@
 package com.kodlamaio.paymentservice.api.controllers;
 
+import com.kodlamaio.common.constants.Paths;
+import com.kodlamaio.common.constants.Roles;
 import com.kodlamaio.common.dto.CreateRentalPaymentRequest;
 import com.kodlamaio.common.dto.CustomerRequest;
+import com.kodlamaio.common.utils.jwt.customer.ParseJwtToCustomerRequest;
 import com.kodlamaio.paymentservice.business.abstracts.PaymentService;
 import com.kodlamaio.paymentservice.business.dto.requests.create.CreatePaymentRequest;
 import com.kodlamaio.paymentservice.business.dto.requests.update.UpdatePaymentRequest;
@@ -22,47 +25,43 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/payments")
+@RequestMapping(Paths.Payment.Prefix)
 public class PaymentsController {
     private final PaymentService service;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('developer', 'admin')")
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public List<GetAllPaymentsResponse> getAll() {
         return service.getAll();
     }
 
-    @GetMapping("/{id}")
-    @PostAuthorize("hasAnyRole('developer', 'admin') or returnObject.customerId == #jwt.subject")
+    @GetMapping(Paths.IdSuffix)
+    @PostAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "') " +
+            "or returnObject.customerId == #jwt.subject")
     public GetPaymentResponse getById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
         return service.getById(id);
     }
 
     @PostMapping
     public CreatePaymentResponse add(@Valid @RequestBody CreatePaymentRequest request, @AuthenticationPrincipal Jwt jwt) {
-        CustomerRequest customerRequest = new CustomerRequest();
-        customerRequest.setCustomerId(jwt.getClaimAsString("sub"));
-        customerRequest.setCustomerUserName(jwt.getClaimAsString("preferred_username"));
-        customerRequest.setCustomerFirstName(jwt.getClaimAsString("given_name"));
-        customerRequest.setCustomerLastName(jwt.getClaimAsString("family_name"));
-        customerRequest.setCustomerEmail(jwt.getClaimAsString("email"));
+        CustomerRequest customerRequest = ParseJwtToCustomerRequest.getCustomerInformation(jwt);
 
         return service.add(request, customerRequest);
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('developer', 'admin')")
+    @PutMapping(Paths.IdSuffix)
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public UpdatePaymentResponse update(@Valid @RequestBody UpdatePaymentRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('developer', 'admin')")
+    @DeleteMapping(Paths.IdSuffix)
+    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
     public void delete(@PathVariable String id) {
         service.delete(id);
     }
 
-    @PostMapping("/check")
+    @PostMapping(Paths.Payment.CheckSuffix)
     public void checkIfPaymentSuccessful(@RequestBody CreateRentalPaymentRequest request) {
         service.checkIfPaymentSuccessful(request);
     }
