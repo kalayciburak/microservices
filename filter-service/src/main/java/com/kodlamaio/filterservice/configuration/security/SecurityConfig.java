@@ -1,5 +1,7 @@
 package com.kodlamaio.filterservice.configuration.security;
 
+import com.kodlamaio.common.constants.Paths;
+import com.kodlamaio.common.constants.Roles;
 import com.kodlamaio.common.security.converter.KeycloakJwtRoleConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +19,9 @@ public class SecurityConfig {
         converter.setJwtGrantedAuthoritiesConverter(new KeycloakJwtRoleConverter());
 
         http.authorizeHttpRequests()
-            .antMatchers("/api/v1/filters")
-            .hasAnyRole("user", "developer", "moderator", "admin")
-            .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+            .antMatchers(Paths.Filter.Prefix)
+            .hasAnyRole(Roles.Admin, Roles.Developer, Roles.Moderator, Roles.User)
+            .antMatchers(Paths.SwaggerPaths)
             .permitAll()
             .anyRequest()
             .authenticated()

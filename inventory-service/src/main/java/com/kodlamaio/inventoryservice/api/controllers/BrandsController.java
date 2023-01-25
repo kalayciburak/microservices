@@ -25,33 +25,33 @@ public class BrandsController {
     private final BrandService service;
 
     @GetMapping
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
+    @PreAuthorize(Roles.AdminOrDeveloperOrModerator)
     public List<GetAllBrandsResponse> getAll() {
         return service.getAll();
     }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public CreateBrandResponse add(@Valid @RequestBody CreateBrandRequest request) {
         return service.add(request);
     }
 
     @PutMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public UpdateBrandResponse update(@Valid @RequestBody UpdateBrandRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
     @DeleteMapping(Paths.IdSuffix)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public void delete(@PathVariable String id) {
         service.delete(id);
     }
 
     @GetMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
+    @PreAuthorize(Roles.AdminOrDeveloperOrModerator)
     public GetBrandResponse getById(@PathVariable String id) {
         return service.getById(id);
     }

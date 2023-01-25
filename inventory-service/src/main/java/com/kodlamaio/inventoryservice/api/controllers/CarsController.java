@@ -25,33 +25,33 @@ public class CarsController {
     private final CarService service;
 
     @GetMapping
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
+    @PreAuthorize(Roles.AdminOrDeveloperOrModerator)
     public List<GetAllCarsResponse> getAll() {
         return service.getAll();
     }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public CreateCarResponse add(@Valid @RequestBody CreateCarRequest request) {
         return service.add(request);
     }
 
     @PutMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public UpdateCarResponse update(@Valid @RequestBody UpdateCarRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
     @DeleteMapping(Paths.IdSuffix)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public void delete(@PathVariable String id) {
         service.delete(id);
     }
 
     @GetMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
+    @PreAuthorize(Roles.AdminOrDeveloperOrModerator)
     public GetCarResponse getById(@PathVariable String id) {
         return service.getById(id);
     }

@@ -31,14 +31,13 @@ public class RentalsController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
+    @PreAuthorize(Roles.AdminOrDeveloperOrModerator)
     public List<GetAllRentalsResponse> getAll() {
         return service.getAll();
     }
 
     @GetMapping(Paths.IdSuffix)
-    @PostAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "') " +
-            "or returnObject.customerId == #jwt.subject")
+    @PostAuthorize(Roles.AdminOrDeveloperOrModerator + "|| returnObject.customerId == #jwt.subject")
     public GetRentalResponse getById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
         return service.getById(id);
     }
@@ -51,13 +50,13 @@ public class RentalsController {
     }
 
     @PutMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public UpdateRentalResponse update(@Valid @RequestBody UpdateRentalRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
     @DeleteMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public void delete(@PathVariable String id) {
         service.delete(id);
     }

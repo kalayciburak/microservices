@@ -1,5 +1,7 @@
 package com.kodlamaio.inventoryservice.configuration.security;
 
+import com.kodlamaio.common.constants.Paths;
+import com.kodlamaio.common.constants.Roles;
 import com.kodlamaio.common.security.converter.KeycloakJwtRoleConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +20,12 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests()
             //! can't use as /api/v1/** cuz my other services are using /api/v1/ as well
-            .antMatchers("/api/v1/cars", "/api/v1/brands", "/api/v1/models")
-            .hasAnyRole("developer", "moderator", "admin")
-            .antMatchers("/api/v1/cars/check-car-available/**", "/api/v1/cars/get-car-response/**", "/swagger-ui.html",
-                    "/swagger-ui/**", "/v3/api-docs/**")
-            .permitAll() // swagger-ui to work without authentication
+            .antMatchers(Paths.Inventory.Car.Prefix, Paths.Inventory.Brand.Prefix, Paths.Inventory.Model.Prefix)
+            .hasAnyRole(Roles.Admin, Roles.Developer, Roles.Moderator)
+            .antMatchers(Paths.Inventory.Car.CheckAvailableAndResponsePrefixes)
+            .permitAll()
+            .antMatchers(Paths.SwaggerPaths)
+            .permitAll()
             .anyRequest()
             .authenticated()
             .and()

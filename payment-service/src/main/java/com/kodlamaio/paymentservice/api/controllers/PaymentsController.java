@@ -30,14 +30,13 @@ public class PaymentsController {
     private final PaymentService service;
 
     @GetMapping
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public List<GetAllPaymentsResponse> getAll() {
         return service.getAll();
     }
 
     @GetMapping(Paths.IdSuffix)
-    @PostAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "') " +
-            "or returnObject.customerId == #jwt.subject")
+    @PostAuthorize(Roles.AdminOrDeveloper + "|| returnObject.customerId == #jwt.subject")
     public GetPaymentResponse getById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
         return service.getById(id);
     }
@@ -50,13 +49,13 @@ public class PaymentsController {
     }
 
     @PutMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public UpdatePaymentResponse update(@Valid @RequestBody UpdatePaymentRequest request, @PathVariable String id) {
         return service.update(request, id);
     }
 
     @DeleteMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public void delete(@PathVariable String id) {
         service.delete(id);
     }

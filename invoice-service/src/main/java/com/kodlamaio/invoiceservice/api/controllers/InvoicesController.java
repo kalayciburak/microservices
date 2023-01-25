@@ -29,14 +29,13 @@ public class InvoicesController {
     private final InvoiceService invoiceService;
 
     @GetMapping
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "')")
+    @PreAuthorize(Roles.AdminOrDeveloperOrModerator)
     public List<GetAllInvoicesResponse> getAll() {
         return invoiceService.getAll();
     }
 
     @GetMapping(Paths.IdSuffix)
-    @PostAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')" + " || hasRole('" + Roles.Moderator + "') " +
-            "or returnObject.customerId == #jwt.subject")
+    @PostAuthorize(Roles.AdminOrDeveloperOrModerator + "|| returnObject.customerId == #jwt.subject")
     public GetInvoiceResponse getById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
         return invoiceService.getById(id);
     }
@@ -49,13 +48,13 @@ public class InvoicesController {
     }
 
     @PutMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public UpdateInvoiceResponse update(@Valid @RequestBody UpdateInvoiceRequest request, @PathVariable String id) {
         return invoiceService.update(request, id);
     }
 
     @DeleteMapping(Paths.IdSuffix)
-    @PreAuthorize("hasRole('" + Roles.Admin + "')" + " || hasRole('" + Roles.Developer + "')")
+    @PreAuthorize(Roles.AdminOrDeveloper)
     public void delete(@PathVariable String id) {
         invoiceService.delete(id);
     }
