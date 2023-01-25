@@ -41,6 +41,7 @@ public class InvoicesController {
     }
 
     @PostMapping
+    @PreAuthorize(Roles.AdminOrDeveloperOrModerator)
     public CreateInvoiceResponse add(@Valid @RequestBody CreateInvoiceRequest request, @AuthenticationPrincipal Jwt jwt) {
         CustomerRequest customerRequest = ParseJwtToCustomerRequest.getCustomerInformation(jwt);
 

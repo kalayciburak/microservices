@@ -65,6 +65,7 @@ public class CarManager implements CarService {
     @Override
     public UpdateCarResponse update(UpdateCarRequest request, String id) {
         checkIfCarExistsById(id);
+        checkCarPlateUniqueness(request, id);
         Car car = mapper.forRequest().map(request, Car.class);
         car.setId(id);
         repository.save(car);
@@ -97,6 +98,13 @@ public class CarManager implements CarService {
     private void checkIfCarExistsById(String id) {
         if (!repository.existsById(id)) {
             throw new BusinessException(Messages.Car.NotExists);
+        }
+    }
+
+    private void checkCarPlateUniqueness(UpdateCarRequest request, String id) {
+        Car car = repository.findById(id).orElseThrow();
+        if (!car.getPlate().equals(request.getPlate())) {
+            checkIfCarExistsByPlate(request.getPlate());
         }
     }
 

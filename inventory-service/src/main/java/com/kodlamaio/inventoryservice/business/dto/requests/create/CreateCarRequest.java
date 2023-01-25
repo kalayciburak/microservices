@@ -22,6 +22,7 @@ public class CreateCarRequest {
     @NotBlank
     @NotNull
     private String plate;
-    @Min(value = 0)
+    @NotNull
+    @Min(value = 1)
     private double dailyPrice;
 }
