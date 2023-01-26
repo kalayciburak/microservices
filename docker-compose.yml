@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   zookeeper:
+    container_name: zookeeper
     image: bitnami/zookeeper
     restart: always
     ports:
@@ -10,7 +11,9 @@ services:
       - "zookeeper_data:/bitnami"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+
   kafka:
+    container_name: kafka
     image: bitnami/kafka
     ports:
       - "9092:9092"
@@ -21,12 +24,211 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
     depends_on:
       - zookeeper
+
+  keycloakpostgres:
+    image: postgres
+    container_name: keycloak-postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: torukobyte123
+    ports:
+      - "5433:5432"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:legacy
+    container_name: keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: postgres
+      DB_SCHEMA: public
+      DB_PASSWORD: torukobyte123
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloakpostgres
+
+  configserver:
+    build: ./config-server
+    container_name: config-server
+    image: config-server-image
+    restart: always
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./config-server:/app
+    environment:
+      - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=https://github.com/kalayciburak/microservice-config-server
+
+  discoveryserver:
+    build: ./discovery-server
+    container_name: discovery-server
+    image: discovery-server-image
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./discovery-server:/app
+    depends_on:
+      - configserver
+
+  apigateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    image: api-gateway-image
+    restart: always
+    ports:
+      - "9010:9010"
+    volumes:
+      - ./api-gateway:/app
+    depends_on:
+      - configserver
+      - discoveryserver
+      - keycloak
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  inventoryservice:
+    build: ./inventory-service
+    container_name: inventory-service
+    image: inventory-service-image
+    restart: always
+    volumes:
+      - ./inventory-service:/app
+    depends_on:
+      - configserver
+      - discoveryserver
+      - inventorydb
+      - kafka
+
+  filterservice:
+    build: ./filter-service
+    container_name: filter-service
+    image: filter-service-image
+    restart: always
+    volumes:
+      - ./filter-service:/app
+    depends_on:
+      - configserver
+      - discoveryserver
+      - filterdb
+      - kafka
+
+  invoiceservice:
+    build: ./invoice-service
+    container_name: invoice-service
+    image: invoice-service
+    restart: always
+    volumes:
+      - ./invoice-service:/app
+    depends_on:
+      - configserver
+      - discoveryserver
+      - invoicedb
+      - kafka
+
+  paymentservice:
+    build: ./payment-service
+    container_name: payment-service
+    image: payment-service
+    restart: always
+    volumes:
+      - ./payment-service:/app
+    depends_on:
+      - configserver
+      - discoveryserver
+      - paymentdb
+      - kafka
+
+  rentalservice:
+    build: ./rental-service
+    container_name: rental-service
+    image: rental-service
+    restart: always
+    volumes:
+      - ./rental-service:/app
+    depends_on:
+      - configserver
+      - discoveryserver
+      - rentaldb
+      - kafka
+
+  inventorydb:
+    image: postgres
+    container_name: inventory-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: inventorydb-prod
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: torukobyte123
+    ports:
+      - "5434:5432"
+
+  invoicedb:
+    image: postgres
+    container_name: invoice-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: invoicedb-prod
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: torukobyte123
+    ports:
+      - "5435:5432"
+
+  paymentdb:
+    image: postgres
+    container_name: payment-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paymentdb-prod
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: torukobyte123
+    ports:
+      - "5436:5432"
+
+  rentaldb:
+    image: postgres
+    container_name: rental-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: rentaldb-prod
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: torukobyte123
+    ports:
+      - "5437:5432"
+
+  filterdb:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: elasticsearch
+    environment:
+      - node.name=es-node
+      - cluster.name=es-cluster
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - local-es:/usr/share/elasticsearch/data
+    networks:
+      - es-net
 
 volumes:
   zookeeper_data:
     driver: local
   kafka_data:
+    driver: local
+  postgres_data:
     driver: local

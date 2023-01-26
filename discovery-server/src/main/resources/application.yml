@@ -1,8 +1,8 @@
 spring:
   application:
-    name: eureka-server
+    name: discovery-server
   cloud:
     config:
       profile: dev
   config:
-    import: configserver:http://localhost:8888
+    import: configserver:http://config-server:8888
