@@ -80,10 +80,13 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public UpdateRentalResponse update(UpdateRentalRequest request, String id) {
+    public UpdateRentalResponse update(UpdateRentalRequest request, String id, CustomerRequest customerRequest) {
         checkIfRentalExists(id);
         carClient.checkIfCarAvailable(request.getCarId());
         Rental rental = mapper.forRequest().map(request, Rental.class);
+        double totalPrice = request.getRentedForDays() * request.getDailyPrice();
+        rental.setTotalPrice(totalPrice);
+        setCustomer(customerRequest, rental);
         rentalUpdatedEvent(id, rental);
         UpdateRentalResponse response = mapper.forResponse().map(rental, UpdateRentalResponse.class);
 

@@ -25,6 +25,8 @@ public class SecurityConfig {
             .permitAll()
             .antMatchers(Paths.SwaggerPaths)
             .permitAll()
+            .antMatchers(Paths.PrometheusMetricsPath)
+            .permitAll()
             .anyRequest()
             .authenticated()
             .and()

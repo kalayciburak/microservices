@@ -8,6 +8,7 @@ import com.kodlamaio.filterservice.business.dto.responses.GetFilterResponse;
 import com.kodlamaio.filterservice.entities.Filter;
 import com.kodlamaio.filterservice.repository.FilterRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class FilterManager implements FilterService {
     private final ModelMapperService mapper;
 
     @Override
+    @Cacheable(value = "filters", key = "#root.methodName")
     public List<GetAllFiltersResponse> getAll() {
         Iterable<Filter> filters = repository.findAll();
         List<GetAllFiltersResponse> response = StreamSupport

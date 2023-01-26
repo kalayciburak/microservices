@@ -50,8 +50,10 @@ public class PaymentsController {
 
     @PutMapping(Paths.IdSuffix)
     @PreAuthorize(Roles.AdminOrDeveloper)
-    public UpdatePaymentResponse update(@Valid @RequestBody UpdatePaymentRequest request, @PathVariable String id) {
-        return service.update(request, id);
+    public UpdatePaymentResponse update(@Valid @RequestBody UpdatePaymentRequest request, @PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
+        CustomerRequest customerRequest = ParseJwtToCustomerRequest.getCustomerInformation(jwt);
+
+        return service.update(request, id, customerRequest);
     }
 
     @DeleteMapping(Paths.IdSuffix)

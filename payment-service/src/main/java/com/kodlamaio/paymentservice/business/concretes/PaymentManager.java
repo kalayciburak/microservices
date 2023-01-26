@@ -53,11 +53,7 @@ public class PaymentManager implements PaymentService {
         checkIfCardNumberExists(request.getCardNumber());
         Payment payment = mapper.forRequest().map(request, Payment.class);
         payment.setId(UUID.randomUUID().toString());
-        payment.setCustomerId(customerRequest.getCustomerId());
-        payment.setCustomerUserName(customerRequest.getCustomerUserName());
-        payment.setCustomerFirstName(customerRequest.getCustomerFirstName());
-        payment.setCustomerLastName(customerRequest.getCustomerLastName());
-        payment.setCustomerEmail(customerRequest.getCustomerEmail());
+        setCustomerInformation(customerRequest, payment);
         repository.save(payment);
         CreatePaymentResponse response = mapper.forResponse().map(payment, CreatePaymentResponse.class);
 
@@ -65,10 +61,11 @@ public class PaymentManager implements PaymentService {
     }
 
     @Override
-    public UpdatePaymentResponse update(UpdatePaymentRequest request, String id) {
+    public UpdatePaymentResponse update(UpdatePaymentRequest request, String id, CustomerRequest customerRequest) {
         checkIfPaymentExists(id);
         Payment payment = mapper.forRequest().map(request, Payment.class);
         payment.setId(id);
+        setCustomerInformation(customerRequest, payment);
         repository.save(payment);
         UpdatePaymentResponse response = mapper.forResponse().map(payment, UpdatePaymentResponse.class);
 
@@ -117,5 +114,13 @@ public class PaymentManager implements PaymentService {
         if (repository.existsByCardNumber(cardNumber)) {
             throw new BusinessException(Messages.Payment.CardNumberAlreadyExists);
         }
+    }
+
+    private void setCustomerInformation(CustomerRequest customerRequest, Payment payment) {
+        payment.setCustomerId(customerRequest.getCustomerId());
+        payment.setCustomerUserName(customerRequest.getCustomerUserName());
+        payment.setCustomerFirstName(customerRequest.getCustomerFirstName());
+        payment.setCustomerLastName(customerRequest.getCustomerLastName());
+        payment.setCustomerEmail(customerRequest.getCustomerEmail());
     }
 }

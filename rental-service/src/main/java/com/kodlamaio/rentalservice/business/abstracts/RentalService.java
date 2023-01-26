@@ -14,6 +14,6 @@ public interface RentalService {
     List<GetAllRentalsResponse> getAll();
     GetRentalResponse getById(String id);
     CreateRentalResponse add(CreateRentalRequest request, CustomerRequest customerRequest);
-    UpdateRentalResponse update(UpdateRentalRequest request, String id);
+    UpdateRentalResponse update(UpdateRentalRequest request, String id, CustomerRequest customerRequest);
     void delete(String id);
 }

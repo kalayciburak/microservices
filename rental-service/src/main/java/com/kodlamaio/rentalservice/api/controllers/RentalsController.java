@@ -51,8 +51,10 @@ public class RentalsController {
 
     @PutMapping(Paths.IdSuffix)
     @PreAuthorize(Roles.AdminOrDeveloper)
-    public UpdateRentalResponse update(@Valid @RequestBody UpdateRentalRequest request, @PathVariable String id) {
-        return service.update(request, id);
+    public UpdateRentalResponse update(@Valid @RequestBody UpdateRentalRequest request, @PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
+        CustomerRequest customerRequest = ParseJwtToCustomerRequest.getCustomerInformation(jwt);
+
+        return service.update(request, id, customerRequest);
     }
 
     @DeleteMapping(Paths.IdSuffix)

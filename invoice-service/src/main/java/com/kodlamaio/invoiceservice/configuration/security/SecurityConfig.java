@@ -23,6 +23,8 @@ public class SecurityConfig {
             .hasAnyRole(Roles.Admin, Roles.Developer, Roles.Moderator, Roles.User)
             .antMatchers(Paths.SwaggerPaths)
             .permitAll()
+            .antMatchers(Paths.PrometheusMetricsPath)
+            .permitAll()
             .anyRequest()
             .authenticated()
             .and()

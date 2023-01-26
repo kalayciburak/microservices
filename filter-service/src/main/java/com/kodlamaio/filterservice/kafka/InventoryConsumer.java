@@ -16,10 +16,12 @@ import com.kodlamaio.filterservice.business.abstracts.FilterService;
 import com.kodlamaio.filterservice.entities.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
+@CacheEvict(value = "filters", allEntries = true)
 public class InventoryConsumer {
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryConsumer.class);
 
