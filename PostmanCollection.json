@@ -1,10 +1,1262 @@
 {
   "info": {
-    "_postman_id": "5765c339-6fc7-4ec9-b9ab-94b3cc03a6d1",
-    "name": "requests",
+    "_postman_id": "b049125e-c272-40cb-89c3-51c789c82b0b",
+    "name": ".\\Insomnia-All_2023-02-03",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
+    {
+      "name": "Keycloak Playground",
+      "item": [
+        {
+          "name": "getCode",
+          "request": {
+            "description": "",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": []
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/realms/RentACarMicroservice/protocol/openid-connect/auth",
+              "protocol": "http",
+              "host": [
+                "localhost:8080"
+              ],
+              "path": [
+                "auth",
+                "realms",
+                "RentACarMicroservice",
+                "protocol",
+                "openid-connect",
+                "auth"
+              ],
+              "query": [
+                {
+                  "key": "client_id",
+                  "value": "rent-a-car-microservice"
+                },
+                {
+                  "key": "response_type",
+                  "value": "code"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid profile"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "http://localhost:8083/callback"
+                },
+                {
+                  "key": "state",
+                  "value": "asdsadas"
+                }
+              ]
+            },
+            "auth": {}
+          },
+          "response": []
+        },
+        {
+          "name": "getUserStatus",
+          "request": {
+            "description": "",
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:50244/users/status/check",
+              "protocol": "http",
+              "host": [
+                "localhost:50244"
+              ],
+              "path": [
+                "users",
+                "status",
+                "check"
+              ]
+            },
+            "auth": {}
+          },
+          "response": []
+        },
+        {
+          "name": "getToken",
+          "request": {
+            "description": "",
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:52361/token",
+              "protocol": "http",
+              "host": [
+                "localhost:52361"
+              ],
+              "path": [
+                "token"
+              ]
+            },
+            "auth": {}
+          },
+          "response": []
+        },
+        {
+          "name": "deleteUser",
+          "request": {
+            "description": "",
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9010/users/9096041f-1908-4567-a17f-c4e9f7e46e8c",
+              "protocol": "http",
+              "host": [
+                "localhost:9010"
+              ],
+              "path": [
+                "users",
+                "9096041f-1908-4567-a17f-c4e9f7e46e8c"
+              ]
+            },
+            "auth": {}
+          },
+          "response": []
+        },
+        {
+          "name": "getUserDetail",
+          "request": {
+            "description": "",
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9010/users/9096041f-1908-4567-a17f-c4e9f7e46e8c",
+              "protocol": "http",
+              "host": [
+                "localhost:9010"
+              ],
+              "path": [
+                "users",
+                "9096041f-1908-4567-a17f-c4e9f7e46e8c"
+              ]
+            },
+            "auth": {}
+          },
+          "response": []
+        },
+        {
+          "name": "apiGateway",
+          "request": {
+            "description": "",
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:9010/users/status/check",
+              "protocol": "http",
+              "host": [
+                "localhost:9010"
+              ],
+              "path": [
+                "users",
+                "status",
+                "check"
+              ]
+            },
+            "auth": {}
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "description": "",
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1212/demo",
+              "protocol": "http",
+              "host": [
+                "localhost:1212"
+              ],
+              "path": [
+                "demo"
+              ]
+            },
+            "auth": {}
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "description": "",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "asd"
+            },
+            "url": {
+              "raw": "http://localhost:8081/users/status/check",
+              "protocol": "http",
+              "host": [
+                "localhost:8081"
+              ],
+              "path": [
+                "users",
+                "status",
+                "check"
+              ]
+            },
+            "auth": {}
+          },
+          "response": []
+        },
+        {
+          "name": "exchange_token",
+          "request": {
+            "description": "",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                },
+                {
+                  "key": "client_id",
+                  "value": "rent-a-car-microservice"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "duPNMw4q2ltJJRx329JfWnYYL9I1MoKj"
+                },
+                {
+                  "key": "code",
+                  "value": "ec2c810b-c486-4763-a1ec-c9c0544335bf.ea3470f0-2bee-4c24-a6ff-78efea014600.79ed9d9f-135d-4a99-ad22-ec91fa5c8046"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "http://localhost:8083/callback"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/realms/RentACarMicroservice/protocol/openid-connect/token",
+              "protocol": "http",
+              "host": [
+                "localhost:8080"
+              ],
+              "path": [
+                "auth",
+                "realms",
+                "RentACarMicroservice",
+                "protocol",
+                "openid-connect",
+                "token"
+              ]
+            },
+            "auth": {}
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Java / Bootcamp Project",
+      "item": [
+        {
+          "name": "Applications",
+          "item": [
+            {
+              "name": "getAll",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/applications",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "applications"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "add",
+              "request": {
+                "description": "",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bootcampId\": 2,\n  \"applicantId\": 10\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/applications",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "applications"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "description": "",
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bootcampId\": 3,\n  \"applicantId\": 10,\n  \"stateId\": 3\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/applications/7",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "applications",
+                    "7"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "description": "",
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/applications/13",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "applications",
+                    "13"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getById",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/applications/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "applications",
+                    "1"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Bootcamps",
+          "item": [
+            {
+              "name": "getAll",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/bootcamps",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "bootcamps"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "add",
+              "request": {
+                "description": "",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instructorId\": 5,\n  \"name\": \"Backend Yazılım Geliştirme Cache TEST\",\n  \"state\": 1,\n  \"startDate\": \"2021-11-24\",\n  \"endDate\": \"2022-12-24\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/bootcamps",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "bootcamps"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "description": "",
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"instructorId\": 6,\n  \"name\": \"Backend Yazılım Geliştirme\",\n  \"state\": 1,\n  \"startDate\": \"2022-11-24\",\n  \"endDate\": \"2022-12-24\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/bootcamps/5",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "bootcamps",
+                    "5"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "description": "",
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/bootcamps/4",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "bootcamps",
+                    "4"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getById",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/bootcamps/5",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "bootcamps",
+                    "5"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Blacklists",
+          "item": [
+            {
+              "name": "getAll",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/blacklists",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "blacklists"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "add",
+              "request": {
+                "description": "",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applicantId\":10 ,\n  \"reason\": \"banned\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/blacklists",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "blacklists"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "description": "",
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applicantId\":10 ,\n  \"reason\": \"banned v2 test\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/blacklists/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "blacklists",
+                    "1"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "description": "",
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/blacklists/7",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "blacklists",
+                    "7"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "getById",
+              "request": {
+                "description": "",
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/blacklists/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "blacklists",
+                    "1"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Users",
+          "item": [
+            {
+              "name": "Applicant",
+              "item": [
+                {
+                  "name": "getAll",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/applicants",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "applicants"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "add",
+                  "request": {
+                    "description": "",
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"firstName\": \"asd\",\n  \"lastName\": \"Test\",\n\t\"dateOfBirth\": \"2022-11-24\",\n  \"nationalIdentity\": \"12312312312\",\n  \"email\": \"test@hotmail.com\",\n  \"password\": \"A0.21abasd*\",\n\t\"confirmPassword\":\"A0.21abasd2\",\n  \"about\": \"I'm a test >o<\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/applicants",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "applicants"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "update",
+                  "request": {
+                    "description": "",
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"firstName\": \"Tbyte\",\n  \"lastName\": \"Test\",\n\t\"nationalIdentity\":\"55115152122\",\n\t\"dateOfBirth\": \"1996-05-23\",\n  \"email\": \"testbyte@gmail.com\",\n\t\"password\": \"A0.21abasd*\",\n\t\"confirmPassword\":\"A0.21abasd2\",\n  \"about\": \"test 321\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/applicants/34",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "applicants",
+                        "34"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "delete",
+                  "request": {
+                    "description": "",
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/applicants/4",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "applicants",
+                        "4"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "getById",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/applicants/1",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "applicants",
+                        "1"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "beAnApplicant",
+                  "request": {
+                    "description": "",
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/applicants/be-an-applicant/10",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "applicants",
+                        "be-an-applicant",
+                        "10"
+                      ],
+                      "query": [
+                        {
+                          "key": "about",
+                          "value": "hello world"
+                        }
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "removeAnApplicant",
+                  "request": {
+                    "description": "",
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/applicants/remove-an-applicant/10",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "applicants",
+                        "remove-an-applicant",
+                        "10"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "changePassword",
+                  "request": {
+                    "description": "",
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"oldPassword\": \"A0.21abasd*23\",\n  \"newPassword\": \"A0.21abasd*21\",\n  \"confirmPassword\": \"A0.21abasd*21\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/applicants/change-password/1",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "applicants",
+                        "change-password",
+                        "1"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Employee",
+              "item": [
+                {
+                  "name": "getAll",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/employees",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "employees"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "add",
+                  "request": {
+                    "description": "",
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"firstName\": \"Test Employee\",\n  \"lastName\": \"Test\",\n\t\"dateOfBirth\": \"2022-11-24\",\n  \"nationalIdentity\": \"12323456123\",\n  \"email\": \"employee@test.com\",\n  \"password\": \"A0.21abasd*\",\n\t\"confirmPassword\":\"A0.21abasd2*\",\n  \"position\": \"Test\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/employees",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "employees"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "update",
+                  "request": {
+                    "description": "",
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"firstName\": \"Test Employee 23\",\n  \"lastName\": \"Test\",\n\t\"nationalIdentity\":\"5511515\",\n\t\"dateOfBirth\": \"2022-11-24\",\n  \"email\": \"employee@test.com\",\n\t\"password\": \"A0.21abasd*\",\n\t\"confirmPassword\":\"A0.21abasd2\",\n  \"position\": \"Test\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/employees/5",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "employees",
+                        "5"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "delete",
+                  "request": {
+                    "description": "",
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/employees/6",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "employees",
+                        "6"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "getById",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/employees/5",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "employees",
+                        "5"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "changePassword",
+                  "request": {
+                    "description": "",
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"oldPassword\": \"A0.21abasd*2\",\n  \"newPassword\": \"A0.21abasd*21\",\n  \"confirmPassword\": \"A0.21abasd*21\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/employees/change-password/10",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "employees",
+                        "change-password",
+                        "10"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Instructor",
+              "item": [
+                {
+                  "name": "getAll",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/instructors",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "instructors"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "add",
+                  "request": {
+                    "description": "",
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n\t\"dateOfBirth\": \"2022-11-24\",\n  \"nationalIdentity\": \"12356772\",\n  \"email\": \"johndoe@gmail.com\",\n  \"password\": \"j.d\",\n\t\"confirmPassword\":\"A0.21abasd*\",\n  \"companyName\": \"JD Company\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/instructors",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "instructors"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "update",
+                  "request": {
+                    "description": "",
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"firstName\": \"Jane\",\n\t\"lastName\": \"Done\",\n\t\"nationalIdentity\":\"55115151232\",\n\t\"dateOfBirth\": \"2022-11-24\",\n  \"email\": \"janedoe@gmail.com\",\n\t\"password\": \"A0.21abasd*\",\n\t\"confirmPassword\":\"A0.21abasd*\",\n\t\"companyName\": \"Jainuu Swords\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/instructors/8",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "instructors",
+                        "8"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "delete",
+                  "request": {
+                    "description": "",
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/instructors/9",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "instructors",
+                        "9"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "getById",
+                  "request": {
+                    "description": "",
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/instructors/7",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "instructors",
+                        "7"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                },
+                {
+                  "name": "changePassword",
+                  "request": {
+                    "description": "",
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"oldPassword\": \"A0.21abasd*\",\n  \"newPassword\": \"A0.21abasd*21\",\n  \"confirmPassword\": \"A0.21abasd*21\"\n}"
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/api/v1/instructors/change-password/5",
+                      "protocol": "http",
+                      "host": [
+                        "localhost:8080"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "instructors",
+                        "change-password",
+                        "5"
+                      ]
+                    },
+                    "auth": {}
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     {
       "name": "Microservice / Rent A Car",
       "item": [
@@ -42,12 +1294,6 @@
                 "header": [],
                 "url": {
                   "raw": "http://localhost:9010/filter-service/api/v1/filters/brand",
-                  "query": [
-                    {
-                      "key": "brandName",
-                      "value": "audi"
-                    }
-                  ],
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -58,6 +1304,12 @@
                     "v1",
                     "filters",
                     "brand"
+                  ],
+                  "query": [
+                    {
+                      "key": "brand",
+                      "value": "mercedes"
+                    }
                   ]
                 },
                 "auth": {}
@@ -72,12 +1324,6 @@
                 "header": [],
                 "url": {
                   "raw": "http://localhost:9010/filter-service/api/v1/filters/model",
-                  "query": [
-                    {
-                      "key": "modelName",
-                      "value": "e-200"
-                    }
-                  ],
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -88,6 +1334,12 @@
                     "v1",
                     "filters",
                     "model"
+                  ],
+                  "query": [
+                    {
+                      "key": "modelName",
+                      "value": "e-200"
+                    }
                   ]
                 },
                 "auth": {}
@@ -102,12 +1354,6 @@
                 "header": [],
                 "url": {
                   "raw": "http://localhost:9010/filter-service/api/v1/filters/plate",
-                  "query": [
-                    {
-                      "key": "plate",
-                      "value": "06 TB 5"
-                    }
-                  ],
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -118,6 +1364,12 @@
                     "v1",
                     "filters",
                     "plate"
+                  ],
+                  "query": [
+                    {
+                      "key": "plate",
+                      "value": "06 TB 4"
+                    }
                   ]
                 },
                 "auth": {}
@@ -131,13 +1383,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9010/filter-service/api/v1/filters/brand-search",
-                  "query": [
-                    {
-                      "key": "brandName",
-                      "value": "Au"
-                    }
-                  ],
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/brand/search",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -147,7 +1393,14 @@
                     "api",
                     "v1",
                     "filters",
-                    "brand-search"
+                    "brand",
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "key": "brand",
+                      "value": "w"
+                    }
                   ]
                 },
                 "auth": {}
@@ -161,13 +1414,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9010/filter-service/api/v1/filters/model-search",
-                  "query": [
-                    {
-                      "key": "modelName",
-                      "value": "A"
-                    }
-                  ],
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/model/search",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -177,7 +1424,14 @@
                     "api",
                     "v1",
                     "filters",
-                    "model-search"
+                    "model",
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "key": "model",
+                      "value": "M"
+                    }
                   ]
                 },
                 "auth": {}
@@ -191,13 +1445,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9010/filter-service/api/v1/filters/plate-search",
-                  "query": [
-                    {
-                      "key": "plate",
-                      "value": "1"
-                    }
-                  ],
+                  "raw": "http://localhost:9010/filter-service/api/v1/filters/plate/search",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -207,7 +1455,14 @@
                     "api",
                     "v1",
                     "filters",
-                    "plate-search"
+                    "plate",
+                    "search"
+                  ],
+                  "query": [
+                    {
+                      "key": "plate",
+                      "value": "0"
+                    }
                   ]
                 },
                 "auth": {}
@@ -222,12 +1477,6 @@
                 "header": [],
                 "url": {
                   "raw": "http://localhost:9010/filter-service/api/v1/filters/year",
-                  "query": [
-                    {
-                      "key": "modelYear",
-                      "value": "2022"
-                    }
-                  ],
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -238,6 +1487,12 @@
                     "v1",
                     "filters",
                     "year"
+                  ],
+                  "query": [
+                    {
+                      "key": "modelYear",
+                      "value": "2022"
+                    }
                   ]
                 },
                 "auth": {}
@@ -252,12 +1507,6 @@
                 "header": [],
                 "url": {
                   "raw": "http://localhost:9010/filter-service/api/v1/filters/state",
-                  "query": [
-                    {
-                      "key": "state",
-                      "value": "1"
-                    }
-                  ],
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -268,6 +1517,12 @@
                     "v1",
                     "filters",
                     "state"
+                  ],
+                  "query": [
+                    {
+                      "key": "state",
+                      "value": "1"
+                    }
                   ]
                 },
                 "auth": {}
@@ -315,7 +1570,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"carId\":\"4c05a5f3-ecc3-45f9-a49b-90e3dfafdfe6\",\n\t\"rentedForDays\":2,\n\t\"dailyPrice\":50,\n  \"paymentRequest\": {\n    \"cardNumber\": \"4539071432589516\",\n\t\t\"fullName\": \"Test Test\",\n\t\t\"cardExpirationYear\": 2027,\n\t\t\"cardExpirationMonth\": 12,\n\t\t\"cardCvv\": \"123\"\n  }\n}"
+                  "raw": "{\n  \"carId\":\"bba34baa-c4bf-4211-87b8-694bc14751f8\",\n\t\"rentedForDays\":2,\n\t\"dailyPrice\":225,\n\t\"paymentRequest\": {\n    \"cardNumber\": \"4539071432589515\",\n  \t\"cardholder\": \"Toruko Byte\",\n  \t\"cardExpirationYear\": 2031,\n  \t\"cardExpirationMonth\": 12,\n  \t\"cardCvv\": \"123\"\n  }\n}"
                 },
                 "url": {
                   "raw": "http://localhost:9010/rental-service/api/v1/rentals",
@@ -328,6 +1583,28 @@
                     "api",
                     "v1",
                     "rentals"
+                  ],
+                  "query": [
+                    {
+                      "key": "cardNumber",
+                      "value": "4539071432589515"
+                    },
+                    {
+                      "key": "fullName",
+                      "value": "Test Test"
+                    },
+                    {
+                      "key": "cardExpirationYear",
+                      "value": "2022"
+                    },
+                    {
+                      "key": "cardExpirationMonth",
+                      "value": "12"
+                    },
+                    {
+                      "key": "cardCvv",
+                      "value": "123"
+                    }
                   ]
                 },
                 "auth": {}
@@ -341,7 +1618,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9010/rental-service/api/v1/rentals/b9027434-8524-49dc-8a36-aced1c88ca7c",
+                  "raw": "http://localhost:9010/rental-service/api/v1/rentals/6815b7ea-f1ab-4c8f-80fe-d648f116b39c",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -351,7 +1628,7 @@
                     "api",
                     "v1",
                     "rentals",
-                    "b9027434-8524-49dc-8a36-aced1c88ca7c"
+                    "6815b7ea-f1ab-4c8f-80fe-d648f116b39c"
                   ]
                 },
                 "auth": {}
@@ -371,10 +1648,10 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"carId\":\"42ebfff3-470c-425b-a79c-c4dde05655b2\",\n\t\"dateStarted\":\"2022-12-01T14:38:19\",\n\t\"rentedForDays\":13,\n\t\"dailyPrice\":500\n}"
+                  "raw": "{\n  \"carId\":\"153ddf2b-a502-4bb9-ab5b-4f9f23ca7eba\",\n\t\"dateStarted\":\"2022-12-01T14:38:19\",\n\t\"rentedForDays\":13,\n\t\"dailyPrice\":500\n}"
                 },
                 "url": {
-                  "raw": "http://localhost:9010/rental-service/api/v1/rentals/c12623b3-075a-4aa1-9fe3-9f3e3764f9f9",
+                  "raw": "http://localhost:9010/rental-service/api/v1/rentals/86a98ce3-dbd1-48ee-81bd-a0843047e9cb",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -384,7 +1661,7 @@
                     "api",
                     "v1",
                     "rentals",
-                    "c12623b3-075a-4aa1-9fe3-9f3e3764f9f9"
+                    "86a98ce3-dbd1-48ee-81bd-a0843047e9cb"
                   ]
                 },
                 "auth": {}
@@ -398,7 +1675,7 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9010/rental-service/api/v1/rentals/2dd28d82-70d3-4593-9a4e-f0a5850b8cba",
+                  "raw": "http://localhost:9010/rental-service/api/v1/rentals/f1e1b6f0-71bf-4441-92c0-8686e5a80fe0",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -408,7 +1685,7 @@
                     "api",
                     "v1",
                     "rentals",
-                    "2dd28d82-70d3-4593-9a4e-f0a5850b8cba"
+                    "f1e1b6f0-71bf-4441-92c0-8686e5a80fe0"
                   ]
                 },
                 "auth": {}
@@ -433,7 +1710,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"cardNumber\": \"4539071432589515\",\n  \"fullName\": \"Test Test\",\n  \"cardExpirationYear\": 2022,\n  \"cardExpirationMonth\": 12,\n  \"cardCvv\": \"123\",\n  \"balance\": 1000000\n}"
+                  "raw": "{\n  \"cardNumber\": \"4539071432589515\",\n  \"cardholder\": \"Toruko Byte\",\n  \"cardExpirationYear\": 2031,\n  \"cardExpirationMonth\": 12,\n  \"cardCvv\": \"123\",\n  \"balance\": 750\n}"
                 },
                 "url": {
                   "raw": "http://localhost:9010/payment-service/api/v1/payments",
@@ -482,7 +1759,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9010/payment-service/api/v1/payments/8b55f0a1-b2e3-4673-ad5f-19e1868e3c76",
+                  "raw": "http://localhost:9010/payment-service/api/v1/payments/c5821179-4c94-474a-8683-24781985dc0b",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -492,7 +1769,7 @@
                     "api",
                     "v1",
                     "payments",
-                    "8b55f0a1-b2e3-4673-ad5f-19e1868e3c76"
+                    "c5821179-4c94-474a-8683-24781985dc0b"
                   ]
                 },
                 "auth": {}
@@ -512,10 +1789,10 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"cardNumber\": \"4539071432589516\",\n  \"fullName\": \"Test Test\",\n  \"cardExpirationYear\": 2027,\n  \"cardExpirationMonth\": 12,\n  \"cardCvv\": \"123\",\n  \"balance\": 1000\n}"
+                  "raw": "{\n  \"cardNumber\": \"4539071432589516\",\n  \"cardholder\": \"Toruko Byte\",\n  \"cardExpirationYear\": 2027,\n  \"cardExpirationMonth\": 12,\n  \"cardCvv\": \"123\",\n  \"balance\": 1000\n}"
                 },
                 "url": {
-                  "raw": "http://localhost:9010/payment-service/api/v1/payments/8b55f0a1-b2e3-4673-ad5f-19e1868e3c76",
+                  "raw": "http://localhost:9010/payment-service/api/v1/payments/2620881d-557f-4465-9e47-8a3a52c2e88f",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -525,7 +1802,7 @@
                     "api",
                     "v1",
                     "payments",
-                    "8b55f0a1-b2e3-4673-ad5f-19e1868e3c76"
+                    "2620881d-557f-4465-9e47-8a3a52c2e88f"
                   ]
                 },
                 "auth": {}
@@ -574,7 +1851,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"carId\": \"string\",\n  \"fullName\": \"string\",\n  \"modelName\": \"string\",\n  \"brandName\": \"string\",\n  \"modelYear\": 1886,\n  \"dailyPrice\": 0,\n  \"totalPrice\": 0,\n  \"rentedForDays\": 0\n}"
+                  "raw": "{\n  \"carId\": \"string\",\n  \"cardholder\": \"string\",\n  \"modelName\": \"string\",\n  \"brandName\": \"string\",\n  \"modelYear\": 1886,\n  \"dailyPrice\": 0,\n  \"totalPrice\": 0,\n  \"rentedForDays\": 0\n}"
                 },
                 "url": {
                   "raw": "http://localhost:9010/invoice-service/api/v1/invoices",
@@ -623,7 +1900,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9010/invoice-service/api/v1/invoices/c674f233-ceb0-4813-95e1-091e5994fa4c",
+                  "raw": "http://localhost:9010/invoice-service/api/v1/invoices/20dc7332-cd0d-4315-a407-7a2e67606f33",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -633,7 +1910,7 @@
                     "api",
                     "v1",
                     "invoices",
-                    "c674f233-ceb0-4813-95e1-091e5994fa4c"
+                    "20dc7332-cd0d-4315-a407-7a2e67606f33"
                   ]
                 },
                 "auth": {}
@@ -653,7 +1930,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"carId\": \"string\",\n  \"fullName\": \"string\",\n  \"modelName\": \"string\",\n  \"brandName\": \"string\",\n  \"modelYear\": 1886,\n  \"dailyPrice\": 0,\n  \"totalPrice\": 0,\n  \"rentedForDays\": 0\n}"
+                  "raw": "{\n  \"carId\": \"string\",\n  \"cardholder\": \"string\",\n  \"modelName\": \"string\",\n  \"brandName\": \"string\",\n  \"modelYear\": 1886,\n  \"dailyPrice\": 0,\n  \"totalPrice\": 0,\n  \"rentedForDays\": 0\n}"
                 },
                 "url": {
                   "raw": "http://localhost:9010/invoice-service/api/v1/invoices/8b55f0a1-b2e3-4673-ad5f-19e1868e3c76",
@@ -680,7 +1957,7 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9010/invoice-service/api/v1/invoices/0ded5d14-81a8-42c9-a35f-f9632954c579",
+                  "raw": "http://localhost:9010/invoice-service/api/v1/invoices/29c5b7b0-4e34-4b0c-a94e-085fc636a80c",
                   "protocol": "http",
                   "host": [
                     "localhost:9010"
@@ -690,7 +1967,122 @@
                     "api",
                     "v1",
                     "invoices",
-                    "0ded5d14-81a8-42c9-a35f-f9632954c579"
+                    "29c5b7b0-4e34-4b0c-a94e-085fc636a80c"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "IdentityServer",
+          "item": [
+            {
+              "name": "getAccessToken",
+              "request": {
+                "description": "",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "grant_type",
+                      "value": "password"
+                    },
+                    {
+                      "key": "client_id",
+                      "value": "rent-a-car-microservice"
+                    },
+                    {
+                      "key": "client_secret",
+                      "value": "gJD4bYZX5Xn2DYk1uUdsEHeHzIyqD2LR"
+                    },
+                    {
+                      "key": "scope",
+                      "value": "openid profile offline_access"
+                    },
+                    {
+                      "key": "username",
+                      "value": "torukobyte"
+                    },
+                    {
+                      "key": "password",
+                      "value": "a1b2c3123"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8080/auth/realms/RentACarMicroservice/protocol/openid-connect/token",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "auth",
+                    "realms",
+                    "RentACarMicroservice",
+                    "protocol",
+                    "openid-connect",
+                    "token"
+                  ]
+                },
+                "auth": {}
+              },
+              "response": []
+            },
+            {
+              "name": "refreshAccessToken",
+              "request": {
+                "description": "",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "grant_type",
+                      "value": "refresh_token"
+                    },
+                    {
+                      "key": "client_id",
+                      "value": "rent-a-car-microservice"
+                    },
+                    {
+                      "key": "client_secret",
+                      "value": "gJD4bYZX5Xn2DYk1uUdsEHeHzIyqD2LR"
+                    },
+                    {
+                      "key": "refresh_token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmMDhjY2Q0Mi05NGEyLTQ3NTItODg1MC00YmFiZmRkYzgzNDEifQ.eyJpYXQiOjE2NzUwMjI2NDUsImp0aSI6IjJhOGI4ZDNkLTFiMTctNGFiMC05ZGFkLWY1ODI5MjdkNTAwMSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9hdXRoL3JlYWxtcy9SZW50QUNhck1pY3Jvc2VydmljZSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9hdXRoL3JlYWxtcy9SZW50QUNhck1pY3Jvc2VydmljZSIsInN1YiI6ImFjZjIxZjAwLWE5OWQtNDI2MS05ZTNlLWMxMWZiYzUzOGQwZSIsInR5cCI6Ik9mZmxpbmUiLCJhenAiOiJyZW50LWEtY2FyLW1pY3Jvc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI3MWY4MTgwNi05NjA2LTQ5OTItYjBlYS0xMGYxNjFmYTU2N2IiLCJzY29wZSI6Im9wZW5pZCBvZmZsaW5lX2FjY2VzcyBlbWFpbCBwcm9maWxlIiwic2lkIjoiNzFmODE4MDYtOTYwNi00OTkyLWIwZWEtMTBmMTYxZmE1NjdiIn0.ojlMsgtSZmKz4uTdggSwhLk3R4afPTc75gfbOJMwtUE"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:8080/auth/realms/RentACarMicroservice/protocol/openid-connect/token",
+                  "protocol": "http",
+                  "host": [
+                    "localhost:8080"
+                  ],
+                  "path": [
+                    "auth",
+                    "realms",
+                    "RentACarMicroservice",
+                    "protocol",
+                    "openid-connect",
+                    "token"
                   ]
                 },
                 "auth": {}
@@ -741,7 +2133,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n  \"modelYear\": 2021,\n  \"plate\": \"61 DC 1444\",\n  \"modelId\": \"579bfb4c-5907-4a0f-b511-9577b5009830\",\n\t\"dailyPrice\": 320\n}"
+                      "raw": "{\n  \"modelYear\": 1996,\n  \"plate\": \"06 BK 1485\",\n  \"modelId\": \"5046091d-3e7c-4179-96af-2b30d330dbca\",\n\t\"dailyPrice\":96\n}"
                     },
                     "url": {
                       "raw": "http://localhost:9010/inventory-service/api/v1/cars",
@@ -797,10 +2189,10 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n  \"dailyPrice\": 12,\n  \"modelYear\": 2003,\n  \"plate\": \"06 TB 15\",\n  \"state\": 1,\n  \"modelId\": \"5b480448-8612-4ccc-b3c0-5a3d5c46aa36\"\n}"
+                      "raw": "{\n  \"modelYear\": 2003,\n  \"plate\": \"06 SB 9693\",\n  \"state\": 3,\n  \"modelId\": \"fa155722-8eba-4c40-95bb-c6a997a99750\",\n\t\"dailyPrice\":500\n}"
                     },
                     "url": {
-                      "raw": "http://localhost:9010/inventory-service/api/v1/cars/16389f0f-7f6b-4fa8-9b2a-4a93a5e48e3d",
+                      "raw": "http://localhost:9010/inventory-service/api/v1/cars/cf47daf7-3ca3-41ab-b56e-a29c0e731392",
                       "protocol": "http",
                       "host": [
                         "localhost:9010"
@@ -810,7 +2202,7 @@
                         "api",
                         "v1",
                         "cars",
-                        "16389f0f-7f6b-4fa8-9b2a-4a93a5e48e3d"
+                        "cf47daf7-3ca3-41ab-b56e-a29c0e731392"
                       ]
                     },
                     "auth": {}
@@ -938,10 +2330,10 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n\t\"name\":\"Ferrari 23\"\n}"
+                      "raw": "{\n\t\"name\":\"BMW\"\n}"
                     },
                     "url": {
-                      "raw": "http://localhost:9010/inventory-service/api/v1/brands/4ab686f7-29cd-4063-9649-b7e3848845fb",
+                      "raw": "http://localhost:9010/inventory-service/api/v1/brands/1c2a5447-2f7b-4326-b074-df0bd185271e",
                       "protocol": "http",
                       "host": [
                         "localhost:9010"
@@ -951,7 +2343,7 @@
                         "api",
                         "v1",
                         "brands",
-                        "4ab686f7-29cd-4063-9649-b7e3848845fb"
+                        "1c2a5447-2f7b-4326-b074-df0bd185271e"
                       ]
                     },
                     "auth": {}
@@ -965,7 +2357,7 @@
                     "method": "DELETE",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:9010/inventory-service/api/v1/brands/ac51dc77-2e8c-4571-9d55-beba978fee95",
+                      "raw": "http://localhost:9010/inventory-service/api/v1/brands/5e995f4f-ebd5-497d-a1cd-5e3bb9d635a2",
                       "protocol": "http",
                       "host": [
                         "localhost:9010"
@@ -975,7 +2367,7 @@
                         "api",
                         "v1",
                         "brands",
-                        "ac51dc77-2e8c-4571-9d55-beba978fee95"
+                        "5e995f4f-ebd5-497d-a1cd-5e3bb9d635a2"
                       ]
                     },
                     "auth": {}
@@ -1023,7 +2415,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n  \"name\": \"S-400\",\n  \"brandId\": \"c97c1465-961a-49e7-a94a-6fbd2471b79e\"\n}"
+                      "raw": "{\n  \"name\": \"S-300\",\n  \"brandId\": \"4a370009-e1c2-4c9d-9b2b-0568c212c7af\"\n}"
                     },
                     "url": {
                       "raw": "http://localhost:9010/inventory-service/api/v1/models",
@@ -1079,10 +2471,10 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n  \"name\": \"GTX 23\",\n  \"brandId\": \"c97c1465-961a-49e7-a94a-6fbd2471b79e\"\n}"
+                      "raw": "{\n  \"name\": \"GTX 23\",\n  \"brandId\": \"4ab686f7-29cd-4063-9649-b7e3848845fb\"\n}"
                     },
                     "url": {
-                      "raw": "http://localhost:9010/inventory-service/api/v1/models/579bfb4c-5907-4a0f-b511-9577b5009830",
+                      "raw": "http://localhost:9010/inventory-service/api/v1/models/87770ef6-7a15-4bc3-8807-e8337117783e",
                       "protocol": "http",
                       "host": [
                         "localhost:9010"
@@ -1092,7 +2484,7 @@
                         "api",
                         "v1",
                         "models",
-                        "579bfb4c-5907-4a0f-b511-9577b5009830"
+                        "87770ef6-7a15-4bc3-8807-e8337117783e"
                       ]
                     },
                     "auth": {}
