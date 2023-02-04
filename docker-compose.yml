@@ -4,7 +4,6 @@ services:
   zookeeper:
     container_name: zookeeper
     image: bitnami/zookeeper
-    restart: always
     ports:
       - "2181:2181"
     volumes:
@@ -17,7 +16,6 @@ services:
     image: bitnami/kafka
     ports:
       - "9092:9092"
-    restart: always
     volumes:
       - "kafka_data:/bitnami"
     environment:
@@ -28,40 +26,73 @@ services:
     depends_on:
       - zookeeper
 
-  keycloakpostgres:
-    image: postgres
-    container_name: keycloak-postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: torukobyte123
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
     ports:
-      - "5433:5432"
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - redis:/data
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - monitor-net
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - grafana-config:/etc/grafana
+    networks:
+      - monitor-net
+
+  #  keycloakpostgres:
+  #    image: postgres
+  #    container_name: postgres-keycloak
+  #    volumes:
+  #      - postgres_data:/var/lib/postgresql/data
+  #    environment:
+  #      POSTGRES_DB: keycloak
+  #      POSTGRES_USER: postgres
+  #      POSTGRES_PASSWORD: torukobyte123
+  #    ports:
+  #      - "5438:5432"
 
   keycloak:
     image: quay.io/keycloak/keycloak:legacy
     container_name: keycloak
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
-      DB_DATABASE: keycloak
-      DB_USER: postgres
-      DB_SCHEMA: public
-      DB_PASSWORD: torukobyte123
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/realm-export.json
     ports:
       - "8080:8080"
-    depends_on:
-      - keycloakpostgres
+    volumes:
+      - .:/opt/jboss/keycloak/imports
 
   configserver:
     build: ./config-server
     container_name: config-server
     image: config-server-image
-    restart: always
     ports:
       - "8888:8888"
     volumes:
@@ -73,19 +104,18 @@ services:
     build: ./discovery-server
     container_name: discovery-server
     image: discovery-server-image
-    restart: always
     ports:
       - "9000:9000"
     volumes:
       - ./discovery-server:/app
     depends_on:
       - configserver
+      - zipkin
 
   apigateway:
     build: ./api-gateway
     container_name: api-gateway
     image: api-gateway-image
-    restart: always
     ports:
       - "9010:9010"
     volumes:
@@ -94,6 +124,7 @@ services:
       - configserver
       - discoveryserver
       - keycloak
+      - zipkin
     environment:
       - SPRING_PROFILES_ACTIVE=docker
 
@@ -101,7 +132,6 @@ services:
     build: ./inventory-service
     container_name: inventory-service
     image: inventory-service-image
-    restart: always
     volumes:
       - ./inventory-service:/app
     depends_on:
@@ -109,12 +139,17 @@ services:
       - discoveryserver
       - inventorydb
       - kafka
+      - zipkin
+    environment:
+      - SPRING_CLOUD_CONFIG_IMPORT=configserver:http://configserver:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://inventorydb:5432/inventorydb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=torukobyte123
 
   filterservice:
     build: ./filter-service
     container_name: filter-service
     image: filter-service-image
-    restart: always
     volumes:
       - ./filter-service:/app
     depends_on:
@@ -122,12 +157,17 @@ services:
       - discoveryserver
       - filterdb
       - kafka
+      - redis
+      - zipkin
+    environment:
+      - SPRING_CLOUD_CONFIG_IMPORT=configserver:http://configserver:8888
+      - SPRING_DATA_MONGODB_URI=mongodb://filterdb:27017/filterdb
+  #      - hostname=redis
 
   invoiceservice:
     build: ./invoice-service
     container_name: invoice-service
     image: invoice-service
-    restart: always
     volumes:
       - ./invoice-service:/app
     depends_on:
@@ -135,12 +175,17 @@ services:
       - discoveryserver
       - invoicedb
       - kafka
+      - zipkin
+    environment:
+      - SPRING_CLOUD_CONFIG_IMPORT=configserver:http://configserver:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://invoicedb:5432/invoicedb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=torukobyte123
 
   paymentservice:
     build: ./payment-service
     container_name: payment-service
     image: payment-service
-    restart: always
     volumes:
       - ./payment-service:/app
     depends_on:
@@ -148,12 +193,17 @@ services:
       - discoveryserver
       - paymentdb
       - kafka
+      - zipkin
+    environment:
+      - SPRING_CLOUD_CONFIG_IMPORT=configserver:http://configserver:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://paymentdb:5432/paymentdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=torukobyte123
 
   rentalservice:
     build: ./rental-service
     container_name: rental-service
     image: rental-service
-    restart: always
     volumes:
       - ./rental-service:/app
     depends_on:
@@ -161,14 +211,20 @@ services:
       - discoveryserver
       - rentaldb
       - kafka
+      - zipkin
+    environment:
+      - SPRING_CLOUD_CONFIG_IMPORT=configserver:http://configserver:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://rentaldb:5432/rentaldb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=torukobyte123
 
   inventorydb:
     image: postgres
     container_name: inventory-db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres-inventory-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: inventorydb-prod
+      POSTGRES_DB: inventorydb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: torukobyte123
     ports:
@@ -178,9 +234,9 @@ services:
     image: postgres
     container_name: invoice-db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres-invoice-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: invoicedb-prod
+      POSTGRES_DB: invoicedb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: torukobyte123
     ports:
@@ -190,9 +246,9 @@ services:
     image: postgres
     container_name: payment-db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres-payment-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: paymentdb-prod
+      POSTGRES_DB: paymentdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: torukobyte123
     ports:
@@ -202,33 +258,63 @@ services:
     image: postgres
     container_name: rental-db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres-rental-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: rentaldb-prod
+      POSTGRES_DB: rentaldb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: torukobyte123
     ports:
       - "5437:5432"
 
   filterdb:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
-    container_name: elasticsearch
-    environment:
-      - node.name=es-node
-      - cluster.name=es-cluster
-      - discovery.type=single-node
+    container_name: filter-db
+    image: mongo
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "27017:27017"
     volumes:
-      - local-es:/usr/share/elasticsearch/data
-    networks:
-      - es-net
+      - "/data/db/"
+
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+#    container_name: elasticsearch
+#    environment:
+#      - node.name=es-node
+#      - cluster.name=es-cluster
+#      - discovery.type=single-node
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    volumes:
+#      - local-es:/usr/share/elasticsearch/data
+#    networks:
+#      - es-net
 
 volumes:
+  postgres-inventory-data:
+    name: postgres-inventory-data
+  postgres-invoice-data:
+    name: postgres-invoice-data
+  postgres-payment-data:
+    name: postgres-payment-data
+  postgres-rental-data:
+    name: postgres-rental-data
   zookeeper_data:
     driver: local
   kafka_data:
     driver: local
-  postgres_data:
+  redis:
     driver: local
+  #  postgres_data:
+  #    driver: local
+  local-es:
+    driver: local
+  grafana-data:
+    driver: local
+  grafana-config:
+    driver: local
+
+networks:
+  es-net:
+    driver: bridge
+  monitor-net:
+    driver: bridge

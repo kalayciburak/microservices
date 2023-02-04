@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(value = Clients.CarClient, url = Clients.BaseUrl)
+@FeignClient(name = Clients.ProdInventoryName)
 public interface CarClient {
-    @RequestMapping(method = RequestMethod.GET, value = Clients.CarClientCheckAvailable)
+    @RequestMapping(method = RequestMethod.GET, value = Clients.CarClientCheckAvailableProd)
     void checkIfCarAvailable(@PathVariable String id);
 
-    @RequestMapping(method = RequestMethod.GET, value = Clients.CarClientGetResponse)
+    @RequestMapping(method = RequestMethod.GET, value = Clients.CarClientGetResponseProd)
     GetCarResponse getCarResponse(@PathVariable String id);
 }
