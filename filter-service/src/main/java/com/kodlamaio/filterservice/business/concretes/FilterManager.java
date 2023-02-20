@@ -12,48 +12,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
 public class FilterManager implements FilterService {
     private final FilterRepository repository;
     private final ModelMapperService mapper;
-
-    @Override
-    @Cacheable(value = "filters", key = "#root.methodName")
-    public List<GetAllFiltersResponse> getAll() {
-        Iterable<Filter> filters = repository.findAll();
-        List<GetAllFiltersResponse> response = StreamSupport
-                .stream(filters.spliterator(), false)
-                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .collect(Collectors.toList());
-
-        return response;
-    }
-
-    @Override
-    public List<GetAllFiltersResponse> getByBrandName(String brandName) {
-        List<Filter> filters = repository.findByBrandNameIgnoreCase(brandName);
-        List<GetAllFiltersResponse> response = filters
-                .stream()
-                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .toList();
-
-        return response;
-    }
-
-    @Override
-    public List<GetAllFiltersResponse> getByModelName(String modelName) {
-        List<Filter> filters = repository.findByModelNameIgnoreCase(modelName);
-        List<GetAllFiltersResponse> response = filters
-                .stream()
-                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .toList();
-
-        return response;
-    }
 
     @Override
     public GetFilterResponse getByPlate(String plate) {
@@ -65,58 +29,44 @@ public class FilterManager implements FilterService {
     }
 
     @Override
-    public List<GetAllFiltersResponse> searchByPlate(String plate) {
-        List<Filter> filters = repository.findByPlateContainingIgnoreCase(plate);
-        List<GetAllFiltersResponse> response = filters
-                .stream()
-                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .toList();
+    @Cacheable(value = "filters", key = "#root.methodName")
+    public List<GetAllFiltersResponse> getAll() {
+        return findAllAndMapToResponseList(repository.findAll());
+    }
 
-        return response;
+    @Override
+    public List<GetAllFiltersResponse> getByBrandName(String brandName) {
+        return findAllAndMapToResponseList(repository.findByBrandNameIgnoreCase(brandName));
+    }
+
+    @Override
+    public List<GetAllFiltersResponse> getByModelName(String modelName) {
+        return findAllAndMapToResponseList(repository.findByModelNameIgnoreCase(modelName));
+    }
+
+    @Override
+    public List<GetAllFiltersResponse> searchByPlate(String plate) {
+        return findAllAndMapToResponseList(repository.findByPlateContainingIgnoreCase(plate));
     }
 
     @Override
     public List<GetAllFiltersResponse> searchByBrandName(String brandName) {
-        List<Filter> filters = repository.findByBrandNameContainingIgnoreCase(brandName);
-        List<GetAllFiltersResponse> response = filters
-                .stream()
-                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .toList();
-
-        return response;
+        return findAllAndMapToResponseList(repository.findByBrandNameContainingIgnoreCase(brandName));
     }
 
     @Override
     public List<GetAllFiltersResponse> searchByModelName(String modelName) {
-        List<Filter> filters = repository.findByModelNameContainingIgnoreCase(modelName);
-        List<GetAllFiltersResponse> response = filters
-                .stream()
-                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .toList();
-
-        return response;
+        return findAllAndMapToResponseList(repository.findByModelNameContainingIgnoreCase(modelName));
     }
 
     @Override
     public List<GetAllFiltersResponse> getByModelYear(int modelYear) {
-        List<Filter> filters = repository.findByModelYear(modelYear);
-        List<GetAllFiltersResponse> response = filters
-                .stream()
-                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .toList();
-
-        return response;
+        return findAllAndMapToResponseList(repository.findByModelYear(modelYear));
     }
 
     @Override
     public List<GetAllFiltersResponse> getByState(int state) {
-        List<Filter> filters = repository.findByState(state);
-        List<GetAllFiltersResponse> response = filters
-                .stream()
-                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
-                .toList();
-
-        return response;
+        return findAllAndMapToResponseList(repository.findByState(state));
     }
 
     @Override
@@ -158,5 +108,15 @@ public class FilterManager implements FilterService {
         if (!repository.existsByPlate(plate)) {
             throw new RuntimeException(Messages.Filter.NotExists);
         }
+    }
+
+    private List<GetAllFiltersResponse> findAllAndMapToResponseList(List<Filter> repositoryFilterList) {
+        List<Filter> filters = repositoryFilterList;
+        List<GetAllFiltersResponse> response = filters
+                .stream()
+                .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
+                .toList();
+
+        return response;
     }
 }

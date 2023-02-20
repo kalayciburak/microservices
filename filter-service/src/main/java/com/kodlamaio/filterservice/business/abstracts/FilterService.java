@@ -7,10 +7,10 @@ import com.kodlamaio.filterservice.entities.Filter;
 import java.util.List;
 
 public interface FilterService {
+    GetFilterResponse getByPlate(String plate);
     List<GetAllFiltersResponse> getAll();
     List<GetAllFiltersResponse> getByBrandName(String brandName);
     List<GetAllFiltersResponse> getByModelName(String modelName);
-    GetFilterResponse getByPlate(String plate);
     List<GetAllFiltersResponse> searchByPlate(String plate);
     List<GetAllFiltersResponse> searchByBrandName(String brandName);
     List<GetAllFiltersResponse> searchByModelName(String modelName);
