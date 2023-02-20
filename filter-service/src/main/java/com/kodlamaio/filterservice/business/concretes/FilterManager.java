@@ -111,8 +111,7 @@ public class FilterManager implements FilterService {
     }
 
     private List<GetAllFiltersResponse> findAllAndMapToResponseList(List<Filter> repositoryFilterList) {
-        List<Filter> filters = repositoryFilterList;
-        List<GetAllFiltersResponse> response = filters
+        List<GetAllFiltersResponse> response = repositoryFilterList
                 .stream()
                 .map(filter -> mapper.forResponse().map(filter, GetAllFiltersResponse.class))
                 .toList();
