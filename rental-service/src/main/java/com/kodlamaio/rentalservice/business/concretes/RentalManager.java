@@ -69,7 +69,7 @@ public class RentalManager implements RentalService {
         mapper.forRequest().map(request.getPaymentRequest(), paymentRequest);
         paymentRequest.setPrice(totalPrice);
 
-        paymentClient.checkIfPaymentSuccessful(paymentRequest);
+        paymentClient.processRentalPayment(paymentRequest);
         setCustomer(customerRequest, rental);
         repository.save(rental);
         rentalCreatedEvent(rental);

@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = Clients.ProdPaymentName)
 public interface PaymentClient {
     @RequestMapping(method = RequestMethod.POST, value = Clients.PaymentClientCheckProd)
-    void checkIfPaymentSuccessful(@RequestBody CreateRentalPaymentRequest request);
+    void processRentalPayment(@RequestBody CreateRentalPaymentRequest request);
 }

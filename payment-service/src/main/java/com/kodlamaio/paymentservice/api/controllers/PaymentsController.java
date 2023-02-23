@@ -63,7 +63,7 @@ public class PaymentsController {
     }
 
     @PostMapping(Paths.Payment.CheckSuffix)
-    public void checkIfPaymentSuccessful(@RequestBody CreateRentalPaymentRequest request) {
-        service.checkIfPaymentSuccessful(request);
+    public void processRentalPayment(@RequestBody CreateRentalPaymentRequest request) {
+        service.processRentalPayment(request);
     }
 }

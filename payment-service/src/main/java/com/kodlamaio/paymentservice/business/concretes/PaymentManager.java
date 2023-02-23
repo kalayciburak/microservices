@@ -79,29 +79,14 @@ public class PaymentManager implements PaymentService {
     }
 
     @Override
-    public void checkIfPaymentSuccessful(CreateRentalPaymentRequest request) {
-        checkPayment(request);
-    }
-
-    private void checkPayment(CreateRentalPaymentRequest request) {
-        if (!repository.existsByCardNumberAndCardholderAndCardExpirationYearAndCardExpirationMonthAndCardCvv(
-                request.getCardNumber(),
-                request.getCardholder(),
-                request.getCardExpirationYear(),
-                request.getCardExpirationMonth(),
-                request.getCardCvv())) {
-            throw new BusinessException(Messages.Payment.NotAValidPayment);
-        } else {
-            Payment payment = repository.findByCardNumber(request.getCardNumber());
-            double balance = payment.getBalance();
-            if (balance < request.getPrice()) {
-                throw new BusinessException(Messages.Payment.NotEnoughMoney);
-            } else {
-                posService.pay(); // Fake payment
-                payment.setBalance(balance - request.getPrice());
-                repository.save(payment);
-            }
-        }
+    public void processRentalPayment(CreateRentalPaymentRequest request) {
+        checkIfPaymentValid(request);
+        Payment payment = repository.findByCardNumber(request.getCardNumber());
+        double balance = payment.getBalance();
+        checkIfBalanceIsEnough(request, balance);
+        posService.pay(); // Fake payment
+        payment.setBalance(balance - request.getPrice());
+        repository.save(payment);
     }
 
     private void checkIfPaymentExists(String id) {
@@ -122,5 +107,22 @@ public class PaymentManager implements PaymentService {
         payment.setCustomerFirstName(customerRequest.getCustomerFirstName());
         payment.setCustomerLastName(customerRequest.getCustomerLastName());
         payment.setCustomerEmail(customerRequest.getCustomerEmail());
+    }
+
+    private void checkIfPaymentValid(CreateRentalPaymentRequest request) {
+        if (!repository.existsByCardNumberAndCardholderAndCardExpirationYearAndCardExpirationMonthAndCardCvv(
+                request.getCardNumber(),
+                request.getCardholder(),
+                request.getCardExpirationYear(),
+                request.getCardExpirationMonth(),
+                request.getCardCvv())) {
+            throw new BusinessException(Messages.Payment.NotAValidPayment);
+        }
+    }
+
+    private void checkIfBalanceIsEnough(CreateRentalPaymentRequest request, double balance) {
+        if (balance < request.getPrice()) {
+            throw new BusinessException(Messages.Payment.NotEnoughMoney);
+        }
     }
 }

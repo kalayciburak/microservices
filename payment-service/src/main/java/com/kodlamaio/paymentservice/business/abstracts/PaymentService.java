@@ -17,5 +17,5 @@ public interface PaymentService {
     CreatePaymentResponse add(CreatePaymentRequest request, CustomerRequest customerRequest);
     UpdatePaymentResponse update(UpdatePaymentRequest request, String id, CustomerRequest customerRequest);
     void delete(String id);
-    void checkIfPaymentSuccessful(CreateRentalPaymentRequest request);
+    void processRentalPayment(CreateRentalPaymentRequest request);
 }
