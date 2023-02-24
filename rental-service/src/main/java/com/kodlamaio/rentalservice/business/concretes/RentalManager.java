@@ -7,7 +7,6 @@ import com.kodlamaio.common.events.payments.PaymentReceivedEvent;
 import com.kodlamaio.common.events.rentals.RentalCreatedEvent;
 import com.kodlamaio.common.events.rentals.RentalDeletedEvent;
 import com.kodlamaio.common.events.rentals.RentalUpdatedEvent;
-import com.kodlamaio.common.utils.exceptions.BusinessException;
 import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.rentalservice.business.abstracts.RentalService;
 import com.kodlamaio.rentalservice.business.dto.requests.create.CreateRentalRequest;
@@ -16,6 +15,7 @@ import com.kodlamaio.rentalservice.business.dto.responses.create.CreateRentalRes
 import com.kodlamaio.rentalservice.business.dto.responses.get.GetAllRentalsResponse;
 import com.kodlamaio.rentalservice.business.dto.responses.get.GetRentalResponse;
 import com.kodlamaio.rentalservice.business.dto.responses.update.UpdateRentalResponse;
+import com.kodlamaio.rentalservice.business.rules.RentalBusinessRules;
 import com.kodlamaio.rentalservice.configuration.client.CarClient;
 import com.kodlamaio.rentalservice.configuration.client.PaymentClient;
 import com.kodlamaio.rentalservice.entities.Rental;
@@ -31,11 +31,12 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class RentalManager implements RentalService {
-    private RentalRepository repository;
-    private ModelMapperService mapper;
-    private RentalProducer rentalProducer;
-    private CarClient carClient;
-    private PaymentClient paymentClient;
+    private final RentalRepository repository;
+    private final ModelMapperService mapper;
+    private final RentalProducer rentalProducer;
+    private final CarClient carClient;
+    private final PaymentClient paymentClient;
+    private final RentalBusinessRules rules;
 
     @Override
     public List<GetAllRentalsResponse> getAll() {
@@ -50,7 +51,7 @@ public class RentalManager implements RentalService {
 
     @Override
     public GetRentalResponse getById(String id) {
-        checkIfRentalExists(id);
+        rules.checkIfRentalExists(id);
         Rental rental = repository.findById(id).orElseThrow();
         GetRentalResponse data = mapper.forResponse().map(rental, GetRentalResponse.class);
 
@@ -81,7 +82,7 @@ public class RentalManager implements RentalService {
 
     @Override
     public UpdateRentalResponse update(UpdateRentalRequest request, String id, CustomerRequest customerRequest) {
-        checkIfRentalExists(id);
+        rules.checkIfRentalExists(id);
         carClient.checkIfCarAvailable(request.getCarId());
         Rental rental = mapper.forRequest().map(request, Rental.class);
         double totalPrice = request.getRentedForDays() * request.getDailyPrice();
@@ -95,15 +96,9 @@ public class RentalManager implements RentalService {
 
     @Override
     public void delete(String id) {
-        checkIfRentalExists(id);
+        rules.checkIfRentalExists(id);
         rentalDeletedEvent(id);
         repository.deleteById(id);
-    }
-
-    private void checkIfRentalExists(String id) {
-        if (!repository.existsById(id)) {
-            throw new BusinessException(Messages.Rental.NotFound);
-        }
     }
 
     private void rentalCreatedEvent(Rental rental) {

@@ -1,8 +1,6 @@
 package com.kodlamaio.invoiceservice.bussines.concretes;
 
-import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.dto.CustomerRequest;
-import com.kodlamaio.common.utils.exceptions.BusinessException;
 import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.invoiceservice.bussines.abstracts.InvoiceService;
 import com.kodlamaio.invoiceservice.bussines.dto.requests.create.CreateInvoiceRequest;
@@ -11,6 +9,7 @@ import com.kodlamaio.invoiceservice.bussines.dto.responses.create.CreateInvoiceR
 import com.kodlamaio.invoiceservice.bussines.dto.responses.get.GetAllInvoicesResponse;
 import com.kodlamaio.invoiceservice.bussines.dto.responses.get.GetInvoiceResponse;
 import com.kodlamaio.invoiceservice.bussines.dto.responses.update.UpdateInvoiceResponse;
+import com.kodlamaio.invoiceservice.bussines.rules.InvoiceBusinessRules;
 import com.kodlamaio.invoiceservice.entities.Invoice;
 import com.kodlamaio.invoiceservice.repository.InvoiceRepository;
 import lombok.AllArgsConstructor;
@@ -24,6 +23,7 @@ import java.util.UUID;
 public class InvoiceManager implements InvoiceService {
     private final InvoiceRepository repository;
     private final ModelMapperService mapper;
+    private final InvoiceBusinessRules rules;
 
     @Override
     public List<GetAllInvoicesResponse> getAll() {
@@ -38,7 +38,7 @@ public class InvoiceManager implements InvoiceService {
 
     @Override
     public GetInvoiceResponse getById(String id) {
-        checkIfInvoiceExists(id);
+        rules.checkIfInvoiceExists(id);
         Invoice invoice = repository.findById(id).orElseThrow();
         GetInvoiceResponse response = mapper.forResponse().map(invoice, GetInvoiceResponse.class);
 
@@ -59,7 +59,7 @@ public class InvoiceManager implements InvoiceService {
 
     @Override
     public UpdateInvoiceResponse update(UpdateInvoiceRequest request, String id) {
-        checkIfInvoiceExists(id);
+        rules.checkIfInvoiceExists(id);
         Invoice invoice = mapper.forRequest().map(request, Invoice.class);
         invoice.setId(id);
         repository.save(invoice);
@@ -70,7 +70,7 @@ public class InvoiceManager implements InvoiceService {
 
     @Override
     public void delete(String id) {
-        checkIfInvoiceExists(id);
+        rules.checkIfInvoiceExists(id);
         repository.deleteById(id);
     }
 
@@ -78,12 +78,6 @@ public class InvoiceManager implements InvoiceService {
     public void createInvoice(Invoice invoice) {
         invoice.setId(UUID.randomUUID().toString());
         repository.save(invoice);
-    }
-
-    private void checkIfInvoiceExists(String id) {
-        if (!repository.existsById(id)) {
-            throw new BusinessException(Messages.Invoice.NotFound);
-        }
     }
 
     private static void setCustomer(CustomerRequest customerRequest, Invoice invoice) {

@@ -1,10 +1,10 @@
 package com.kodlamaio.filterservice.business.concretes;
 
-import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
 import com.kodlamaio.filterservice.business.dto.responses.GetAllFiltersResponse;
 import com.kodlamaio.filterservice.business.dto.responses.GetFilterResponse;
+import com.kodlamaio.filterservice.business.rules.FilterBusinessRules;
 import com.kodlamaio.filterservice.entities.Filter;
 import com.kodlamaio.filterservice.repository.FilterRepository;
 import lombok.AllArgsConstructor;
@@ -18,10 +18,11 @@ import java.util.List;
 public class FilterManager implements FilterService {
     private final FilterRepository repository;
     private final ModelMapperService mapper;
+    private final FilterBusinessRules rules;
 
     @Override
     public GetFilterResponse getByPlate(String plate) {
-        checkIfExistByPlate(plate);
+        rules.checkIfExistByPlate(plate);
         Filter filter = repository.findByPlateIgnoreCase(plate);
         GetFilterResponse response = mapper.forResponse().map(filter, GetFilterResponse.class);
 
@@ -102,12 +103,6 @@ public class FilterManager implements FilterService {
     @Override
     public void deleteAllByModelId(String modelId) {
         repository.deleteAllByModelId(modelId);
-    }
-
-    private void checkIfExistByPlate(String plate) {
-        if (!repository.existsByPlate(plate)) {
-            throw new RuntimeException(Messages.Filter.NotExists);
-        }
     }
 
     private List<GetAllFiltersResponse> findAllAndMapToResponseList(List<Filter> repositoryFilterList) {

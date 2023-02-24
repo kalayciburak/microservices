@@ -1,9 +1,7 @@
 package com.kodlamaio.inventoryservice.business.concretes;
 
-import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.events.inventories.models.ModelDeletedEvent;
 import com.kodlamaio.common.events.inventories.models.ModelUpdatedEvent;
-import com.kodlamaio.common.utils.exceptions.BusinessException;
 import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.inventoryservice.business.abstracts.ModelService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateModelRequest;
@@ -12,6 +10,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.create.CreateModelR
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetAllModelsResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetModelResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateModelResponse;
+import com.kodlamaio.inventoryservice.business.rules.ModelBusinessRules;
 import com.kodlamaio.inventoryservice.entities.Model;
 import com.kodlamaio.inventoryservice.kafka.producer.InventoryProducer;
 import com.kodlamaio.inventoryservice.repository.ModelRepository;
@@ -27,6 +26,7 @@ public class ModelManager implements ModelService {
     private final ModelRepository repository;
     private final ModelMapperService mapper;
     private final InventoryProducer producer;
+    private final ModelBusinessRules rules;
 
     @Override
     public List<GetAllModelsResponse> getAll() {
@@ -41,7 +41,7 @@ public class ModelManager implements ModelService {
 
     @Override
     public GetModelResponse getById(String id) {
-        checkIfExistsById(id);
+        rules.checkIfExistsById(id);
         Model model = repository.findById(id).orElseThrow();
         GetModelResponse response = mapper.forResponse().map(model, GetModelResponse.class);
 
@@ -50,7 +50,7 @@ public class ModelManager implements ModelService {
 
     @Override
     public CreateModelResponse add(CreateModelRequest request) {
-        checkIfExistsByName(request.getName());
+        rules.checkIfExistsByName(request.getName());
         Model model = mapper.forRequest().map(request, Model.class);
         model.setId(UUID.randomUUID().toString());
         repository.save(model);
@@ -61,8 +61,8 @@ public class ModelManager implements ModelService {
 
     @Override
     public UpdateModelResponse update(UpdateModelRequest request, String id) {
-        checkIfExistsById(id);
-        checkIfExistsByName(request.getName());
+        rules.checkIfExistsById(id);
+        rules.checkIfExistsByName(request.getName());
         Model model = mapper.forRequest().map(request, Model.class);
         model.setId(id);
         repository.save(model);
@@ -74,21 +74,9 @@ public class ModelManager implements ModelService {
 
     @Override
     public void delete(String id) {
-        checkIfExistsById(id);
+        rules.checkIfExistsById(id);
         repository.deleteById(id);
         deleteMongo(id);
-    }
-
-    private void checkIfExistsById(String id) {
-        if (!repository.existsById(id)) {
-            throw new BusinessException(Messages.Model.NotExists);
-        }
-    }
-
-    private void checkIfExistsByName(String name) {
-        if (repository.existsByNameIgnoreCase(name)) {
-            throw new BusinessException(Messages.Model.Exists);
-        }
     }
 
     private void updateMongo(String id, String name, String brandId) {

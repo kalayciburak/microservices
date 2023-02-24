@@ -1,10 +1,8 @@
 package com.kodlamaio.inventoryservice.business.concretes;
 
-import com.kodlamaio.common.constants.Messages;
 import com.kodlamaio.common.events.inventories.InventoryCreatedEvent;
 import com.kodlamaio.common.events.inventories.cars.CarDeletedEvent;
 import com.kodlamaio.common.events.inventories.cars.CarUpdatedEvent;
-import com.kodlamaio.common.utils.exceptions.BusinessException;
 import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.inventoryservice.business.abstracts.CarService;
 import com.kodlamaio.inventoryservice.business.dto.requests.create.CreateCarRequest;
@@ -13,6 +11,7 @@ import com.kodlamaio.inventoryservice.business.dto.responses.create.CreateCarRes
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetAllCarsResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.get.GetCarResponse;
 import com.kodlamaio.inventoryservice.business.dto.responses.update.UpdateCarResponse;
+import com.kodlamaio.inventoryservice.business.rules.CarBusinessRules;
 import com.kodlamaio.inventoryservice.entities.Car;
 import com.kodlamaio.inventoryservice.kafka.producer.InventoryProducer;
 import com.kodlamaio.inventoryservice.repository.CarRepository;
@@ -28,6 +27,7 @@ public class CarManager implements CarService {
     private final CarRepository repository;
     private final ModelMapperService mapper;
     private final InventoryProducer producer;
+    private final CarBusinessRules rules;
 
     @Override
     public List<GetAllCarsResponse> getAll() {
@@ -42,7 +42,7 @@ public class CarManager implements CarService {
 
     @Override
     public GetCarResponse getById(String id) {
-        checkIfCarExistsById(id);
+        rules.checkIfCarExistsById(id);
         Car car = repository.findById(id).orElseThrow();
         GetCarResponse response = mapper.forResponse().map(car, GetCarResponse.class);
 
@@ -51,7 +51,7 @@ public class CarManager implements CarService {
 
     @Override
     public CreateCarResponse add(CreateCarRequest request) {
-        checkIfCarExistsByPlate(request.getPlate());
+        rules.checkIfCarExistsByPlate(request.getPlate());
         Car car = mapper.forRequest().map(request, Car.class);
         car.setId(UUID.randomUUID().toString());
         car.setState(1); // 1 = available , 2 = maintenance, 3 = rented
@@ -64,8 +64,8 @@ public class CarManager implements CarService {
 
     @Override
     public UpdateCarResponse update(UpdateCarRequest request, String id) {
-        checkIfCarExistsById(id);
-        checkCarPlateUniqueness(request, id);
+        rules.checkIfCarExistsById(id);
+        rules.checkCarPlateUniqueness(request, id);
         Car car = mapper.forRequest().map(request, Car.class);
         car.setId(id);
         repository.save(car);
@@ -77,7 +77,7 @@ public class CarManager implements CarService {
 
     @Override
     public void delete(String id) {
-        checkIfCarExistsById(id);
+        rules.checkIfCarExistsById(id);
         repository.deleteById(id);
         deleteMongo(id);
     }
@@ -89,29 +89,7 @@ public class CarManager implements CarService {
 
     @Override
     public void checkIfCarAvailable(String id) {
-        Car car = repository.findById(id).get();
-        if (car.getState() != 1) {
-            throw new BusinessException(Messages.Car.NotAvailable);
-        }
-    }
-
-    private void checkIfCarExistsById(String id) {
-        if (!repository.existsById(id)) {
-            throw new BusinessException(Messages.Car.NotExists);
-        }
-    }
-
-    private void checkCarPlateUniqueness(UpdateCarRequest request, String id) {
-        Car car = repository.findById(id).orElseThrow();
-        if (!car.getPlate().equals(request.getPlate())) {
-            checkIfCarExistsByPlate(request.getPlate());
-        }
-    }
-
-    private void checkIfCarExistsByPlate(String plate) {
-        if (repository.existsByPlateIgnoreCase(plate)) {
-            throw new BusinessException(Messages.Car.Exists);
-        }
+        rules.checkCarAvailability(id);
     }
 
     private void addToMongodb(String id) {
