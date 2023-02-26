@@ -57,7 +57,7 @@ public class CarManager implements CarService {
         car.setState(1); // 1 = available , 2 = maintenance, 3 = rented
         repository.save(car);
         CreateCarResponse response = mapper.forResponse().map(car, CreateCarResponse.class);
-        addToMongodb(car.getId());
+        syncCarToFilterService(car.getId());
 
         return response;
     }
@@ -70,7 +70,7 @@ public class CarManager implements CarService {
         car.setId(id);
         repository.save(car);
         UpdateCarResponse response = mapper.forResponse().map(car, UpdateCarResponse.class);
-        updateMongo(request, id);
+        syncCarChangesToFilterService(request, id);
 
         return response;
     }
@@ -79,7 +79,7 @@ public class CarManager implements CarService {
     public void delete(String id) {
         rules.checkIfCarExistsById(id);
         repository.deleteById(id);
-        deleteMongo(id);
+        syncCarDeletionToFilterService(id);
     }
 
     @Override
@@ -92,13 +92,13 @@ public class CarManager implements CarService {
         rules.checkCarAvailability(id);
     }
 
-    private void addToMongodb(String id) {
+    private void syncCarToFilterService(String id) {
         Car car = repository.findById(id).orElseThrow();
         InventoryCreatedEvent event = mapper.forResponse().map(car, InventoryCreatedEvent.class);
         producer.sendMessage(event);
     }
 
-    private void updateMongo(UpdateCarRequest request, String id) {
+    private void syncCarChangesToFilterService(UpdateCarRequest request, String id) {
         Car car = repository.findById(id).orElseThrow();
         car.getModel().setId(request.getModelId());
         car.getModel().getBrand().setId(car.getModel().getBrand().getId());
@@ -110,7 +110,7 @@ public class CarManager implements CarService {
         producer.sendMessage(event);
     }
 
-    private void deleteMongo(String id) {
+    private void syncCarDeletionToFilterService(String id) {
         CarDeletedEvent event = new CarDeletedEvent();
         event.setCarId(id);
         producer.sendMessage(event);
