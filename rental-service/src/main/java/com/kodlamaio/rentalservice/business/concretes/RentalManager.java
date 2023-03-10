@@ -8,6 +8,8 @@ import com.kodlamaio.common.events.rentals.RentalCreatedEvent;
 import com.kodlamaio.common.events.rentals.RentalDeletedEvent;
 import com.kodlamaio.common.events.rentals.RentalUpdatedEvent;
 import com.kodlamaio.common.utils.mapping.ModelMapperService;
+import com.kodlamaio.rentalservice.api.clients.CarClient;
+import com.kodlamaio.rentalservice.api.clients.PaymentClient;
 import com.kodlamaio.rentalservice.business.abstracts.RentalService;
 import com.kodlamaio.rentalservice.business.dto.requests.create.CreateRentalRequest;
 import com.kodlamaio.rentalservice.business.dto.requests.update.UpdateRentalRequest;
@@ -16,8 +18,6 @@ import com.kodlamaio.rentalservice.business.dto.responses.get.GetAllRentalsRespo
 import com.kodlamaio.rentalservice.business.dto.responses.get.GetRentalResponse;
 import com.kodlamaio.rentalservice.business.dto.responses.update.UpdateRentalResponse;
 import com.kodlamaio.rentalservice.business.rules.RentalBusinessRules;
-import com.kodlamaio.rentalservice.configuration.client.CarClient;
-import com.kodlamaio.rentalservice.configuration.client.PaymentClient;
 import com.kodlamaio.rentalservice.entities.Rental;
 import com.kodlamaio.rentalservice.kafka.RentalProducer;
 import com.kodlamaio.rentalservice.repository.RentalRepository;

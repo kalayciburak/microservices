@@ -1,4 +1,4 @@
-package com.kodlamaio.rentalservice.configuration.client;
+package com.kodlamaio.rentalservice.api.clients;
 
 import com.kodlamaio.common.constants.Clients;
 import com.kodlamaio.common.dto.CreateRentalPaymentRequest;
