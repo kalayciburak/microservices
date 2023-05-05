@@ -9,23 +9,18 @@ import com.kodlamaio.common.events.rentals.RentalCreatedEvent;
 import com.kodlamaio.common.events.rentals.RentalDeletedEvent;
 import com.kodlamaio.common.events.rentals.RentalUpdatedEvent;
 import com.kodlamaio.inventoryservice.business.abstracts.CarService;
-import com.kodlamaio.inventoryservice.kafka.producer.InventoryProducer;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RentalConsumer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RentalConsumer.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(RentalConsumer.class);
 
     private final CarService carService;
-    private final InventoryProducer producer;
-
-    public RentalConsumer(CarService carService, InventoryProducer producer) {
-        this.carService = carService;
-        this.producer = producer;
-    }
 
     @KafkaListener(
             topics = Events.Producer.Rental.Created
@@ -35,7 +30,6 @@ public class RentalConsumer {
         CarRentalCreatedEvent carRentalCreatedEvent = new CarRentalCreatedEvent();
         carRentalCreatedEvent.setCarId(event.getCarId());
         carRentalCreatedEvent.setMessage(Messages.Rental.CarRented);
-        producer.sendMessage(carRentalCreatedEvent);
         LOGGER.info(Events.Logs.Consumer.Rental.Created, event);
     }
 
@@ -49,7 +43,6 @@ public class RentalConsumer {
         carRentalUpdatedEvent.setNewCarId(event.getNewCarId());
         carRentalUpdatedEvent.setOldCarId(event.getOldCarId());
         carRentalUpdatedEvent.setMessage(Messages.Rental.CarRentedStateUpdated);
-        producer.sendMessage(carRentalUpdatedEvent);
         LOGGER.info(Events.Logs.Consumer.Rental.Updated, event);
     }
 
@@ -61,7 +54,6 @@ public class RentalConsumer {
         CarRentalDeletedEvent carRentalDeletedEvent = new CarRentalDeletedEvent();
         carRentalDeletedEvent.setCarId(event.getCarId());
         carRentalDeletedEvent.setMessage(Messages.Rental.CarReturned);
-        producer.sendMessage(carRentalDeletedEvent);
         LOGGER.info(Events.Logs.Consumer.Rental.Deleted, event);
     }
 }

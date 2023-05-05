@@ -6,11 +6,11 @@ import com.kodlamaio.common.events.inventories.brands.BrandDeletedEvent;
 import com.kodlamaio.common.events.inventories.brands.BrandUpdatedEvent;
 import com.kodlamaio.common.events.inventories.cars.CarDeletedEvent;
 import com.kodlamaio.common.events.inventories.cars.CarUpdatedEvent;
-import com.kodlamaio.common.events.inventories.cars.rentals.CarRentalCreatedEvent;
-import com.kodlamaio.common.events.inventories.cars.rentals.CarRentalDeletedEvent;
-import com.kodlamaio.common.events.inventories.cars.rentals.CarRentalUpdatedEvent;
 import com.kodlamaio.common.events.inventories.models.ModelDeletedEvent;
 import com.kodlamaio.common.events.inventories.models.ModelUpdatedEvent;
+import com.kodlamaio.common.events.rentals.RentalCreatedEvent;
+import com.kodlamaio.common.events.rentals.RentalDeletedEvent;
+import com.kodlamaio.common.events.rentals.RentalUpdatedEvent;
 import com.kodlamaio.common.utils.mapping.ModelMapperService;
 import com.kodlamaio.filterservice.business.abstracts.FilterService;
 import com.kodlamaio.filterservice.entities.Filter;
@@ -113,10 +113,10 @@ public class InventoryConsumer {
     }
 
     @KafkaListener(
-            topics = Events.Producer.Car.RentalCreated
+            topics = Events.Producer.Rental.Created
             , groupId = Events.Consumer.Car.RentalCreateGroupId
     )
-    public void consume(CarRentalCreatedEvent event) {
+    public void consume(RentalCreatedEvent event) {
         Filter filter = service.getByCarId(event.getCarId());
         filter.setState(3); // 3 = Rented
         service.save(filter);
@@ -125,10 +125,10 @@ public class InventoryConsumer {
     }
 
     @KafkaListener(
-            topics = Events.Producer.Car.RentalUpdated
+            topics = Events.Producer.Rental.Updated
             , groupId = Events.Consumer.Car.RentalUpdateGroupId
     )
-    public void consume(CarRentalUpdatedEvent event) {
+    public void consume(RentalUpdatedEvent event) {
         Filter oldCar = service.getByCarId(event.getOldCarId());
         Filter newCar = service.getByCarId(event.getNewCarId());
         oldCar.setState(1); // 1 = Available
@@ -140,10 +140,10 @@ public class InventoryConsumer {
     }
 
     @KafkaListener(
-            topics = Events.Producer.Car.RentalDeleted
+            topics = Events.Producer.Rental.Deleted
             , groupId = Events.Consumer.Car.RentalDeleteGroupId
     )
-    public void consume(CarRentalDeletedEvent event) {
+    public void consume(RentalDeletedEvent event) {
         Filter car = service.getByCarId(event.getCarId());
         car.setState(1); // 1 = Available
         service.save(car);

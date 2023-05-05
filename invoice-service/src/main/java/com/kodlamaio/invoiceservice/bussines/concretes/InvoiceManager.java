@@ -49,7 +49,6 @@ public class InvoiceManager implements InvoiceService {
     public CreateInvoiceResponse add(CreateInvoiceRequest request, CustomerRequest customerRequest) {
         Invoice invoice = mapper.forRequest().map(request, Invoice.class);
         invoice.setId(UUID.randomUUID().toString());
-        invoice.setId(UUID.randomUUID().toString());
         setCustomer(customerRequest, invoice);
         repository.save(invoice);
         CreateInvoiceResponse response = mapper.forResponse().map(invoice, CreateInvoiceResponse.class);
@@ -80,7 +79,7 @@ public class InvoiceManager implements InvoiceService {
         repository.save(invoice);
     }
 
-    private static void setCustomer(CustomerRequest customerRequest, Invoice invoice) {
+    private void setCustomer(CustomerRequest customerRequest, Invoice invoice) {
         invoice.setCustomerId(customerRequest.getCustomerId());
         invoice.setCustomerUserName(customerRequest.getCustomerUserName());
         invoice.setCustomerFirstName(customerRequest.getCustomerFirstName());
