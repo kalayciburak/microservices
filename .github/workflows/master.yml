@@ -25,40 +25,40 @@ jobs:
 
       - name: Build and Push api-gateway Image
         run: |
-          docker build -t torukobyte/rent-a-car-microservice:api-gateway-0.0.1-SNAPSHOT ./api-gateway
-          docker push torukobyte/rent-a-car-microservice:api-gateway-0.0.1-SNAPSHOT
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:api-gateway-0.0.1-SNAPSHOT ./api-gateway
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:api-gateway-0.0.1-SNAPSHOT
 
       - name: Build and Push discovery-server Image
         run: |
-          docker build -t torukobyte/rent-a-car-microservice:discovery-server-0.0.1-SNAPSHOT ./discovery-server
-          docker push torukobyte/rent-a-car-microservice:discovery-server-0.0.1-SNAPSHOT
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:discovery-server-0.0.1-SNAPSHOT ./discovery-server
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:discovery-server-0.0.1-SNAPSHOT
 
       - name: Build and Push config-server Image
         run: |
-          docker build -t torukobyte/rent-a-car-microservice:config-server-0.0.1-SNAPSHOT ./config-server
-          docker push torukobyte/rent-a-car-microservice:config-server-0.0.1-SNAPSHOT
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:config-server-0.0.1-SNAPSHOT ./config-server
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:config-server-0.0.1-SNAPSHOT
 
       - name: Build and Push filter-service Image
         run: |
-          docker build -t torukobyte/rent-a-car-microservice:filter-service-0.0.1-SNAPSHOT ./filter-service
-          docker push torukobyte/rent-a-car-microservice:filter-service-0.0.1-SNAPSHOT
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:filter-service-0.0.1-SNAPSHOT ./filter-service
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:filter-service-0.0.1-SNAPSHOT
 
       - name: Build and Push inventory-service Image
         run: |
-          docker build -t torukobyte/rent-a-car-microservice:inventory-service-0.0.1-SNAPSHOT ./inventory-service
-          docker push torukobyte/rent-a-car-microservice:inventory-service-0.0.1-SNAPSHOT
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:inventory-service-0.0.1-SNAPSHOT ./inventory-service
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:inventory-service-0.0.1-SNAPSHOT
 
       - name: Build and Push invoice-service Image
         run: |
-          docker build -t torukobyte/rent-a-car-microservice:invoice-service-0.0.1-SNAPSHOT ./invoice-service
-          docker push torukobyte/rent-a-car-microservice:invoice-service-0.0.1-SNAPSHOT
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:invoice-service-0.0.1-SNAPSHOT ./invoice-service
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:invoice-service-0.0.1-SNAPSHOT
 
       - name: Build and Push payment-service Image
         run: |
-          docker build -t torukobyte/rent-a-car-microservice:payment-service-0.0.1-SNAPSHOT ./payment-service
-          docker push torukobyte/rent-a-car-microservice:payment-service-0.0.1-SNAPSHOT
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:payment-service-0.0.1-SNAPSHOT ./payment-service
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:payment-service-0.0.1-SNAPSHOT
 
       - name: Build and Push rental-service Image
         run: |
-          docker build -t torukobyte/rent-a-car-microservice:rental-service-0.0.1-SNAPSHOT ./rental-service
-          docker push torukobyte/rent-a-car-microservice:rental-service-0.0.1-SNAPSHOT
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:rental-service-0.0.1-SNAPSHOT ./rental-service
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-car-microservice:rental-service-0.0.1-SNAPSHOT
