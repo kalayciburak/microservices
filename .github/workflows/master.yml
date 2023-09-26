@@ -23,7 +23,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build with Docker Compose
-        run: docker-compose -p microservice-test -f microservices/docker-compose.yml up --build -d
+        run: |
+          ls -la ${{ github.workspace }}/microservices
+          docker-compose -p microservice-test -f ${{ github.workspace }}/microservices/docker-compose.yml up --build -d
 
       - name: Push Images to DockerHub
-        run: docker-compose -p microservice-test -f microservices/docker-compose.yml push
+        run: docker-compose -p microservice-test -f ${{ github.workspace }}/microservices/docker-compose.yml push
