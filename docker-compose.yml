@@ -92,7 +92,7 @@ services:
   configserver:
     build: ./config-server
     container_name: config-server
-    image: torukobyte/config-server-image
+    image: torukobyte/rent-a-car-microservice:config-server-image
     ports:
       - "8888:8888"
     volumes:
@@ -103,7 +103,7 @@ services:
   discoveryserver:
     build: ./discovery-server
     container_name: discovery-server
-    image: torukobyte/discovery-server-image
+    image: torukobyte/rent-a-car-microservice:discovery-server-image
     ports:
       - "9000:9000"
     volumes:
@@ -115,7 +115,7 @@ services:
   apigateway:
     build: ./api-gateway
     container_name: api-gateway
-    image: torukobyte/api-gateway-image
+    image: torukobyte/rent-a-car-microservice:api-gateway-image
     ports:
       - "9010:9010"
     volumes:
@@ -131,7 +131,7 @@ services:
   inventoryservice:
     build: ./inventory-service
     container_name: inventory-service
-    image: torukobyte/inventory-service-image
+    image: torukobyte/rent-a-car-microservice:inventory-service-image
     volumes:
       - ./inventory-service:/app
     depends_on:
@@ -149,7 +149,7 @@ services:
   filterservice:
     build: ./filter-service
     container_name: filter-service
-    image: torukobyte/filter-service-image
+    image: torukobyte/rent-a-car-microservice:filter-service-image
     volumes:
       - ./filter-service:/app
     depends_on:
@@ -167,7 +167,7 @@ services:
   invoiceservice:
     build: ./invoice-service
     container_name: invoice-service
-    image: torukobyte/invoice-service
+    image: torukobyte/rent-a-car-microservice:invoice-service
     volumes:
       - ./invoice-service:/app
     depends_on:
@@ -185,7 +185,7 @@ services:
   paymentservice:
     build: ./payment-service
     container_name: payment-service
-    image: torukobyte/payment-service
+    image: torukobyte/rent-a-car-microservice:payment-service
     volumes:
       - ./payment-service:/app
     depends_on:
@@ -203,7 +203,7 @@ services:
   rentalservice:
     build: ./rental-service
     container_name: rental-service
-    image: torukobyte/rental-service
+    image: torukobyte/rent-a-car-microservice:rental-service
     volumes:
       - ./rental-service:/app
     depends_on:
