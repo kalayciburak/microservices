@@ -7,4 +7,4 @@ RUN mvn clean package -DskipTests
 # Faz 2: JAR dosyasını çalıştıran imaj
 FROM openjdk:17-jdk
 COPY --from=build /app/target/config-server-0.0.1-SNAPSHOT.jar /app/config-server.jar
-CMD ["java", "-jar", "/app/config-server.jar"]
+CMD ,java -jar /app/config-server.jar

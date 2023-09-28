@@ -5,4 +5,4 @@ spring:
     config:
       profile: prod
   config:
-    import: configserver:http://config-server:8888
+    import: configserver:http://configserver:8888
